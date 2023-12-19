@@ -94,7 +94,7 @@ export function Landing() {
             </div>
           </div>
         </section>
-        <FadeInOnScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-[#edf2f7]">
+        <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-[#edf2f7]">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -172,8 +172,8 @@ export function Landing() {
               </Card>
             </div>
           </div>
-        </FadeInOnScroll>
-        <FadeInOnScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32">
+        </FadeInOnFirstScroll>
+        <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -194,7 +194,7 @@ export function Landing() {
               </Button>
             </div>
           </div>
-        </FadeInOnScroll>
+        </FadeInOnFirstScroll>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -213,13 +213,20 @@ export function Landing() {
   )
 }
 
-function FadeInOnScroll(props: any) {
+function FadeInOnFirstScroll(props: any) {
   const [isVisible, setVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => setVisible(entry.isIntersecting));
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      });
     });
+
     if (domRef.current) observer.observe(domRef.current);
   }, []);
 
