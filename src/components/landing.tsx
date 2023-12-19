@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useEffect, useRef, useState } from "react";
 
 export function Landing() {
   return (
@@ -93,7 +94,7 @@ export function Landing() {
             </div>
           </div>
         </section>
-        <section className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-[#edf2f7]">
+        <FadeInOnScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-[#edf2f7]">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -171,8 +172,8 @@ export function Landing() {
               </Card>
             </div>
           </div>
-        </section>
-        <section className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32">
+        </FadeInOnScroll>
+        <FadeInOnScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -183,7 +184,7 @@ export function Landing() {
                   Let's Build Something Together
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  Feel free to reach out if you're looking for a developer, have a question, or just want to connect.
+                  Feel free to reach out if you&apos;re looking for a developer, have a question, or just want to connect.
                 </p>
               </div>
             </div>
@@ -193,7 +194,7 @@ export function Landing() {
               </Button>
             </div>
           </div>
-        </section>
+        </FadeInOnScroll>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -212,8 +213,31 @@ export function Landing() {
   )
 }
 
+function FadeInOnScroll(props: any) {
+  const [isVisible, setVisible] = useState(false);
+  const domRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => setVisible(entry.isIntersecting));
+    });
+    if (domRef.current) observer.observe(domRef.current);
+  }, []);
 
-function SmartphoneIcon(props) {
+  const classes = [`fade-in-section ${isVisible ? 'is-visible' : ''}`, props.className].join(' ');
+
+  return (
+    <div
+      className={classes}
+      ref={domRef}
+      style={props.style}
+    >
+      {props.children}
+    </div>
+  );
+}
+
+
+function SmartphoneIcon(props: any) {
   return (
     <svg
       {...props}
