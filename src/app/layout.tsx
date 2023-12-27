@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div key="1" className="flex flex-col min-h-screen bg-[#d9e8f5]">
           <header className="px-4 lg:px-6 h-16 flex items-center">
-            <Link className="flex gap-2 items-center justify-center" href="#">
+            <Link className="flex gap-2 items-center justify-center" href="/">
               <Logo width={24} />
               <span>Yeboster</span>
             </Link>
