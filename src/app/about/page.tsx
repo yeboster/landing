@@ -7,9 +7,6 @@ export default function About() {
     <main className="flex-1">
       <section
         className="w-full pt-12 md:pt-24 lg:pt-32 bg-center bg-cover"
-        style={{
-          backgroundImage: "\"url('/path-to-theme-background-image.jpg')\"",
-        }}
       >
         <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
           <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
