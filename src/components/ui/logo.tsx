@@ -1,19 +1,23 @@
-export function Logo(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-      <path d="M12 18h.01" />
-    </svg>
-  )
+import Image from "next/image"
+import logo from '../../../public/images/logo.png'
+import React from "react"
+
+export interface LogoProps {
+  width?: number | `${number}` | undefined;
+  height?: number | `${number}` | undefined;
+  fill?: boolean | undefined;
 }
+
+const Logo = React.forwardRef<HTMLImageElement, LogoProps>((props, ref) => {
+  return (
+    <Image
+      {...props}
+      ref={ref}
+      alt="Logo"
+      src={logo}
+    />
+  )
+})
+Logo.displayName = "Logo"
+
+export { Logo }

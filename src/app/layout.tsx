@@ -22,9 +22,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <div key="1" className="flex flex-col min-h-screen bg-[#d9e8f5]">
           <header className="px-4 lg:px-6 h-16 flex items-center">
-            <Link className="flex items-center justify-center" href="#">
-              <Logo className="w-6 h-6" />
-              <span className="sr-only">Yeboster</span>
+            <Link className="flex gap-2 items-center justify-center" href="#">
+              <Logo width={24} />
+              <span>Yeboster</span>
             </Link>
             <nav className="ml-auto flex gap-4 sm:gap-6">
               <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
