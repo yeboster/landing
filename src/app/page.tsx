@@ -16,7 +16,7 @@ export default function Home(props: any) {
             sizes="40vw, 40vw"
           />
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">Yeboster</h1>
-          <h4 className="text-sm sm:text-sm">Build Together to Live Forever</h4>
+          <h4 className="text-sm md:text-base text-gray-400">Build Together to Live Forever</h4>
         </div>
       </section>
       <FadeInOnFirstScroll
