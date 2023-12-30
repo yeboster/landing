@@ -47,7 +47,7 @@ export default function Navbar() {
           <ListItemWithActive href="/contact">Contact</ListItemWithActive>
         </nav>
       </div>
-      <div className={`${open ? 'block' : 'hidden'} w-full sm:hidden bg-white rounded-md z-50`}>
+      <div className={`${open ? 'is-visible' : ''} w-full fade-in bg-white rounded-md z-50`}>
         <div className="pt-2 pb-3">
           <ListItemWithActive href="/" mobile={true}>Home</ListItemWithActive>
           <ListItemWithActive href="/about" mobile={true}>About Me</ListItemWithActive>

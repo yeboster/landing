@@ -23,6 +23,18 @@ body {
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
+.fade-in {
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, visibility;
+  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
 .fade-in-section {
   opacity: 0;
   transform: translateY(20vh);
