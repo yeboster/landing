@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
+
+import Navbar from './navbar'
 
 import './globals.css'
 
@@ -17,30 +18,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <div key="1" className="flex flex-col min-h-screen bg-[#d9e8f5]">
-          <header className="px-4 lg:px-6 h-16 flex items-center">
-            <Link className="flex gap-2 items-center justify-center" href="/">
-              <Logo width={24} />
-              <span>Yeboster</span>
-            </Link>
-            <nav className="ml-auto flex gap-4 sm:gap-6">
-              <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-                Home
-              </Link>
-              <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
-                About Me
-              </Link>
-              <Link className="text-sm font-medium hover:underline underline-offset-4" href="/portfolio">
-                Portfolio
-              </Link>
-              <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-                Contact
-              </Link>
-            </nav>
-          </header>
+          <Navbar />
           {children}
         </div>
         <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center sm:justify-evenly px-4 md:px-6 border-t">
