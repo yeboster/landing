@@ -27,7 +27,7 @@ export default function About() {
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-[#1a202c] px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
                 My Story
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -40,11 +40,11 @@ export default function About() {
           </div>
         </div>
       </section>
-      <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 py-12 md:py-24 lg:py-32 bg-[#edf2f7]">
+      <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 py-12 md:py-24 lg:py-32 bg-fiord-100">
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-[#1a202c] px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
                 My Philosophy
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">

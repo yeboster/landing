@@ -20,7 +20,7 @@ export default function Home(props: any) {
         </div>
       </section>
       <FadeInOnFirstScroll
-        className="w-full py-12 md:py-24 lg:py-32 bg-center bg-cover bg-[#edf2f7]"
+        className="w-full py-12 md:py-24 lg:py-32 bg-center bg-cover bg-fiord-100"
       >
         <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
           <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
@@ -34,7 +34,7 @@ export default function Home(props: any) {
                 A brief introduction about myself and my journey in the world.
               </p>
               <Link
-                className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                 href="/about"
               >
                 Learn more
@@ -59,7 +59,7 @@ export default function Home(props: any) {
               </p>
               <div className="space-x-4">
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="/portfolio"
                 >
                   Check it out
@@ -70,7 +70,7 @@ export default function Home(props: any) {
         </div>
       </FadeInOnFirstScroll>
       <FadeInOnFirstScroll
-        className="w-full py-12 md:py-24 lg:py-32 bg-center bg-cover bg-[#edf2f7]"
+        className="w-full py-12 md:py-24 lg:py-32 bg-center bg-cover bg-fiord-100"
       >
         <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
           <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
@@ -85,7 +85,7 @@ export default function Home(props: any) {
               </p>
               <div className="space-x-4">
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="#" // TODO
                 >
                   Contact Me

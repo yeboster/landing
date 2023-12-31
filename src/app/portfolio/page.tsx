@@ -36,7 +36,7 @@ export default function Portfolio() {
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-[#1a202c] px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
                 My skills
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -70,11 +70,11 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
-      <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-[#edf2f7]">
+      <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 md:py-24 lg:py-32 bg-fiord-100">
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-[#1a202c] px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
                 Featured Projects
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -101,7 +101,7 @@ export default function Portfolio() {
                   A Web 3 DNS system, developed on the Partisia Blockchain. I engineered the entire stack, starting from smart contract in Rust, the SDK in TypeScript, to various front-end applications using Svelte.
                 </p>
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="https://metanames.app"
                   target="_blank"
                 >
@@ -123,7 +123,7 @@ export default function Portfolio() {
                   A workflow management system designed to introduce custom behaviors to projects and tasks. It includes a personal collection of workflows that I utilize on a daily basis.
                 </p>
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="https://github.com/yeboster/todoist-actions"
                   target="_blank"
                 >
@@ -145,7 +145,7 @@ export default function Portfolio() {
                   My Kubernetes cluster is orchestrated through a GitOps approach. The cluster was initially set up using an Ansible playbook, and I utilize FluxCD for its ongoing management and maintenance.
                 </p>
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="https://github.com/yeboster/k8s"
                   target="_blank"
                 >
@@ -167,7 +167,7 @@ export default function Portfolio() {
                   The full list of all project I have worked on, including open source contributions.
                 </p>
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="https://github.com/yeboster"
                   target="_blank"
                 >
@@ -189,7 +189,7 @@ export default function Portfolio() {
                   My old Gitlab account, where I used to host my projects before moving to Github.
                 </p>
                 <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
                   href="https://gitlab.com/yeboster"
                   target="_blank"
                 >
@@ -204,7 +204,7 @@ export default function Portfolio() {
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-[#1a202c] px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
                 Get in Touch
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -217,7 +217,7 @@ export default function Portfolio() {
           </div>
           <div className="flex justify-center">
             <Link
-              className="inline-flex h-9 items-center justify-center rounded-md bg-[#1a202c] px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-[#2d3748] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-[#2d3748] dark:text-white dark:hover:bg-[#2d3748] dark:focus-visible:ring-[#2d3748]"
+              className="inline-flex h-9 items-center justify-center rounded-md bg-fiord-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-fiord-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-fiord-950 dark:text-white dark:hover:bg-fiord-950 dark:focus-visible:ring-[#2d3748]"
               href="/contact"
             >
               Contact me
