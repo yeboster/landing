@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link"
-import { CardHeader, CardContent, Card } from "@/components/ui/card"
+import { CardHeader, CardContent, Card, CardTitle } from "@/components/ui/card"
 import { FadeInOnFirstScroll } from "@/components/ui/fade-in-on-first-scroll";
 import Image from "next/image";
 
@@ -12,6 +12,7 @@ import githubLogo from '../../../public/images/github.png'
 import gitlabLogo from '../../../public/images/gitlab.png'
 import { Section, SectionHead, SectionTitle } from "@/components/ui/section";
 import { Chip } from "@/components/ui/chip";
+import { Button } from "@/components/ui/button";
 
 export default function Portfolio() {
   return (
@@ -77,7 +78,7 @@ export default function Portfolio() {
           <div className="mx-auto grid gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-bold">Meta Names</h3>
+                <CardTitle>Meta Names</CardTitle>
               </CardHeader>
               <CardContent>
                 <Image
@@ -85,21 +86,22 @@ export default function Portfolio() {
                   height="200"
                   src={metaNamesLogo}
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-200">
+                <p>
                   A Web 3 DNS system, developed on the Partisia Blockchain. I engineered the entire stack, starting from smart contract in Rust, the SDK in TypeScript, to various front-end applications using Svelte.
                 </p>
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 dark:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="https://metanames.app"
-                  target="_blank"
-                >
-                  Check it out
-                </Link>
+                <Button>
+                  <Link
+                    href="https://metanames.app"
+                    target="_blank"
+                  >
+                    Check it out
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-bold">Todoist Actions</h3>
+                <CardTitle>Todoist Actions</CardTitle>
               </CardHeader>
               <CardContent>
                 <Image
@@ -107,21 +109,22 @@ export default function Portfolio() {
                   height="250"
                   src={todoistActionsLogo}
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-200">
+                <p>
                   A workflow management system designed to introduce custom behaviors to projects and tasks. It includes a personal collection of workflows that I utilize on a daily basis.
                 </p>
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 dark:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="https://github.com/yeboster/todoist-actions"
-                  target="_blank"
-                >
-                  Check it out
-                </Link>
+                <Button>
+                  <Link
+                    href="https://github.com/yeboster/todoist-actions"
+                    target="_blank"
+                  >
+                    Check it out
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-bold">GitOps K8s cluster</h3>
+                <CardTitle>GitOps K8s cluster</CardTitle>
               </CardHeader>
               <CardContent>
                 <Image
@@ -129,21 +132,22 @@ export default function Portfolio() {
                   height="200"
                   src={kubernetesLogo}
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-200">
+                <p>
                   My Kubernetes cluster is orchestrated through a GitOps approach. The cluster was initially set up using an Ansible playbook, and I utilize FluxCD for its ongoing management and maintenance.
                 </p>
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 dark:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="https://github.com/yeboster/k8s"
-                  target="_blank"
-                >
-                  Check it out
-                </Link>
+                <Button>
+                  <Link
+                    href="https://github.com/yeboster/k8s"
+                    target="_blank"
+                  >
+                    Check it out
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-bold">Github</h3>
+                <CardTitle>Github</CardTitle>
               </CardHeader>
               <CardContent>
                 <Image
@@ -151,21 +155,22 @@ export default function Portfolio() {
                   height="200"
                   src={githubLogo}
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-200">
+                <p>
                   The full list of all project I have worked on, including open source contributions.
                 </p>
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 dark:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="https://github.com/yeboster"
-                  target="_blank"
-                >
-                  Check it out
-                </Link>
+                <Button>
+                  <Link
+                    href="https://github.com/yeboster"
+                    target="_blank"
+                  >
+                    Check it out
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-bold">Gitlab</h3>
+                <CardTitle>Gitlab</CardTitle>
               </CardHeader>
               <CardContent>
                 <Image
@@ -173,16 +178,17 @@ export default function Portfolio() {
                   height="200"
                   src={gitlabLogo}
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-200">
+                <p>
                   My old Gitlab account, where I used to host my projects before moving to Github.
                 </p>
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900mt-2 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 dark:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="https://gitlab.com/yeboster"
-                  target="_blank"
-                >
-                  Check it out
-                </Link>
+                <Button>
+                  <Link
+                    href="https://gitlab.com/yeboster"
+                    target="_blank"
+                  >
+                    Check it out
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -199,12 +205,11 @@ export default function Portfolio() {
               Feel free to reach out if you&apos;re looking for a developer, have a question, or just want to connect.
             </p>
             <div className="flex justify-center">
-              <Link
-                className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 dark:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                href="/contact"
-              >
-                Contact me
-              </Link>
+              <Button>
+                <Link href="/contact">
+                  Contact me
+                </Link>
+              </Button>
             </div>
           </SectionTitle>
         </Section>

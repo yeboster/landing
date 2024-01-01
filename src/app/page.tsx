@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
 import { FadeInOnFirstScroll } from "@/components/ui/fade-in-on-first-scroll";
 import { Logo } from "@/components/ui/logo";
 import Link from "next/link";
@@ -33,12 +34,11 @@ export default function Home(props: any) {
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-200">
                 A brief introduction about myself and my journey in the world.
               </p>
-              <Link
-                className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                href="/about"
-              >
-                Learn more
-              </Link>
+              <Button>
+                <Link href="/about">
+                  Learn more
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -58,12 +58,11 @@ export default function Home(props: any) {
                 Discover my skills, projects, and my passion for technology.
               </p>
               <div className="space-x-4">
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="/portfolio"
-                >
-                  Check it out
-                </Link>
+                <Button>
+                  <Link href="/portfolio">
+                    Check it out
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -84,12 +83,11 @@ export default function Home(props: any) {
                 Feel free to reach out if you&apos;re looking for a developer, have a question, or just want to connect.
               </p>
               <div className="space-x-4">
-                <Link
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="/contact"
-                >
-                  Contact Me
-                </Link>
+                <Button>
+                  <Link href="/contact">
+                    Contact Me
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
