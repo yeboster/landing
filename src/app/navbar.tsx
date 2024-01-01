@@ -30,7 +30,7 @@ export default function Navbar() {
             <span>Yeboster</span>
           </Link>
           <div className="ml-auto items-center sm:hidden">
-            <button onClick={() => setOpen(!open)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" aria-label="Main menu" aria-expanded="false">
+            <button onClick={() => setOpen(!open)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-200 dark:hover:text-gray-400 focus:outline-none focus:bg-gray-100 focus:text-gray-500 dark:focus:bg-gray-800 transition duration-150 ease-in-out" aria-label="Main menu" aria-expanded="false">
               <svg className={`${open ? 'hidden' : 'block'} h-6 w-6`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
@@ -47,7 +47,7 @@ export default function Navbar() {
           <ListItemWithActive href="/contact">Contact</ListItemWithActive>
         </nav>
       </div>
-      <div className={`${open ? 'is-visible' : ''} w-full fade-in bg-white rounded-md z-50`}>
+      <div className={`${open ? 'is-visible' : ''} w-full fade-in bg-white dark:bg-gray-800 rounded-md z-50`}>
         <div className="pt-2 pb-3">
           <ListItemWithActive href="/" mobile={true}>Home</ListItemWithActive>
           <ListItemWithActive href="/about" mobile={true}>About Me</ListItemWithActive>

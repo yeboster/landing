@@ -16,7 +16,7 @@ export default function About() {
               </h1>
             </div>
             <div className="flex flex-col items-start space-y-4">
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-200">
                 A brief introduction about myself and my journey in the world of technology.
               </p>
             </div>
@@ -27,30 +27,30 @@ export default function About() {
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-gray-950 px-3 py-1 text-sm text-white">
                 My Story
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 The Journey So Far
               </h2>
-              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
                 An overview of my career and the experiences that have shaped me as a developer.
               </p>
             </div>
           </div>
         </div>
       </section>
-      <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 py-12 md:py-24 lg:py-32 bg-fiord-100">
+      <FadeInOnFirstScroll className="w-full flex flex-col items-center py-12 py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-500">
         <div className="container space-y-12 px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-fiord-950 px-3 py-1 text-sm text-white">
+              <div className="inline-block rounded-lg bg-gray-950 px-3 py-1 text-sm text-white">
                 My Philosophy
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 How I Approach Work
               </h2>
-              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
                 A look at my work philosophy, values, and the principles that guide my approach to programming.
               </p>
             </div>
