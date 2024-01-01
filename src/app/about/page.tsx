@@ -1,5 +1,6 @@
 'use client'
 
+import { Chip } from "@/components/ui/chip";
 import { FadeInOnFirstScroll } from "@/components/ui/fade-in-on-first-scroll";
 import { Section, SectionHead, SectionTitle } from "@/components/ui/section";
 
@@ -20,9 +21,7 @@ export default function About() {
       </SectionHead>
       <Section>
         <SectionTitle>
-          <div className="inline-block rounded-lg bg-gray-950 dark:bg-white dark:text-gray-500 font-medium tracking-tighter dark:border-gray-400 px-3 py-1 text-sm text-white">
-            My Story
-          </div>
+          <Chip>My Story</Chip>
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
             The Journey So Far
           </h2>
@@ -34,9 +33,7 @@ export default function About() {
       <FadeInOnFirstScroll>
         <Section className="bg-gray-100 dark:bg-gray-500">
           <SectionTitle>
-            <div className="inline-block rounded-lg bg-gray-950 dark:bg-white dark:text-gray-500 font-medium tracking-tighter dark:border-gray-400 px-3 py-1 text-sm text-white">
-              My Philosophy
-            </div>
+            <Chip>My Philosophy</Chip>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
               How I Approach Work
             </h2>

@@ -11,6 +11,7 @@ import todoistActionsLogo from '../../../public/images/todoist-actions.png'
 import githubLogo from '../../../public/images/github.png'
 import gitlabLogo from '../../../public/images/gitlab.png'
 import { Section, SectionHead, SectionTitle } from "@/components/ui/section";
+import { Chip } from "@/components/ui/chip";
 
 export default function Portfolio() {
   return (
@@ -30,9 +31,7 @@ export default function Portfolio() {
       <Section>
         <>
           <SectionTitle>
-            <div className="inline-block rounded-lg bg-gray-950 dark:bg-gray-800 px-3 py-1 text-sm text-white">
-              My skills
-            </div>
+            <Chip>My skills</Chip>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
               Proficient in Multiple Technologies
             </h2>
@@ -66,9 +65,7 @@ export default function Portfolio() {
       <FadeInOnFirstScroll className="bg-gray-100 dark:bg-gray-500">
         <Section>
           <SectionTitle>
-            <div className="inline-block rounded-lg bg-gray-950 dark:bg-gray-800 px-3 py-1 text-sm text-white">
-              Featured Projects
-            </div>
+            <Chip>Featured Projects</Chip>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
               Some of My Work
             </h2>
@@ -194,9 +191,7 @@ export default function Portfolio() {
       <FadeInOnFirstScroll>
         <Section>
           <SectionTitle>
-            <div className="inline-block rounded-lg bg-gray-950 dark:bg-gray-800 px-3 py-1 text-sm text-white">
-              Get in Touch
-            </div>
+            <Chip>Get in Touch</Chip>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
               Let&apos;s Build Something Together
             </h2>
