@@ -36,15 +36,31 @@ const Section = React.forwardRef<
     {...props}
   >
     <div className="container space-y-12 px-4 md:px-6">
-      <div className="flex flex-col items-center justify-center space-y-4 text-center">
-        <div className="space-y-2">
-          {children}
-        </div>
-      </div>
+      {children}
     </div>
-  </div>
+  </div >
 ))
 Section.displayName = "Section"
 
+const SectionTitle = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, children, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "flex flex-col items-center justify-center space-y-4 text-center",
+      className
+    )}
+    {...props}
+  >
+    <div className="space-y-2">
+      {children}
+    </div>
+  </div>
+))
+SectionTitle.displayName = "SectionTitle"
 
-export { SectionHead, Section }
+
+
+export { SectionHead, Section, SectionTitle }

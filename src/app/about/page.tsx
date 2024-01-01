@@ -1,7 +1,7 @@
 'use client'
 
 import { FadeInOnFirstScroll } from "@/components/ui/fade-in-on-first-scroll";
-import { Section, SectionHead } from "@/components/ui/section";
+import { Section, SectionHead, SectionTitle } from "@/components/ui/section";
 
 export default function About() {
   return (
@@ -19,27 +19,31 @@ export default function About() {
         </div>
       </SectionHead>
       <Section>
-        <div className="inline-block rounded-lg bg-gray-950 dark:bg-white dark:text-gray-500 font-medium tracking-tighter dark:border-gray-400 px-3 py-1 text-sm text-white">
-          My Story
-        </div>
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-          The Journey So Far
-        </h2>
-        <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
-          An overview of my career and the experiences that have shaped me as a developer.
-        </p>
+        <SectionTitle>
+          <div className="inline-block rounded-lg bg-gray-950 dark:bg-white dark:text-gray-500 font-medium tracking-tighter dark:border-gray-400 px-3 py-1 text-sm text-white">
+            My Story
+          </div>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+            The Journey So Far
+          </h2>
+          <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
+            An overview of my career and the experiences that have shaped me as a developer.
+          </p>
+        </SectionTitle>
       </Section>
       <FadeInOnFirstScroll>
         <Section className="bg-gray-100 dark:bg-gray-500">
-          <div className="inline-block rounded-lg bg-gray-950 dark:bg-white dark:text-gray-500 font-medium tracking-tighter dark:border-gray-400 px-3 py-1 text-sm text-white">
-            My Philosophy
-          </div>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-            How I Approach Work
-          </h2>
-          <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
-            A look at my work philosophy, values, and the principles that guide my approach to programming.
-          </p>
+          <SectionTitle>
+            <div className="inline-block rounded-lg bg-gray-950 dark:bg-white dark:text-gray-500 font-medium tracking-tighter dark:border-gray-400 px-3 py-1 text-sm text-white">
+              My Philosophy
+            </div>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+              How I Approach Work
+            </h2>
+            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
+              A look at my work philosophy, values, and the principles that guide my approach to programming.
+            </p>
+          </SectionTitle>
         </Section>
       </FadeInOnFirstScroll>
     </main >

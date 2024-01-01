@@ -86,7 +86,7 @@ export default function Home(props: any) {
               <div className="space-x-4">
                 <Link
                   className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-950 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2d3748] disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-[#2d3748]"
-                  href="#" // TODO
+                  href="/contact"
                 >
                   Contact Me
                 </Link>
