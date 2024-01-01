@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1888 1888">
+  <title>Symbol8</title>
+  <g id="_8" data-name="8">
+    <circle cx="943.62" cy="500.86" r="443.68"
+      style="fill:#9f4f9d;stroke:#fff;stroke-miterlimit:10;stroke-width:44px" />
+    <circle cx="943.62" cy="1388.21" r="443.68"
+      style="fill:#9f4f9d;stroke:#fff;stroke-miterlimit:10;stroke-width:44px" />
+  </g>
+  <g id="s">
+    <path
+      d="M1387.29,1388.21c245,0,443.68-198.64,443.68-443.67s-198.64-443.68-443.68-443.68S943.62,699.5,943.62,944.54"
+      style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:33px" />
+    <path
+      d="M499.94,500.86c-245,0-443.67,198.64-443.67,443.68s198.64,443.67,443.67,443.67,443.68-198.64,443.68-443.67"
+      style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:33px" />
+  </g>
+</svg>
