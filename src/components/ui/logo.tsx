@@ -12,18 +12,19 @@ export interface LogoProps
 }
 
 const Logo = React.forwardRef<HTMLImageElement, LogoProps>((props, ref) => {
-  const darkThemeMatcher = isDarkThemeMatcher(window)
-  const [logo, setLogo] = useState(fetchLogo(darkThemeMatcher.matches))
+  const [logo, setLogo] = useState(fetchLogo(true))
 
-  const updateLogo = (event: MediaQueryListEvent) => {
-    setLogo(fetchLogo(event.matches))
-  }
 
   useEffect(() => {
+    const darkThemeMatcher = isDarkThemeMatcher(window)
+    const updateLogo = (event: MediaQueryListEvent) => {
+      setLogo(fetchLogo(event.matches))
+    }
+
     darkThemeMatcher.addEventListener('change', updateLogo)
 
     return () => (darkThemeMatcher.removeEventListener('change', updateLogo))
-  }, [darkThemeMatcher])
+  }, [])
 
   return (
     <Image
