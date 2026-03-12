@@ -17,13 +17,13 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm transition-colors duration-300">
+    <footer className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 md:px-6 py-10">
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <p className="font-semibold text-lg">Yeboster</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="font-semibold text-lg text-gray-900 dark:text-gray-100">Yeboster</p>
+            <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
               Build Together to Live Forever ❤️
             </p>
           </div>
@@ -34,7 +34,7 @@ export function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
                 {link.label}
               </Link>
@@ -51,7 +51,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
                   aria-label={social.label}
                 >
                   <Icon className="w-4 h-4" />
@@ -61,8 +61,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800 text-center">
-          <p className="text-xs text-gray-400 dark:text-gray-500">
+        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
+          <p className="text-xs text-gray-400 dark:text-gray-400">
             © {new Date().getFullYear()} Yeboster. Built with Next.js
           </p>
         </div>
