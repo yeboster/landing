@@ -1,219 +1,305 @@
 'use client'
 
 import Link from "next/link"
-import { CardHeader, CardContent, Card, CardTitle } from "@/components/ui/card"
-import { FadeInOnFirstScroll } from "@/components/ui/fade-in-on-first-scroll";
-import Image from "next/image";
+import { motion } from "framer-motion"
+import Image from "next/image"
+import { ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers } from "lucide-react"
 
 import metaNamesLogo from '../../../public/images/meta-names.png'
 import kubernetesLogo from '../../../public/images/kubernetes.png'
 import todoistActionsLogo from '../../../public/images/todoist-actions.png'
 import githubLogo from '../../../public/images/github.png'
 import gitlabLogo from '../../../public/images/gitlab.png'
-import { Section, SectionHead, SectionTitle } from "@/components/ui/section";
-import { Chip } from "@/components/ui/chip";
-import { Button } from "@/components/ui/button";
+
+import { Section, SectionTitle } from "@/components/ui/section"
+import { Chip } from "@/components/ui/chip"
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.12, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+  }),
+}
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.85, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.5, ease: 'easeOut' },
+  }),
+}
+
+const skills = [
+  {
+    icon: Code2,
+    title: 'TypeScript',
+    description: 'Proficient with vanilla JS, TypeScript and frameworks like React (Next.js), Vue (Nuxt), and Svelte (SvelteKit).',
+    tags: ['React', 'Next.js', 'Vue', 'Svelte'],
+  },
+  {
+    icon: Terminal,
+    title: 'Ruby',
+    description: 'Experienced with Ruby on Rails 5/6/7, Roda, and background processing with Sidekiq.',
+    tags: ['Rails', 'Roda', 'Sidekiq'],
+  },
+  {
+    icon: Server,
+    title: 'DevOps',
+    description: 'CI/CD pipelines, AWS, Docker, and Kubernetes for managing and deploying applications.',
+    tags: ['Docker', 'K8s', 'AWS', 'CI/CD'],
+  },
+]
+
+const projects = [
+  {
+    title: 'Meta Names',
+    description: 'A Web3 DNS system on Partisia Blockchain. Engineered the full stack — smart contracts in Rust, SDK in TypeScript, and front-end apps in Svelte.',
+    image: metaNamesLogo,
+    alt: 'Meta Names Logo',
+    href: 'https://metanames.app',
+    tags: ['Rust', 'TypeScript', 'Svelte', 'Blockchain'],
+  },
+  {
+    title: 'Todoist Actions',
+    description: 'A workflow management system for custom behaviors on projects and tasks. Includes a personal collection of daily-use workflows.',
+    image: todoistActionsLogo,
+    alt: 'Todoist Actions',
+    href: 'https://github.com/yeboster/todoist-actions',
+    tags: ['Automation', 'Productivity'],
+  },
+  {
+    title: 'GitOps K8s Cluster',
+    description: 'Kubernetes cluster orchestrated via GitOps. Bootstrapped with Ansible, managed with FluxCD for continuous delivery.',
+    image: kubernetesLogo,
+    alt: 'Kubernetes Logo',
+    href: 'https://github.com/yeboster/k8s',
+    tags: ['Kubernetes', 'Ansible', 'FluxCD'],
+  },
+]
+
+const profiles = [
+  {
+    title: 'GitHub',
+    description: 'All my projects and open source contributions.',
+    image: githubLogo,
+    alt: 'GitHub Logo',
+    href: 'https://github.com/yeboster',
+    icon: Github,
+  },
+  {
+    title: 'GitLab',
+    description: 'My older projects before moving to GitHub.',
+    image: gitlabLogo,
+    alt: 'GitLab Logo',
+    href: 'https://gitlab.com/yeboster',
+    icon: GitBranch,
+  },
+]
 
 export default function Portfolio() {
   return (
-    <main className="flex-1">
-      <SectionHead>
-        <div>
-          <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-            My Tech Portfolio
-          </h1>
+    <main className="flex-1 overflow-hidden">
+      {/* Hero */}
+      <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-500 pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
+          <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
+            <Chip>Portfolio</Chip>
+          </motion.div>
+          <motion.h1
+            className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
+            initial="hidden" animate="visible" custom={1} variants={fadeUp}
+          >
+            Things I&apos;ve{' '}
+            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
+              built
+            </span>
+          </motion.h1>
+          <motion.p
+            className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
+            initial="hidden" animate="visible" custom={2} variants={fadeUp}
+          >
+            From blockchain smart contracts to Kubernetes clusters — a selection of projects and the technologies behind them.
+          </motion.p>
         </div>
-        <div className="flex flex-col items-start space-y-4">
-          <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-200">
-            Discover my skills, projects, and my passion for technology
-          </p>
+      </section>
+
+      {/* Skills */}
+      <Section className="bg-gray-100 dark:bg-gray-500">
+        <SectionTitle>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={0} variants={fadeUp}>
+            <Chip>My Skills</Chip>
+          </motion.div>
+          <motion.h2
+            className="text-3xl font-bold tracking-tighter sm:text-5xl"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={1} variants={fadeUp}
+          >
+            Proficient in Multiple Technologies
+          </motion.h2>
+        </SectionTitle>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+          {skills.map((skill, i) => {
+            const Icon = skill.icon
+            return (
+              <motion.div
+                key={skill.title}
+                className="group p-6 rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-400 transition-colors duration-300"
+                initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+                custom={i} variants={scaleIn}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              >
+                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center mb-4 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <h3 className="font-semibold text-lg">{skill.title}</h3>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">{skill.description}</p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {skill.tags.map(tag => (
+                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
-      </SectionHead>
-      <Section>
-        <>
-          <SectionTitle>
-            <Chip>My skills</Chip>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              Proficient in Multiple Technologies
-            </h2>
-            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
-              I am skilled in a variety of programming languages and tools, always learning and eager to take on new
-              challenges.
-            </p>
-          </SectionTitle>
-          <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
-            <div className="grid gap-1">
-              <h3 className="text-lg font-bold">Typescript</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-200">
-                Proficient with both vanilla JavaScript, Typescript and popular frameworks like React (NextJs), Vue (NuxtJs) and Svelte (SvelteKit).
-              </p>
-            </div>
-            <div className="grid gap-1">
-              <h3 className="text-lg font-bold">Ruby</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-200">
-                Experienced in writing ruby applications with multiple frameworks like Ruby on Rails 5/6/7, Roda along with background processing like Sidekiq.
-              </p>
-            </div>
-            <div className="grid gap-1">
-              <h3 className="text-lg font-bold">DevOps</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-200">
-                Familiar with CI/CD, AWS, Docker, and Kubernetes to manage and deploy applications.
-              </p>
-            </div>
-          </div>
-        </>
       </Section>
-      <FadeInOnFirstScroll className="bg-gray-100 dark:bg-gray-500">
-        <Section>
-          <SectionTitle>
+
+      {/* Featured Projects */}
+      <Section>
+        <SectionTitle>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={0} variants={fadeUp}>
             <Chip>Featured Projects</Chip>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              Some of My Work
-            </h2>
-            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
-              Here are a few design projects I&apos;ve worked on recently. Want to see more?&nbsp;
-              <Link className="underline" href="/contact">Contact me</Link>
-            </p>
-          </SectionTitle>
-          <div className="mx-auto grid gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>Meta Names</CardTitle>
-              </CardHeader>
-              <CardContent>
+          </motion.div>
+          <motion.h2
+            className="text-3xl font-bold tracking-tighter sm:text-5xl"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={1} variants={fadeUp}
+          >
+            Some of My Work
+          </motion.h2>
+          <motion.p
+            className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-200"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={2} variants={fadeUp}
+          >
+            Here are a few projects I&apos;ve worked on. Want to see more?{' '}
+            <Link className="underline hover:text-gray-900 dark:hover:text-white transition-colors" href="/contact">Contact me</Link>
+          </motion.p>
+        </SectionTitle>
+
+        <div className="grid gap-8 sm:max-w-4xl sm:grid-cols-2 lg:max-w-5xl lg:grid-cols-3 mx-auto mt-4">
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.title}
+              className="group flex flex-col rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden hover:shadow-lg dark:hover:border-gray-400 transition-all duration-300"
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+              custom={i} variants={scaleIn}
+              whileHover={{ y: -6, transition: { duration: 0.25 } }}
+            >
+              <div className="relative w-full h-48 bg-gray-50 dark:bg-gray-600 flex items-center justify-center p-6 overflow-hidden">
                 <Image
-                  alt="Meta Names Logo"
-                  height="200"
-                  src={metaNamesLogo}
+                  alt={project.alt}
+                  src={project.image}
+                  className="object-contain max-h-full group-hover:scale-105 transition-transform duration-500"
+                  height={160}
                 />
-                <p>
-                  A Web 3 DNS system, developed on the Partisia Blockchain. I engineered the entire stack, starting from smart contract in Rust, the SDK in TypeScript, to various front-end applications using Svelte.
-                </p>
-                <Button>
-                  <Link
-                    href="https://metanames.app"
-                    target="_blank"
-                  >
-                    Check it out
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Todoist Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  alt="Todoist Actions"
-                  height="250"
-                  src={todoistActionsLogo}
-                />
-                <p>
-                  A workflow management system designed to introduce custom behaviors to projects and tasks. It includes a personal collection of workflows that I utilize on a daily basis.
-                </p>
-                <Button>
-                  <Link
-                    href="https://github.com/yeboster/todoist-actions"
-                    target="_blank"
-                  >
-                    Check it out
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>GitOps K8s cluster</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  alt="Kubernetes Logo"
-                  height="200"
-                  src={kubernetesLogo}
-                />
-                <p>
-                  My Kubernetes cluster is orchestrated through a GitOps approach. The cluster was initially set up using an Ansible playbook, and I utilize FluxCD for its ongoing management and maintenance.
-                </p>
-                <Button>
-                  <Link
-                    href="https://github.com/yeboster/k8s"
-                    target="_blank"
-                  >
-                    Check it out
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Github</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  alt="Github Logo"
-                  height="200"
-                  src={githubLogo}
-                />
-                <p>
-                  The full list of all project I have worked on, including open source contributions.
-                </p>
-                <Button>
-                  <Link
-                    href="https://github.com/yeboster"
-                    target="_blank"
-                  >
-                    Check it out
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Gitlab</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Image
-                  alt="Gitlab Logo"
-                  height="200"
-                  src={gitlabLogo}
-                />
-                <p>
-                  My old Gitlab account, where I used to host my projects before moving to Github.
-                </p>
-                <Button>
-                  <Link
-                    href="https://gitlab.com/yeboster"
-                    target="_blank"
-                  >
-                    Check it out
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </Section>
-      </FadeInOnFirstScroll>
-      <FadeInOnFirstScroll>
-        <Section>
-          <SectionTitle>
-            <Chip>Get in Touch</Chip>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              Let&apos;s Build Something Together
-            </h2>
-            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-200">
-              Feel free to reach out if you&apos;re looking for a developer, have a question, or just want to connect.
-            </p>
-            <div className="flex justify-center">
-              <Button>
-                <Link href="/contact">
-                  Contact me
-                </Link>
-              </Button>
-            </div>
-          </SectionTitle>
-        </Section>
-      </FadeInOnFirstScroll>
-    </main >
+              </div>
+              <div className="flex flex-col grow p-6">
+                <h3 className="text-xl font-bold">{project.title}</h3>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300 grow">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {project.tags.map(tag => (
+                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <motion.a
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-5 text-sm font-medium text-gray-900 dark:text-white hover:underline"
+                  whileHover={{ x: 4 }}
+                >
+                  View project <ExternalLink className="w-4 h-4" />
+                </motion.a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Profiles */}
+      <Section className="bg-gray-100 dark:bg-gray-500">
+        <SectionTitle>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={0} variants={fadeUp}>
+            <Chip>Profiles</Chip>
+          </motion.div>
+          <motion.h2
+            className="text-3xl font-bold tracking-tighter sm:text-5xl"
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }} custom={1} variants={fadeUp}
+          >
+            Find Me Online
+          </motion.h2>
+        </SectionTitle>
+
+        <div className="flex flex-col sm:flex-row gap-6 justify-center mt-8 max-w-3xl mx-auto">
+          {profiles.map((profile, i) => {
+            const Icon = profile.icon
+            return (
+              <motion.a
+                key={profile.title}
+                href={profile.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-5 p-6 rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-400 transition-all duration-300 flex-1"
+                initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+                custom={i} variants={scaleIn}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              >
+                <div className="w-14 h-14 rounded-xl bg-gray-100 dark:bg-gray-600 flex items-center justify-center shrink-0 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                  <Icon className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">{profile.title}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-300">{profile.description}</p>
+                </div>
+                <ExternalLink className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0" />
+              </motion.a>
+            )
+          })}
+        </div>
+      </Section>
+
+      {/* CTA */}
+      <Section>
+        <motion.div
+          className="text-center"
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-100px' }}
+          custom={0} variants={fadeUp}
+        >
+          <Layers className="w-10 h-10 mx-auto mb-4 text-gray-400" />
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+            Let&apos;s Build Something Together
+          </h2>
+          <p className="mt-4 text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+            Feel free to reach out if you&apos;re looking for a developer, have a question, or just want to connect.
+          </p>
+          <motion.a
+            href="/contact"
+            className="inline-block mt-6 px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Contact Me
+          </motion.a>
+        </motion.div>
+      </Section>
+    </main>
   )
 }
