@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers } from "lucide-react"
+import { ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers, Laugh } from "lucide-react"
 
 import metaNamesLogo from '../../../public/images/meta-names.png'
 import kubernetesLogo from '../../../public/images/kubernetes.png'
@@ -78,6 +78,15 @@ const projects = [
     alt: 'Kubernetes Logo',
     href: 'https://github.com/yeboster/k8s',
     tags: ['Kubernetes', 'Ansible', 'FluxCD'],
+  },
+  {
+    title: 'JokeHub',
+    description: 'A hub for jokes — browse, share, and enjoy curated humor. Live at jokehub.org.',
+    icon: Laugh,
+    alt: 'JokeHub',
+    href: 'https://github.com/yeboster/jokehub',
+    liveUrl: 'https://jokehub.org',
+    tags: ['TypeScript', 'Web App'],
   },
 ]
 
@@ -193,44 +202,65 @@ export default function Portfolio() {
         </SectionTitle>
 
         <div className="grid gap-8 sm:max-w-4xl sm:grid-cols-2 lg:max-w-5xl lg:grid-cols-3 mx-auto mt-4">
-          {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
-              className="group flex flex-col rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden hover:shadow-lg dark:hover:border-gray-400 transition-all duration-300"
-              initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
-              custom={i} variants={scaleIn}
-              whileHover={{ y: -6, transition: { duration: 0.25 } }}
-            >
-              <div className="relative w-full h-48 bg-gray-50 dark:bg-gray-600 flex items-center justify-center p-6 overflow-hidden">
-                <Image
-                  alt={project.alt}
-                  src={project.image}
-                  className="object-contain max-h-full group-hover:scale-105 transition-transform duration-500"
-                  height={160}
-                />
-              </div>
-              <div className="flex flex-col grow p-6">
-                <h3 className="text-xl font-bold">{project.title}</h3>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300 grow">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {project.tags.map(tag => (
-                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300">
-                      {tag}
-                    </span>
-                  ))}
+          {projects.map((project, i) => {
+            const IconFallback = 'icon' in project ? (project as any).icon : null
+            const liveUrl = 'liveUrl' in project ? (project as any).liveUrl : null
+            return (
+              <motion.div
+                key={project.title}
+                className="group flex flex-col rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 overflow-hidden hover:shadow-lg dark:hover:border-gray-400 transition-all duration-300"
+                initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+                custom={i} variants={scaleIn}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+              >
+                <div className="relative w-full h-48 bg-gray-50 dark:bg-gray-600 flex items-center justify-center p-6 overflow-hidden">
+                  {'image' in project ? (
+                    <Image
+                      alt={project.alt}
+                      src={(project as any).image}
+                      className="object-contain max-h-full group-hover:scale-105 transition-transform duration-500"
+                      height={160}
+                    />
+                  ) : IconFallback ? (
+                    <IconFallback className="w-20 h-20 text-gray-400 dark:text-gray-300 group-hover:scale-110 transition-transform duration-500" />
+                  ) : null}
                 </div>
-                <motion.a
-                  href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-5 text-sm font-medium text-gray-900 dark:text-white hover:underline"
-                  whileHover={{ x: 4 }}
-                >
-                  View project <ExternalLink className="w-4 h-4" />
-                </motion.a>
-              </div>
-            </motion.div>
-          ))}
+                <div className="flex flex-col grow p-6">
+                  <h3 className="text-xl font-bold">{project.title}</h3>
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-300 grow">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {project.tags.map(tag => (
+                      <span key={tag} className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-4 mt-5">
+                    <motion.a
+                      href={project.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white hover:underline"
+                      whileHover={{ x: 4 }}
+                    >
+                      View project <ExternalLink className="w-4 h-4" />
+                    </motion.a>
+                    {liveUrl && (
+                      <motion.a
+                        href={liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:underline transition-colors"
+                        whileHover={{ x: 4 }}
+                      >
+                        Live site <Globe className="w-4 h-4" />
+                      </motion.a>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </Section>
 
