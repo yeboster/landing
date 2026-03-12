@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better selection color */
+  ::selection {
+    @apply bg-gray-900/10 dark:bg-white/15;
+  }
+}
+
 .fade-in {
   opacity: 0;
   visibility: hidden;

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Link from 'next/link'
 
 import { ThemeProvider } from '@/components/theme-provider'
+import { Footer } from './footer'
 import Navbar from './navbar'
 
 import './globals.css'
@@ -10,8 +11,40 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Yeboster',
-  description: 'My personal website',
+  title: {
+    default: 'Yeboster — Developer & Builder',
+    template: '%s | Yeboster',
+  },
+  description: 'Full-stack developer building products with TypeScript, Ruby, Rust, and Kubernetes. Explore my portfolio, projects, and get in touch.',
+  metadataBase: new URL('https://yeboster.com'),
+  openGraph: {
+    title: 'Yeboster — Developer & Builder',
+    description: 'Full-stack developer building products with TypeScript, Ruby, Rust, and Kubernetes.',
+    url: 'https://yeboster.com',
+    siteName: 'Yeboster',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Yeboster — Build Together to Live Forever',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Yeboster — Developer & Builder',
+    description: 'Full-stack developer building products with TypeScript, Ruby, Rust, and Kubernetes.',
+    creator: '@yeboster',
+    images: ['/og-image.png'],
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({
@@ -39,19 +72,13 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider>
-          <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-600 dark:text-gray-200 transition-colors duration-300">
+          <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
             <Navbar />
+            {/* Spacer for fixed navbar */}
+            <div className="h-16" />
             {children}
           </div>
-          <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center sm:justify-evenly px-4 md:px-6 border-t dark:border-gray-400 dark:bg-gray-400 dark:text-gray-100 transition-colors duration-300">
-            <p className="text-xs">Yeboster</p>
-            <p className="text-xs">Build Together, Live Forever ❤️</p>
-            <nav>
-              <Link className="text-xs hover:underline underline-offset-4" href="/contact">
-                Contact
-              </Link>
-            </nav>
-          </footer>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

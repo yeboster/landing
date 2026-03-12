@@ -100,7 +100,7 @@ export default function About() {
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
       <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-500 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-800/50 pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
           <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
             <Chip>About Me</Chip>
@@ -110,7 +110,7 @@ export default function About() {
             initial="hidden" animate="visible" custom={1} variants={fadeUp}
           >
             Building things that{' '}
-            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-800/50 bg-clip-text text-transparent">
               matter
             </span>
           </motion.h1>
@@ -125,7 +125,7 @@ export default function About() {
       </section>
 
       {/* Journey Timeline */}
-      <Section className="bg-gray-100 dark:bg-gray-500">
+      <Section className="bg-gray-100 dark:bg-gray-800/50">
         <SectionTitle>
           <motion.div
             initial="hidden" whileInView="visible"
@@ -202,7 +202,7 @@ export default function About() {
             How I Approach Work
           </motion.h2>
           <motion.p
-            className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-200"
+            className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-400"
             initial="hidden" whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
             custom={2} variants={fadeUp}
@@ -217,13 +217,13 @@ export default function About() {
             return (
               <motion.div
                 key={value.title}
-                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-400 transition-colors duration-300 cursor-default"
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 transition-colors duration-300 cursor-default"
                 initial="hidden" whileInView="visible"
                 viewport={{ once: true, margin: '-50px' }}
                 custom={i} variants={scaleIn}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
               >
-                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center mb-4 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
                   <Icon className="w-5 h-5" />
                 </div>
                 <h3 className="font-semibold text-lg">{value.title}</h3>
@@ -237,7 +237,7 @@ export default function About() {
       </Section>
 
       {/* CTA */}
-      <Section className="bg-gray-100 dark:bg-gray-500">
+      <Section className="bg-gray-100 dark:bg-gray-800/50">
         <motion.div
           className="text-center"
           initial="hidden" whileInView="visible"
