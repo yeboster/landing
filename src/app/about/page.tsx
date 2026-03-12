@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap } from 'lucide-react'
+import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Compass, Route, Sparkles } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 
@@ -76,17 +76,20 @@ const values = [
 
 const timeline = [
   {
-    year: 'Now',
+    icon: Compass,
+    label: 'Now',
     title: 'Full-Stack Developer',
     description: 'Building products, exploring ML, and crafting side projects that matter.',
   },
   {
-    year: 'The Path',
+    icon: Route,
+    label: 'The Path',
     title: 'From Curiosity to Craft',
     description: 'What started as tinkering became a career — from first scripts to production systems.',
   },
   {
-    year: 'The Future',
+    icon: Sparkles,
+    label: 'The Future',
     title: 'Builder & Creator',
     description: 'Merging software engineering with data science to create impactful tools.',
   },
@@ -99,20 +102,12 @@ export default function About() {
       <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-500 pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            custom={0}
-            variants={fadeUp}
-          >
+          <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
             <Chip>About Me</Chip>
           </motion.div>
           <motion.h1
             className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
-            initial="hidden"
-            animate="visible"
-            custom={1}
-            variants={fadeUp}
+            initial="hidden" animate="visible" custom={1} variants={fadeUp}
           >
             Building things that{' '}
             <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
@@ -121,10 +116,7 @@ export default function About() {
           </motion.h1>
           <motion.p
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
-            initial="hidden"
-            animate="visible"
-            custom={2}
-            variants={fadeUp}
+            initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
             Developer, tinkerer, and lifelong learner. I believe in building together
             to create things that last.
@@ -136,57 +128,58 @@ export default function About() {
       <Section className="bg-gray-100 dark:bg-gray-500">
         <SectionTitle>
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            initial="hidden" whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            custom={0}
-            variants={fadeUp}
+            custom={0} variants={fadeUp}
           >
             <Chip>My Story</Chip>
           </motion.div>
           <motion.h2
             className="text-3xl font-bold tracking-tighter sm:text-5xl"
-            initial="hidden"
-            whileInView="visible"
+            initial="hidden" whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            custom={1}
-            variants={fadeUp}
+            custom={1} variants={fadeUp}
           >
             The Journey So Far
           </motion.h2>
         </SectionTitle>
 
         <div className="max-w-3xl mx-auto mt-12 space-y-0">
-          {timeline.map((item, i) => (
-            <motion.div
-              key={item.year}
-              className="relative flex gap-6 pb-12 last:pb-0"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
-              variants={i % 2 === 0 ? slideInLeft : slideInRight}
-            >
-              {/* Timeline line */}
-              <div className="flex flex-col items-center">
-                <motion.div
-                  className="w-12 h-12 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center text-white dark:text-gray-900 text-xs font-bold shrink-0"
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
-                  {item.year}
-                </motion.div>
-                {i < timeline.length - 1 && (
-                  <div className="w-0.5 flex-1 bg-gray-300 dark:bg-gray-400 mt-2" />
-                )}
-              </div>
-              <div className="pt-2">
-                <h3 className="text-xl font-bold">{item.title}</h3>
-                <p className="mt-2 text-gray-500 dark:text-gray-300">
-                  {item.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          {timeline.map((item, i) => {
+            const Icon = item.icon
+            return (
+              <motion.div
+                key={item.label}
+                className="relative flex gap-6 pb-12 last:pb-0"
+                initial="hidden" whileInView="visible"
+                viewport={{ once: true, margin: '-50px' }}
+                variants={i % 2 === 0 ? slideInLeft : slideInRight}
+              >
+                {/* Timeline line + icon */}
+                <div className="flex flex-col items-center">
+                  <motion.div
+                    className="w-12 h-12 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center text-white dark:text-gray-900 shrink-0"
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </motion.div>
+                  {i < timeline.length - 1 && (
+                    <div className="w-0.5 flex-1 bg-gray-300 dark:bg-gray-400 mt-2" />
+                  )}
+                </div>
+                <div className="pt-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-300">
+                    {item.label}
+                  </span>
+                  <h3 className="text-xl font-bold mt-1">{item.title}</h3>
+                  <p className="mt-2 text-gray-500 dark:text-gray-300">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </Section>
 
@@ -194,31 +187,25 @@ export default function About() {
       <Section>
         <SectionTitle>
           <motion.div
-            initial="hidden"
-            whileInView="visible"
+            initial="hidden" whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            custom={0}
-            variants={fadeUp}
+            custom={0} variants={fadeUp}
           >
             <Chip>My Philosophy</Chip>
           </motion.div>
           <motion.h2
             className="text-3xl font-bold tracking-tighter sm:text-5xl"
-            initial="hidden"
-            whileInView="visible"
+            initial="hidden" whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            custom={1}
-            variants={fadeUp}
+            custom={1} variants={fadeUp}
           >
             How I Approach Work
           </motion.h2>
           <motion.p
             className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-200"
-            initial="hidden"
-            whileInView="visible"
+            initial="hidden" whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
-            custom={2}
-            variants={fadeUp}
+            custom={2} variants={fadeUp}
           >
             The principles that guide every line of code I write.
           </motion.p>
@@ -231,11 +218,9 @@ export default function About() {
               <motion.div
                 key={value.title}
                 className="group relative p-6 rounded-2xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-400 transition-colors duration-300 cursor-default"
-                initial="hidden"
-                whileInView="visible"
+                initial="hidden" whileInView="visible"
                 viewport={{ once: true, margin: '-50px' }}
-                custom={i}
-                variants={scaleIn}
+                custom={i} variants={scaleIn}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
               >
                 <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-600 flex items-center justify-center mb-4 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
@@ -255,11 +240,9 @@ export default function About() {
       <Section className="bg-gray-100 dark:bg-gray-500">
         <motion.div
           className="text-center"
-          initial="hidden"
-          whileInView="visible"
+          initial="hidden" whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
-          custom={0}
-          variants={fadeUp}
+          custom={0} variants={fadeUp}
         >
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
             Want to build something together?
