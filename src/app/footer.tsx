@@ -1,72 +1,7 @@
 'use client'
-
 import Link from 'next/link'
 import { Github, Send, Twitter } from 'lucide-react'
-
-const socials = [
-  { href: 'https://github.com/yeboster', icon: Github, label: 'GitHub' },
-  { href: 'https://t.me/yeboster', icon: Send, label: 'Telegram' },
-  { href: 'https://twitter.com/yeboster', icon: Twitter, label: 'Twitter' },
-]
-
-const footerLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
-]
-
-export function Footer() {
-  return (
-    <footer className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-10">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
-          {/* Brand */}
-          <div className="text-center md:text-left">
-            <p className="font-semibold text-lg text-gray-900 dark:text-gray-100">Yeboster</p>
-            <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
-              Build Together to Live Forever ❤️
-            </p>
-          </div>
-
-          {/* Links */}
-          <nav className="flex gap-6">
-            {footerLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Socials */}
-          <div className="flex gap-4">
-            {socials.map((social) => {
-              const Icon = social.icon
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
-                  aria-label={social.label}
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              )
-            })}
-          </div>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
-          <p className="text-xs text-gray-400 dark:text-gray-400">
-            © {new Date().getFullYear()} Yeboster. Built with Next.js
-          </p>
-        </div>
-      </div>
-    </footer>
-  )
-}
+import { site } from '@/lib/site'
+const socials=[{href:site.socials.github,icon:Github,label:'GitHub'},{href:site.socials.telegram,icon:Send,label:'Telegram'},{href:site.socials.twitter,icon:Twitter,label:'Twitter'}]
+const footerLinks=[{href:'/about',label:'About'},{href:'/portfolio',label:'Portfolio'},{href:'/contact',label:'Contact'}]
+export function Footer(){return <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-950"><div className="mx-auto max-w-6xl px-4 py-10 md:px-6"><div className="flex flex-col items-center justify-between gap-8 md:flex-row md:items-start"><div className="text-center md:text-left"><p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{site.name}</p><p className="mt-1 text-sm text-gray-500 dark:text-gray-300">{site.tagline}</p></div><nav className="flex gap-6">{footerLinks.map(link=><Link key={link.href} href={link.href} className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">{link.label}</Link>)}</nav><div className="flex gap-4">{socials.map(({icon:Icon,...social})=><a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"><Icon className="h-4 w-4"/></a>)}</div></div><div className="mt-8 border-t border-gray-200 pt-6 text-center dark:border-gray-700"><p className="text-xs text-gray-400">© {new Date().getFullYear()} {site.name}. Built with Next.js</p></div></div></footer>}

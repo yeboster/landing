@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 
 import { Logo } from '@/components/ui/logo'
@@ -46,9 +46,6 @@ export default function Navbar() {
           ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-white/20 dark:border-gray-700/30 shadow-lg shadow-black/[0.03] dark:shadow-black/20'
           : 'bg-transparent'
       }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       <div className="max-w-6xl mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between h-16">
