@@ -116,9 +116,7 @@ export default function About() {
           </motion.div>
           <h1 className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl" aria-label="Building things that matter">
             <SplitText text="Building things that" by="word" />{' '}
-            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-800/50 bg-clip-text text-transparent">
-              <SplitText text="matter" by="letter" />
-            </span>
+            <SplitText text="matter" by="letter" />
           </h1>
           <motion.p
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
