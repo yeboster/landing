@@ -12,6 +12,7 @@ import todoistActionsLogo from '../../public/images/todoist-actions.png'
 import { Section, SectionTitle } from "@/components/ui/section"
 import { Chip } from "@/components/ui/chip"
 import { TiltCard } from "@/components/tilt-card"
+import { SplitText } from "@/components/split-text"
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -209,15 +210,12 @@ export default function Portfolio() {
           <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
             <Chip>Portfolio</Chip>
           </motion.div>
-          <motion.h1
-            className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
-            initial="hidden" animate="visible" custom={1} variants={fadeUp}
-          >
-            Things I&apos;ve{' '}
+          <h1 className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl" aria-label="Things I've built">
+            <SplitText text="Things I've" by="word" />{' '}
             <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
-              built
+              <SplitText text="built" by="letter" />
             </span>
-          </motion.h1>
+          </h1>
           <motion.p
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}

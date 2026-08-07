@@ -5,6 +5,7 @@ import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Compass, Route, Sparkles 
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { TiltCard } from '@/components/tilt-card'
+import { SplitText } from '@/components/split-text'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -106,15 +107,12 @@ export default function About() {
           <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
             <Chip>About Me</Chip>
           </motion.div>
-          <motion.h1
-            className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
-            initial="hidden" animate="visible" custom={1} variants={fadeUp}
-          >
-            Building things that{' '}
+          <h1 className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl" aria-label="Building things that matter">
+            <SplitText text="Building things that" by="word" />{' '}
             <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-800/50 bg-clip-text text-transparent">
-              matter
+              <SplitText text="matter" by="letter" />
             </span>
-          </motion.h1>
+          </h1>
           <motion.p
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}

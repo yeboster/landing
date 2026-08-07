@@ -7,6 +7,7 @@ import { Section, SectionTitle } from '@/components/ui/section'
 import { AvailabilityBadge } from '@/components/availability-badge'
 import { ContactForm } from '@/components/contact-form'
 import { TiltCard } from '@/components/tilt-card'
+import { SplitText } from '@/components/split-text'
 import { site } from '@/lib/site'
 
 const fadeUp: Variants = {
@@ -68,15 +69,12 @@ export default function Contact() {
           <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
             <Chip>Contact</Chip>
           </motion.div>
-          <motion.h1
-            className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
-            initial="hidden" animate="visible" custom={1} variants={fadeUp}
-          >
-            Let&apos;s{' '}
+          <h1 className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl" aria-label="Let's connect">
+            <SplitText text="Let's" by="word" />{' '}
             <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-800/50 bg-clip-text text-transparent">
-              connect
+              <SplitText text="connect" by="letter" />
             </span>
-          </motion.h1>
+          </h1>
           <motion.p
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
