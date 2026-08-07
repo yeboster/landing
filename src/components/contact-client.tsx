@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, type Variants } from "motion/react"
-import { CalendarClock, Twitter, ArrowRight } from 'lucide-react'
+import { CalendarClock, Twitter, Linkedin, ArrowRight } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { AvailabilityBadge } from '@/components/availability-badge'
@@ -38,6 +38,13 @@ type Channel = {
 }
 
 const socialChannels: Channel[] = [
+  {
+    icon: Linkedin,
+    title: 'LinkedIn',
+    description: 'Connect with me professionally — work, career, and recommendations.',
+    href: site.socials.linkedin,
+    cta: 'Connect',
+  },
   {
     icon: Twitter,
     title: 'Twitter',

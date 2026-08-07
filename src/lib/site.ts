@@ -10,5 +10,6 @@ export const site = {
     github: 'https://github.com/yeboster',
     gitlab: 'https://gitlab.com/yeboster',
     twitter: 'https://twitter.com/yeboster',
+    linkedin: 'https://fr.linkedin.com/in/yeboster',
   },
 } as const
