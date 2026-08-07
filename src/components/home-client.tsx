@@ -139,10 +139,25 @@ export default function Home() {
                 </span>
                 <h2 className="text-xl font-bold tracking-tight">Now</h2>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                Full-stack developer building products, exploring ML, and crafting side projects that matter.
-                Currently shipping with TypeScript, Rust, and Kubernetes.
-              </p>
+              <div className="space-y-3">
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  <span className="font-medium text-gray-700 dark:text-gray-200">Software Engineer</span> at{' '}
+                  <span className="font-medium text-gray-700 dark:text-gray-200">Trustpair</span>, Paris — building anti-fraud products on Rails. Architected the TrustAI LLM framework, shipped GenAI + VoiceAI features.
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  On the side: <span className="font-medium text-gray-700 dark:text-gray-200">bon.so</span> (this site), a Talos/Kubernetes home cluster, and AI automation agents.
+                </p>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {['TypeScript', 'Rust', 'Kubernetes', 'Rails'].map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-gray-200 dark:border-gray-700 px-2.5 py-0.5 text-xs text-gray-500 dark:text-gray-400 hover:border-[#9f4f9d] hover:text-[#9f4f9d] transition-colors"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </TiltCard>
           </motion.div>
           <motion.div
