@@ -56,7 +56,7 @@ export default function Navbar() {
       transition={{ type: 'spring', stiffness: 260, damping: 30, mass: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/50 shadow-lg shadow-black/[0.03] dark:shadow-black/20'
+          ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-gray-900/5 dark:border-white/10'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
