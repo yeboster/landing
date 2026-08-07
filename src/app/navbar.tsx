@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useMotionValueEvent, useScroll, useReducedMotion } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 
 import { Logo } from '@/components/ui/logo'
@@ -19,14 +19,25 @@ const navLinks = [
 export default function Navbar() {
   const currentPath = usePathname()
   const [open, setOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { scrollY } = useScroll()
+  const reduce = useReducedMotion()
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  // Smart show/hide: reveal on scroll up, hide on scroll down.
+  // Disabled when reduced motion is preferred (always show).
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    if (reduce) return
+    const previous = scrollY.getPrevious() ?? 0
+    if (latest > previous && latest > 80) {
+      // scrolling down past the threshold → hide
+      setHidden(true)
+    } else {
+      // scrolling up (or at top) → reveal
+      setHidden(false)
+    }
+    setScrolled(latest > 40)
+  })
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -41,10 +52,12 @@ export default function Navbar() {
 
   return (
     <motion.header
+      animate={hidden ? { y: '-100%' } : { y: 0 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 30, mass: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-white/20 dark:border-gray-700/30 shadow-lg shadow-black/[0.03] dark:shadow-black/20'
-          : 'bg-transparent'
+          ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-white/30 dark:border-gray-700/50 shadow-lg shadow-black/[0.03] dark:shadow-black/20'
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 lg:px-6">

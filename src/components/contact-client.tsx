@@ -6,6 +6,7 @@ import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { AvailabilityBadge } from '@/components/availability-badge'
 import { ContactForm } from '@/components/contact-form'
+import { TiltCard } from '@/components/tilt-card'
 import { site } from '@/lib/site'
 
 const fadeUp: Variants = {
@@ -149,23 +150,23 @@ export default function Contact() {
                 href={channel.href}
                 target={channel.href.startsWith('http') ? '_blank' : undefined}
                 rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group block p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300"
                 initial="hidden" whileInView="visible"
                 viewport={{ once: true, margin: '-50px' }}
                 custom={i} variants={scaleIn}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
               >
-                <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
-                  <Icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold">{channel.title}</h3>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                  {channel.description}
-                </p>
-                <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white group-hover:gap-3 transition-all duration-300">
-                  {channel.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </div>
+                <TiltCard className="group block p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300 h-full">
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-xl font-bold">{channel.title}</h3>
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                    {channel.description}
+                  </p>
+                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white group-hover:gap-3 transition-all duration-300">
+                    {channel.cta}
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </TiltCard>
               </motion.a>
             )
           })}

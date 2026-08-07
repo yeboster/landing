@@ -1,7 +1,6 @@
 'use client'
 
 import Link from "next/link"
-import { useState } from "react"
 import { motion, type Variants } from "motion/react"
 import Image from "next/image"
 import { ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers, Laugh, ArrowUpRight } from "lucide-react"
@@ -12,6 +11,7 @@ import todoistActionsLogo from '../../public/images/todoist-actions.png'
 
 import { Section, SectionTitle } from "@/components/ui/section"
 import { Chip } from "@/components/ui/chip"
+import { TiltCard } from "@/components/tilt-card"
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -122,21 +122,15 @@ const profiles = [
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const IconFallback = project.icon
-  const [spot, setSpot] = useState({ x: 50, y: 50 })
   return (
     <motion.div
-      className={`spotlight-card group relative flex flex-col rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:shadow-[#9f4f9d]/10 dark:hover:shadow-black/30 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-all duration-500 ${
-        project.featured ? 'sm:col-span-2 sm:flex-row' : ''
-      }`}
-      onMouseMove={(e) => {
-        const r = e.currentTarget.getBoundingClientRect()
-        setSpot({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 })
-      }}
-      style={{ '--spotlight-x': `${spot.x}%`, '--spotlight-y': `${spot.y}%` } as React.CSSProperties}
       initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
       custom={index} variants={scaleIn}
-      whileHover={{ y: -6, transition: { duration: 0.3 } }}
+      className={project.featured ? 'sm:col-span-2' : ''}
     >
+      <TiltCard className={`group relative flex flex-col rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:shadow-[#9f4f9d]/10 dark:hover:shadow-black/30 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-all duration-500 ${
+        project.featured ? 'sm:flex-row' : ''
+      }`}>
       {/* Image / Icon area */}
       <div className={`relative bg-gray-50 dark:bg-gray-800/80 flex items-center justify-center overflow-hidden ${
         project.featured ? 'w-full sm:w-2/5 h-48 sm:h-auto' : 'w-full h-48'
@@ -200,6 +194,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           )}
         </div>
       </div>
+      </TiltCard>
     </motion.div>
   )
 }
@@ -326,19 +321,20 @@ export default function Portfolio() {
                 href={profile.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 flex-1"
                 initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
                 custom={i} variants={scaleIn}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="flex-1"
               >
-                <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
-                  <Icon className="w-6 h-6" />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="font-semibold">{profile.title}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{profile.description}</p>
-                </div>
-                <ArrowUpRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0 text-gray-400" />
+                <TiltCard className="group flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold">{profile.title}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{profile.description}</p>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0 text-gray-400" />
+                </TiltCard>
               </motion.a>
             )
           })}

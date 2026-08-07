@@ -2,5 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 :root{--accent:#9f4f9d}html{scroll-behavior:smooth}::selection{background:rgb(159 79 157 / .25)}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @keyframes aurora{0%,100%{transform:translate3d(-3%,-2%,0) scale(1)}50%{transform:translate3d(3%,2%,0) scale(1.08)}}@keyframes marquee{to{transform:translateX(-50%)}}.aurora{animation:aurora 16s ease-in-out infinite}.marquee-track{animation:marquee 28s linear infinite}.marquee:hover .marquee-track{animation-play-state:paused}.spotlight-card:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(220px circle at var(--spotlight-x,50%) var(--spotlight-y,50%),rgb(159 79 157 / .12),transparent 70%);opacity:0;transition:opacity .3s}.spotlight-card:hover:before{opacity:1}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
