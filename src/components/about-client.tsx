@@ -1,11 +1,12 @@
 'use client'
 
 import { motion, type Variants } from "motion/react"
-import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Compass, Route, Sparkles } from 'lucide-react'
+import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Briefcase, GraduationCap, Hammer, Sparkles } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { TiltCard } from '@/components/tilt-card'
 import { SplitText } from '@/components/split-text'
+import { site } from '@/lib/site'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -78,22 +79,28 @@ const values = [
 
 const timeline = [
   {
-    icon: Compass,
+    icon: Briefcase,
     label: 'Now',
-    title: 'Full-Stack Developer',
-    description: 'Building products, exploring ML, and crafting side projects that matter.',
+    title: 'Software Engineer @ Trustpair — Paris',
+    description: 'Building anti-fraud products on Rails. Architected the TrustAI LLM framework, shipped GenAI contact collection (+128pts), VoiceAI. Observability-first.',
   },
   {
-    icon: Route,
+    icon: GraduationCap,
     label: 'The Path',
-    title: 'From Curiosity to Craft',
-    description: 'What started as tinkering became a career — from first scripts to production systems.',
+    title: 'From Thiene to Paris',
+    description: 'Computer science at ITT G. Chilesotti (2013–2018), then turned tinkering into a career — from first scripts to production systems.',
+  },
+  {
+    icon: Hammer,
+    label: 'Side by Side',
+    title: 'Builder',
+    description: 'bon.so, a Talos/Kubernetes home cluster, and AI automation agents — shipping side projects that matter.',
   },
   {
     icon: Sparkles,
     label: 'The Future',
     title: 'Builder & Creator',
-    description: 'Merging software engineering with data science to create impactful tools.',
+    description: 'Merging software engineering with data and AI to create impactful tools.',
   },
 ]
 
@@ -117,9 +124,17 @@ export default function About() {
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
-            Developer, tinkerer, and lifelong learner. I believe in building together
+            Software Engineer at Trustpair, tinkerer, and lifelong learner. I believe in building together
             to create things that last.
           </motion.p>
+          <motion.a
+            href={site.socials.linkedin}
+            target="_blank" rel="noopener noreferrer"
+            className="mt-3 inline-block text-sm text-gray-400 underline underline-offset-4 hover:text-gray-900 dark:hover:text-white transition-colors"
+            initial="hidden" animate="visible" custom={3} variants={fadeUp}
+          >
+            Find me on LinkedIn →
+          </motion.a>
         </div>
       </section>
 
