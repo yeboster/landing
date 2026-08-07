@@ -1,11 +1,12 @@
 'use client'
 
 import { motion, type Variants } from "motion/react"
-import { Mail, Send, Twitter, ArrowRight } from 'lucide-react'
+import { CalendarClock, Twitter, ArrowRight } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { AvailabilityBadge } from '@/components/availability-badge'
 import { ContactForm } from '@/components/contact-form'
+import { site } from '@/lib/site'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -26,29 +27,35 @@ const scaleIn: Variants = {
   }),
 }
 
-const channels = [
-  {
-    icon: Mail,
-    title: 'Email',
-    description: 'Contact me via email for collaborations.',
-    href: 'mailto:contact@yeboster.com?subject=Collaboration',
-    cta: 'Email me',
-  },
-  {
-    icon: Send,
-    title: 'Telegram',
-    description: 'Reach me on Telegram for quick chats or to discuss ideas.',
-    href: 'https://t.me/yeboster',
-    cta: 'Ping me',
-  },
+type Channel = {
+  icon: typeof CalendarClock
+  title: string
+  description: string
+  href: string
+  cta: string
+}
+
+const socialChannels: Channel[] = [
   {
     icon: Twitter,
     title: 'Twitter',
     description: 'Follow me on Twitter to stay updated with my latest projects.',
-    href: 'https://twitter.com/yeboster',
+    href: site.socials.twitter,
     cta: 'Follow me',
   },
 ]
+
+const bookingChannel: Channel = {
+  icon: CalendarClock,
+  title: 'Book a call',
+  description: 'Prefer a call? Grab 20 minutes on my calendar.',
+  href: site.booking,
+  cta: 'Book a call',
+}
+
+const channels: Channel[] = site.booking
+  ? [bookingChannel, ...socialChannels]
+  : socialChannels
 
 export default function Contact() {
   return (
@@ -121,7 +128,7 @@ export default function Contact() {
             viewport={{ once: true, margin: '-100px' }}
             custom={0} variants={fadeUp}
           >
-            <Chip>Get In Touch</Chip>
+            <Chip>Elsewhere</Chip>
           </motion.div>
           <motion.h2
             className="text-3xl font-bold tracking-tighter sm:text-5xl"
@@ -129,11 +136,11 @@ export default function Contact() {
             viewport={{ once: true, margin: '-100px' }}
             custom={1} variants={fadeUp}
           >
-            Choose Your Channel
+            Elsewhere
           </motion.h2>
         </SectionTitle>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+        <div className={`grid grid-cols-1 gap-6 mt-8 max-w-5xl mx-auto ${channels.length > 1 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'max-w-md'}`}>
           {channels.map((channel, i) => {
             const Icon = channel.icon
             return (
