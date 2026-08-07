@@ -6,6 +6,7 @@ import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { TiltCard } from '@/components/tilt-card'
 import { SplitText } from '@/components/split-text'
+import { Aurora } from '@/components/aurora'
 import { site } from '@/lib/site'
 
 const fadeUp: Variants = {
@@ -109,6 +110,12 @@ export default function About() {
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
       <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
+        {/* Aurora background with mouse-parallax */}
+        <Aurora maxOffset={14}>
+          <div className="aurora absolute -top-32 left-1/2 -translate-x-1/2 h-[480px] w-[720px] rounded-full bg-[#9f4f9d]/20 dark:bg-[#9f4f9d]/25 blur-3xl" />
+          <div className="aurora absolute top-24 -left-32 h-[320px] w-[420px] rounded-full bg-[#c06fbe]/10 dark:bg-[#c06fbe]/15 blur-3xl [animation-delay:-6s]" />
+          <div className="aurora absolute top-40 -right-32 h-[320px] w-[420px] rounded-full bg-[#7a3a78]/10 dark:bg-[#7a3a78]/20 blur-3xl [animation-delay:-11s]" />
+        </Aurora>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-800/50 pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
           <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
@@ -116,7 +123,9 @@ export default function About() {
           </motion.div>
           <h1 className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl" aria-label="Building things that matter">
             <SplitText text="Building things that" by="word" />{' '}
-            <SplitText text="matter" by="letter" />
+            <span className="bg-gradient-to-r from-[#9f4f9d] via-[#c06fbe] to-[#9f4f9d] bg-clip-text text-transparent">
+              <SplitText text="matter" by="letter" />
+            </span>
           </h1>
           <motion.p
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
@@ -233,8 +242,8 @@ export default function About() {
                 viewport={{ once: true, margin: '-50px' }}
                 custom={i} variants={scaleIn}
               >
-                <TiltCard className="group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 transition-colors duration-300 cursor-default">
-                  <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                <TiltCard className="group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-colors duration-300 cursor-default">
+                  <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 group-hover:bg-[#9f4f9d] group-hover:text-white transition-colors duration-300">
                     <Icon className="w-5 h-5" />
                   </div>
                   <h3 className="font-semibold text-lg">{value.title}</h3>
@@ -264,7 +273,7 @@ export default function About() {
           </p>
           <motion.a
             href="/contact"
-            className="inline-block mt-6 px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200"
+            className="inline-block mt-6 px-8 py-3 bg-[#9f4f9d] text-white rounded-lg font-medium hover:bg-[#7a3a78] transition-colors duration-200"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
