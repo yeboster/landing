@@ -13,6 +13,7 @@ import { Section, SectionTitle } from "@/components/ui/section"
 import { Chip } from "@/components/ui/chip"
 import { TiltCard } from "@/components/tilt-card"
 import { SplitText } from "@/components/split-text"
+import { Aurora } from "@/components/aurora"
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -205,6 +206,12 @@ export default function Portfolio() {
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
       <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
+        {/* Aurora background with mouse-parallax */}
+        <Aurora maxOffset={14}>
+          <div className="aurora absolute -top-32 left-1/2 -translate-x-1/2 h-[480px] w-[720px] rounded-full bg-[#9f4f9d]/20 dark:bg-[#9f4f9d]/25 blur-3xl" />
+          <div className="aurora absolute top-24 -left-32 h-[320px] w-[420px] rounded-full bg-[#c06fbe]/10 dark:bg-[#c06fbe]/15 blur-3xl [animation-delay:-6s]" />
+          <div className="aurora absolute top-40 -right-32 h-[320px] w-[420px] rounded-full bg-[#7a3a78]/10 dark:bg-[#7a3a78]/20 blur-3xl [animation-delay:-11s]" />
+        </Aurora>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-800/50 pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
           <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
@@ -212,7 +219,7 @@ export default function Portfolio() {
           </motion.div>
           <h1 className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl" aria-label="Things I've built">
             <SplitText text="Things I've" by="word" />{' '}
-            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#9f4f9d] via-[#c06fbe] to-[#9f4f9d] bg-clip-text text-transparent">
               <SplitText text="built" by="letter" />
             </span>
           </h1>
@@ -323,8 +330,8 @@ export default function Portfolio() {
                 custom={i} variants={scaleIn}
                 className="flex-1"
               >
-                <TiltCard className="group flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
+                <TiltCard className="group flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0 group-hover:bg-[#9f4f9d] group-hover:text-white transition-colors duration-300">
                     <Icon className="w-6 h-6" />
                   </div>
                   <div className="min-w-0">
@@ -355,7 +362,7 @@ export default function Portfolio() {
           </p>
           <motion.a
             href="/contact"
-            className="inline-block mt-6 px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-200"
+            className="inline-block mt-6 px-8 py-3 bg-[#9f4f9d] text-white rounded-lg font-medium hover:bg-[#7a3a78] transition-colors duration-200"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
