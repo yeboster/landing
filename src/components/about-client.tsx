@@ -83,13 +83,13 @@ const timeline = [
     icon: Briefcase,
     label: '2022 — Now',
     title: 'Ruby on Rails Developer @ Trustpair — Paris',
-    description: 'Building anti-fraud products and AI features on Rails 8 with Next.js and NestJS. Architected the TrustAI LLM framework, shipped GenAI contact collection (+128pts), VoiceAI. GitOps on Kubernetes with FluxCD, Helm and Kustomize. Observability-first.',
+    description: 'Building anti-fraud products and AI features on Rails 8 with Sidekiq and some React. Shipped GenAI contact collection (+128pts). Observability-first.',
   },
   {
     icon: Globe,
     label: '2020 — 2022',
     title: 'Web Developer @ Develon Group',
-    description: 'Developed and maintained web apps with Ruby on Rails 4/5 and JavaScript/TypeScript (Adonis, Nuxt), deployed with Docker & Kubernetes.',
+    description: 'Developed and maintained web apps with Ruby on Rails 4/5 and JavaScript/TypeScript (Adonis, NestJS, Nuxt), deployed with Docker & Kubernetes.',
   },
   {
     icon: ShieldCheck,
@@ -113,13 +113,13 @@ const timeline = [
     icon: Hammer,
     label: 'Side by Side',
     title: 'Builder',
-    description: 'bon.so, a Talos/Kubernetes home cluster, and AI automation agents — shipping side projects that matter.',
+    description: 'bon.so (Next.js), a Talos/Kubernetes home cluster managed via GitOps with FluxCD, Helm and Kustomize, and AI automation agents.',
   },
 ]
 
 const skills = [
   { title: 'Languages', items: ['Ruby', 'TypeScript', 'Rust', 'Python'] },
-  { title: 'Frameworks', items: ['Rails 4 → 8', 'Next.js', 'NestJS', 'Nuxt', 'React', 'SvelteKit', 'Vue', 'Tailwind CSS'] },
+  { title: 'Frameworks', items: ['Rails 4 → 8', 'Sidekiq', 'Next.js', 'NestJS', 'Nuxt', 'React', 'SvelteKit', 'Vue', 'Tailwind CSS'] },
   { title: 'Functional Programming', items: ['Elixir', 'Elm'] },
   { title: 'Infrastructure', items: ['Kubernetes', 'FluxCD', 'Helm', 'Kustomize', 'Docker', 'Linux', 'Cloud'] },
   { title: 'Security', items: ['Pen-testing', 'Web security'] },
