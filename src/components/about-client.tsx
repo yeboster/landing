@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, type Variants } from "motion/react"
-import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Briefcase, GraduationCap, Hammer, Sparkles } from 'lucide-react'
+import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Briefcase, GraduationCap, Hammer, ShieldCheck, Globe } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { TiltCard } from '@/components/tilt-card'
@@ -81,15 +81,33 @@ const values = [
 const timeline = [
   {
     icon: Briefcase,
-    label: 'Now',
-    title: 'Software Engineer @ Trustpair — Paris',
-    description: 'Building anti-fraud products on Rails. Architected the TrustAI LLM framework, shipped GenAI contact collection (+128pts), VoiceAI. Observability-first.',
+    label: '2022 — Now',
+    title: 'Ruby on Rails Developer @ Trustpair — Paris',
+    description: 'Building anti-fraud products and AI features on Rails 8 with Next.js and NestJS. Architected the TrustAI LLM framework, shipped GenAI contact collection (+128pts), VoiceAI. GitOps on Kubernetes with FluxCD, Helm and Kustomize. Observability-first.',
+  },
+  {
+    icon: Globe,
+    label: '2020 — 2022',
+    title: 'Web Developer @ Develon Group',
+    description: 'Developed and maintained web apps with Ruby on Rails 4/5 and JavaScript/TypeScript (Adonis, Nuxt), deployed with Docker & Kubernetes.',
+  },
+  {
+    icon: ShieldCheck,
+    label: '2020',
+    title: 'Cyber Security Student @ CyberChallengeIT — Udine',
+    description: 'A 360° view of cybersecurity: from software security and cryptography to web and hardware security.',
+  },
+  {
+    icon: Code2,
+    label: '2018 — 2019',
+    title: 'Software Developer @ Satelicom — Vicenza',
+    description: 'Web applications with Ruby on Rails up to 5.2, plus Android apps in Kotlin and Java.',
   },
   {
     icon: GraduationCap,
-    label: 'The Path',
-    title: 'From Thiene to Paris',
-    description: 'Computer science at ITT G. Chilesotti (2013–2018), then turned tinkering into a career — from first scripts to production systems.',
+    label: '2013 — 2018',
+    title: 'ITT G. Chilesotti — Thiene',
+    description: 'Computer science education — where tinkering turned into a career, from first scripts to production systems.',
   },
   {
     icon: Hammer,
@@ -97,12 +115,15 @@ const timeline = [
     title: 'Builder',
     description: 'bon.so, a Talos/Kubernetes home cluster, and AI automation agents — shipping side projects that matter.',
   },
-  {
-    icon: Sparkles,
-    label: 'The Future',
-    title: 'Builder & Creator',
-    description: 'Merging software engineering with data and AI to create impactful tools.',
-  },
+]
+
+const skills = [
+  { title: 'Languages', items: ['Ruby', 'TypeScript', 'Rust', 'Python'] },
+  { title: 'Frameworks', items: ['Rails 4 → 8', 'Next.js', 'NestJS', 'Nuxt', 'React', 'SvelteKit', 'Vue', 'Tailwind CSS'] },
+  { title: 'Functional Programming', items: ['Elixir', 'Elm'] },
+  { title: 'Infrastructure', items: ['Kubernetes', 'FluxCD', 'Helm', 'Kustomize', 'Docker', 'Linux', 'Cloud'] },
+  { title: 'Security', items: ['Pen-testing', 'Web security'] },
+  { title: 'Blockchain', items: ['Rust smart contracts'] },
 ]
 
 export default function About() {
@@ -201,6 +222,60 @@ export default function About() {
               </motion.div>
             )
           })}
+        </div>
+      </Section>
+
+      {/* Skills Grid */}
+      <Section>
+        <SectionTitle>
+          <motion.div
+            initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            custom={0} variants={fadeUp}
+          >
+            <Chip>What I Bring</Chip>
+          </motion.div>
+          <motion.h2
+            className="text-3xl font-bold tracking-tighter sm:text-5xl"
+            initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            custom={1} variants={fadeUp}
+          >
+            On the Table
+          </motion.h2>
+          <motion.p
+            className="max-w-[900px] text-gray-500 md:text-xl/relaxed dark:text-gray-400"
+            initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            custom={2} variants={fadeUp}
+          >
+            Passionate about learning new tech and methods, on a strong computer science background.
+          </motion.p>
+        </SectionTitle>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+          {skills.map((group, i) => (
+            <motion.div
+              key={group.title}
+              initial="hidden" whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              custom={i} variants={scaleIn}
+            >
+              <TiltCard className="group relative p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-colors duration-300 cursor-default h-full">
+                <h3 className="font-semibold text-lg">{group.title}</h3>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="px-2.5 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 group-hover:bg-[#9f4f9d]/10 group-hover:text-[#9f4f9d] dark:group-hover:text-[#c06fbe] transition-colors duration-300"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </TiltCard>
+            </motion.div>
+          ))}
         </div>
       </Section>
 
