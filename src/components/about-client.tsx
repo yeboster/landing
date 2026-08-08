@@ -83,7 +83,7 @@ const timeline = [
     icon: Briefcase,
     label: '2022 — Now',
     title: 'Ruby on Rails Developer @ Trustpair — Paris',
-    description: 'Building anti-fraud products and AI features on Rails 8 with Sidekiq and some React. Shipped GenAI contact collection (+128pts). Observability-first.',
+    description: 'Building anti-fraud products and AI features on Rails 8 with Sidekiq and some React.',
   },
   {
     icon: Globe,
