@@ -158,6 +158,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Open ${project.title}`}
             className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all opacity-0 group-hover:opacity-100"
           >
             <ArrowUpRight className="w-4 h-4" />

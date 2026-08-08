@@ -76,7 +76,7 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <Logo className="w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_24px_rgba(159,79,157,0.35)]" width={128} height={128} />
+            <Logo className="w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_24px_rgba(159,79,157,0.35)]" width={128} height={128} priority />
           </motion.div>
           <h1
             className="mt-6 text-5xl font-bold tracking-tight sm:text-7xl"
