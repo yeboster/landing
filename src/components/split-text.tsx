@@ -26,6 +26,9 @@ const itemVariants: Variants = {
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
+    // Clear the filter after the entrance: a live `filter` on children of a
+    // `background-clip: text` parent kills the gradient text paint in Chrome.
+    transitionEnd: { filter: 'none' },
     transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 }
