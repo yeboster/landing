@@ -14,6 +14,7 @@ import { SplitText } from '@/components/split-text'
 import { Aurora } from '@/components/aurora'
 import { TiltCard } from '@/components/tilt-card'
 import { DotGrid, type DotGridHandle } from '@/components/dot-grid'
+import { TerminalCard } from '@/components/terminal-card'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -192,6 +193,26 @@ export default function Home() {
               </p>
             </TiltCard>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Terminal */}
+      <section className="w-full py-14 md:py-20">
+        <div className="max-w-2xl mx-auto px-4 md:px-6">
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+            custom={0} variants={fadeUp}
+            className="text-center mb-8"
+          >
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#9f4f9d]">Interactive</span>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              Try the{' '}
+              <span className="bg-gradient-to-r from-[#9f4f9d] via-[#c06fbe] to-[#9f4f9d] bg-clip-text text-transparent">
+                terminal
+              </span>
+            </h2>
+          </motion.div>
+          <TerminalCard />
         </div>
       </section>
 
