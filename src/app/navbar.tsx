@@ -9,6 +9,7 @@ import { Menu, Search, X } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { openCommandPalette } from '@/components/command-palette'
+import { ScrambleText } from '@/components/scramble-text'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -84,7 +85,7 @@ export default function Navbar() {
                       : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
-                  {link.label}
+                  <ScrambleText text={link.label} />
                   {active && (
                     <motion.div
                       className="absolute inset-0 bg-gray-100 dark:bg-gray-800/60 rounded-lg -z-10"
