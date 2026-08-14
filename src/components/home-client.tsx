@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef } from 'react'
 import { motion, type Variants } from 'motion/react'
 import { ArrowRight, User, Briefcase, MessageCircle, ChevronDown, Zap } from 'lucide-react'
 import Link from 'next/link'
@@ -12,6 +13,7 @@ import { GithubStats } from '@/components/github-stats'
 import { SplitText } from '@/components/split-text'
 import { Aurora } from '@/components/aurora'
 import { TiltCard } from '@/components/tilt-card'
+import { DotGrid, type DotGridHandle } from '@/components/dot-grid'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -59,16 +61,26 @@ const cards = [
 ]
 
 export default function Home() {
+  const dotGridRef = useRef<DotGridHandle>(null)
+
   return (
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
-      <section className="w-full py-20 md:py-32 lg:py-40 relative">
+      <section
+        className="w-full py-20 md:py-32 lg:py-40 relative"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect()
+          dotGridRef.current?.setPointer(e.clientX - rect.left, e.clientY - rect.top)
+        }}
+        onMouseLeave={() => dotGridRef.current?.setPointer(null, null)}
+      >
         {/* Aurora background with mouse-parallax */}
         <Aurora maxOffset={14}>
           <div className="aurora absolute -top-32 left-1/2 -translate-x-1/2 h-[480px] w-[720px] rounded-full bg-[#9f4f9d]/20 dark:bg-[#9f4f9d]/25 blur-3xl" />
           <div className="aurora absolute top-24 -left-32 h-[320px] w-[420px] rounded-full bg-[#c06fbe]/10 dark:bg-[#c06fbe]/15 blur-3xl [animation-delay:-6s]" />
           <div className="aurora absolute top-40 -right-32 h-[320px] w-[420px] rounded-full bg-[#7a3a78]/10 dark:bg-[#7a3a78]/20 blur-3xl [animation-delay:-11s]" />
         </Aurora>
+        <DotGrid ref={dotGridRef} />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-900 pointer-events-none" />
         <div className="flex flex-col items-center justify-center relative z-10 px-4">
           <motion.div
