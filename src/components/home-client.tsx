@@ -15,6 +15,7 @@ import { Aurora } from '@/components/aurora'
 import { TiltCard } from '@/components/tilt-card'
 import { DotGrid, type DotGridHandle } from '@/components/dot-grid'
 import { TerminalCard } from '@/components/terminal-card'
+import { ScrollRevealText } from '@/components/scroll-reveal-text'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -133,6 +134,22 @@ export default function Home() {
             <ChevronDown className="w-5 h-5 animate-bounce" />
           </motion.div>
         </div>
+      </section>
+
+      {/* Manifesto */}
+      <section className="w-full py-14 md:py-20">
+        <motion.div
+          className="max-w-2xl mx-auto px-4 md:px-6 text-center"
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+          custom={0} variants={fadeUp}
+        >
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#9f4f9d]">Manifesto</span>
+          <h2 className="sr-only">What I build and why</h2>
+          <ScrollRevealText
+            className="mt-3 text-lg md:text-xl text-gray-700 dark:text-gray-200 leading-relaxed"
+            text="Software Engineer at Trustpair in Paris, building anti-fraud products and AI features on Rails. Off the clock: a Talos Kubernetes home cluster run via GitOps, and AI automation agents — built together, made to last."
+          />
+        </motion.div>
       </section>
 
       {/* Tech marquee */}
