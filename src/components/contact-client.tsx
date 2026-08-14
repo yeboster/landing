@@ -1,7 +1,8 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { motion, type Variants } from "motion/react"
-import { CalendarClock, Twitter, Linkedin, ArrowRight } from 'lucide-react'
+import { CalendarClock, Twitter, Linkedin, ArrowRight, Copy, Check } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { AvailabilityBadge } from '@/components/availability-badge'
@@ -68,6 +69,28 @@ const channels: Channel[] = site.booking
   : socialChannels
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false)
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+    }
+  }, [])
+
+  function handleCopyEmail() {
+    navigator.clipboard
+      .writeText(site.email)
+      .then(() => {
+        setCopied(true)
+        if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+        copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
+      })
+      .catch(() => {
+        window.location.href = `mailto:${site.email}`
+      })
+  }
+
   return (
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
@@ -153,7 +176,7 @@ export default function Contact() {
           </motion.h2>
         </SectionTitle>
 
-        <div className={`grid grid-cols-1 gap-6 mt-8 max-w-5xl mx-auto ${channels.length > 1 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'max-w-md'}`}>
+        <div className={`grid grid-cols-1 gap-6 mt-8 max-w-5xl mx-auto ${channels.length + 1 > 1 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'max-w-md'}`}>
           {channels.map((channel, i) => {
             const Icon = channel.icon
             return (
@@ -182,6 +205,29 @@ export default function Contact() {
               </motion.a>
             )
           })}
+          <motion.div
+            initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            custom={channels.length} variants={scaleIn}
+          >
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="group block w-full text-left p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-all duration-300 h-full"
+            >
+              <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6 group-hover:bg-[#9f4f9d] group-hover:text-white transition-colors duration-300">
+                {copied ? <Check className="w-6 h-6" /> : <Copy className="w-6 h-6" />}
+              </div>
+              <h3 className="text-xl font-bold">Copy email</h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                {site.email}
+              </p>
+              <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white group-hover:text-[#9f4f9d] group-hover:gap-3 transition-all duration-300">
+                <span aria-live="polite">{copied ? 'Copied!' : 'Copy email'}</span>
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              </div>
+            </button>
+          </motion.div>
         </div>
       </Section>
     </main>
