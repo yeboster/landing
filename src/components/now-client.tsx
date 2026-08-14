@@ -7,6 +7,7 @@ import { Section, SectionTitle } from '@/components/ui/section'
 import { TiltCard } from '@/components/tilt-card'
 import { SplitText } from '@/components/split-text'
 import { Aurora } from '@/components/aurora'
+import { ParisNow } from '@/components/paris-now'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -88,6 +89,12 @@ export default function NowClient() {
             <Clock className="w-4 h-4" aria-hidden="true" />
             Last updated August 2026
           </motion.p>
+          <motion.div
+            className="mt-4"
+            initial="hidden" animate="visible" custom={4} variants={fadeUp}
+          >
+            <ParisNow />
+          </motion.div>
         </div>
       </section>
 
