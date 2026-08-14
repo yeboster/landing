@@ -4,10 +4,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence, useMotionValueEvent, useScroll, useReducedMotion } from 'motion/react'
-import { Menu, X } from 'lucide-react'
+import { Menu, Search, X } from 'lucide-react'
 
 import { Logo } from '@/components/ui/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { openCommandPalette } from '@/components/command-palette'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -94,6 +95,14 @@ export default function Navbar() {
                 </Link>
               )
             })}
+            <button
+              onClick={() => openCommandPalette()}
+              className="ml-2 inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-700 px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400 hover:border-[#9f4f9d]/50 hover:text-gray-900 dark:hover:text-white transition-colors"
+              aria-label="Open command palette"
+            >
+              <Search className="w-4 h-4" />
+              <kbd className="font-mono text-xs text-gray-400 dark:text-gray-500">⌘K</kbd>
+            </button>
             <div className="ml-2">
               <ThemeToggle />
             </div>
@@ -101,6 +110,13 @@ export default function Navbar() {
 
           {/* Mobile Controls */}
           <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={() => openCommandPalette()}
+              className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Open command palette"
+            >
+              <Search className="w-5 h-5" />
+            </button>
             <ThemeToggle />
             <button
               onClick={() => setOpen(!open)}
