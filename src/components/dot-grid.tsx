@@ -55,13 +55,15 @@ export const DotGrid = forwardRef<DotGridHandle>(function DotGrid(_props, ref) {
       const isDark = document.documentElement.classList.contains('dark')
       ctx!.clearRect(0, 0, width, height)
       ctx!.fillStyle = baseDotColor(isDark)
+      // One path for the whole grid: a single fill instead of one per dot.
+      ctx!.beginPath()
       for (let py = 0; py <= height; py += SPACING) {
         for (let px = 0; px <= width; px += SPACING) {
-          ctx!.beginPath()
+          ctx!.moveTo(px + 1, py)
           ctx!.arc(px, py, 1, 0, Math.PI * 2)
-          ctx!.fill()
         }
       }
+      ctx!.fill()
     }
 
     function resize() {
@@ -95,31 +97,46 @@ export const DotGrid = forwardRef<DotGridHandle>(function DotGrid(_props, ref) {
 
       ctx!.clearRect(0, 0, width, height)
 
+      // Idle dots are identical, so they go into one path filled once;
+      // only the handful of lit dots near the pointer need their own fill.
+      const lit: number[] = []
+      ctx!.fillStyle = baseDotColor(isDark)
+      ctx!.beginPath()
+
       let idx = 0
+      const radiusSquared = RADIUS * RADIUS
       for (let py = 0; py <= height; py += SPACING) {
         for (let px = 0; px <= width; px += SPACING, idx++) {
           let intensity = intensities[idx] ?? 0
           if (pointer) {
             const dx = px - pointer.x
             const dy = py - pointer.y
-            const dist = Math.sqrt(dx * dx + dy * dy)
-            if (dist < RADIUS) intensity = Math.max(intensity, 1 - dist / RADIUS)
+            const distSquared = dx * dx + dy * dy
+            if (distSquared < radiusSquared) {
+              intensity = Math.max(intensity, 1 - Math.sqrt(distSquared) / RADIUS)
+            }
           }
           intensity *= DECAY
           if (intensity < 0.01) intensity = 0
           intensities[idx] = intensity
 
-          ctx!.beginPath()
           if (intensity > 0) {
             anyActive = true
-            ctx!.fillStyle = `rgba(159,79,157,${0.5 * intensity})`
-            ctx!.arc(px, py, 1 + 2.2 * intensity, 0, Math.PI * 2)
+            lit.push(px, py, intensity)
           } else {
-            ctx!.fillStyle = baseDotColor(isDark)
+            ctx!.moveTo(px + 1, py)
             ctx!.arc(px, py, 1, 0, Math.PI * 2)
           }
-          ctx!.fill()
         }
+      }
+      ctx!.fill()
+
+      for (let i = 0; i < lit.length; i += 3) {
+        const intensity = lit[i + 2]
+        ctx!.fillStyle = `rgba(159,79,157,${0.5 * intensity})`
+        ctx!.beginPath()
+        ctx!.arc(lit[i], lit[i + 1], 1 + 2.2 * intensity, 0, Math.PI * 2)
+        ctx!.fill()
       }
 
       if (pointer || anyActive) {

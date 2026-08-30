@@ -21,38 +21,7 @@ import {
 } from 'lucide-react'
 import { site } from '@/lib/site'
 import { useTheme } from './theme-provider'
-
-// Module-level pub/sub so the navbar trigger and this component can share
-// open state without lifting it into a context provider.
-type Listener = () => void
-let paletteOpen = false
-let lastActiveElement: HTMLElement | null = null
-const listeners = new Set<Listener>()
-
-function emitChange(next: boolean) {
-  paletteOpen = next
-  listeners.forEach((listener) => listener())
-}
-
-/** Called by the navbar trigger button (and the Cmd+K shortcut). */
-export function openCommandPalette() {
-  if (typeof document !== 'undefined') {
-    lastActiveElement = document.activeElement as HTMLElement | null
-  }
-  emitChange(true)
-}
-
-function usePaletteOpen() {
-  const [open, setOpen] = useState(paletteOpen)
-  useEffect(() => {
-    const listener = () => setOpen(paletteOpen)
-    listeners.add(listener)
-    return () => {
-      listeners.delete(listener)
-    }
-  }, [])
-  return open
-}
+import { closeCommandPalette, usePaletteOpen } from './command-palette-store'
 
 interface Action {
   id: string
@@ -74,11 +43,10 @@ export function CommandPalette() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const close = useCallback(() => {
-    emitChange(false)
+    closeCommandPalette()
     setQuery('')
     setActiveIndex(0)
     setCopied(false)
-    lastActiveElement?.focus?.()
   }, [])
 
   const actions = useMemo<Action[]>(() => {
@@ -130,22 +98,6 @@ export function CommandPalette() {
   const runAction = useCallback((action: Action) => {
     action.perform()
     if (!action.keepOpen) close()
-  }, [close])
-
-  // Global Cmd+K / Ctrl+K toggle — always listening, even while closed.
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        if (paletteOpen) {
-          close()
-        } else {
-          openCommandPalette()
-        }
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [close])
 
   // Escape / arrow / enter navigation while open.

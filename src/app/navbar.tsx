@@ -8,7 +8,7 @@ import { Menu, Search, X } from 'lucide-react'
 
 import { Logo } from '@/components/ui/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { openCommandPalette } from '@/components/command-palette'
+import { openCommandPalette } from '@/components/command-palette-store'
 import { ScrambleText } from '@/components/scramble-text'
 
 const navLinks = [

@@ -15,12 +15,12 @@ export function GithubStats() {
     let active = true
     const load = async () => {
       try {
-        const p = await fetch('https://api.github.com/users/yeboster')
-        if (!p.ok) throw new Error()
-        const profile = await p.json() as { public_repos: number; followers: number }
-        const r = await fetch('https://api.github.com/users/yeboster/repos?per_page=100')
-        const repos = r.ok ? await r.json() as Array<{ stargazers_count: number }> : []
-        if (active) setStats({ public_repos: profile.public_repos, followers: profile.followers, stars: repos.reduce((s, x) => s + x.stargazers_count, 0) })
+        // Aggregated + hourly-cached server-side; the client never downloads
+        // the full repo list just to sum stars.
+        const res = await fetch('/api/github-stats')
+        if (!res.ok) throw new Error()
+        const data = await res.json() as Stats
+        if (active) setStats(data)
       } catch {
         if (active) setStats(null)
       }

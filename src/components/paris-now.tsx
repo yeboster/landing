@@ -56,18 +56,17 @@ export function ParisNow() {
 
   useEffect(() => {
     let active = true
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=48.8566&longitude=2.3522&current=temperature_2m,weather_code')
+    fetch('/api/paris-weather')
       .then((res) => {
         if (!res.ok) throw new Error()
         return res.json()
       })
       .then((data) => {
         if (!active) return
-        const code = data?.current?.weather_code
-        const temp = data?.current?.temperature_2m
-        if (typeof code !== 'number' || typeof temp !== 'number') return
+        const { code, temperature } = data as { code?: number; temperature?: number }
+        if (typeof code !== 'number' || typeof temperature !== 'number') return
         const { emoji, label } = weatherFromCode(code)
-        setWeather({ emoji, label, temp: Math.round(temp) })
+        setWeather({ emoji, label, temp: Math.round(temperature) })
       })
       .catch(() => {})
     return () => { active = false }
