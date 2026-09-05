@@ -11,7 +11,7 @@ import { site, siteUrl } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
-export const metadata: Metadata = { title: { default: `${site.name} — Developer & Builder`, template: `%s | ${site.name}` }, description: 'Full-stack developer building products with TypeScript, Ruby, Rust, and Kubernetes.', metadataBase: new URL(siteUrl), openGraph: { title: `${site.name} — Developer & Builder`, description: site.tagline, url: siteUrl, siteName: site.name, images: [{ url: '/og-image.png', width: 1200, height: 630, alt: `${site.name} — ${site.tagline}` }], locale: 'en_US', type: 'website' }, twitter: { card: 'summary_large_image', title: `${site.name} — Developer & Builder`, description: site.tagline, creator: '@yeboster', images: ['/og-image.png'] }, icons: { icon: '/favicon.ico', apple: '/apple-touch-icon.png' }, manifest: '/site.webmanifest' }
+export const metadata: Metadata = { title: { default: `${site.name} — Developer & Builder`, template: `%s | ${site.name}` }, description: 'Full-stack developer building products with TypeScript, Ruby, Rust, and Kubernetes.', metadataBase: new URL(siteUrl), openGraph: { title: `${site.name} — Developer & Builder`, description: site.tagline, url: siteUrl, siteName: site.name, locale: 'en_US', type: 'website' }, twitter: { card: 'summary_large_image', title: `${site.name} — Developer & Builder`, description: site.tagline, creator: '@yeboster' }, icons: { icon: '/favicon.ico', apple: '/apple-touch-icon.png' }, manifest: '/site.webmanifest' }
 export const viewport: Viewport = { themeColor: [{ media: '(prefers-color-scheme: light)', color: '#f9fafb' }, { media: '(prefers-color-scheme: dark)', color: '#111827' }] }
 
 const personSchema = {
