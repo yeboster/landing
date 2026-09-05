@@ -131,7 +131,7 @@ export default function About() {
     <main className="flex-1 overflow-hidden">
       {/* Masthead for the printed CV — hidden on screen, where the hero does this job. */}
       <header className="print-only mb-8 border-b border-black pb-4">
-        <h1 className="text-3xl font-bold">Marco Vaccari</h1>
+        <p className="text-3xl font-bold">Marco Vaccari</p>
         <p className="mt-1 text-lg">Software Engineer — Trustpair, Paris</p>
         <p className="mt-2 text-sm">
           {site.email} · {siteUrl.replace('https://', '')} · github.com/yeboster · linkedin.com/in/yeboster

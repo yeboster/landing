@@ -18,7 +18,7 @@ export default function NotFound() {
             <span className="text-[#c06fbe]">❯</span>
             <span>open page</span>
           </div>
-          <div className="text-gray-400">zsh: command not found: 404</div>
+          <h1 className="text-base font-normal text-gray-400">zsh: command not found: 404</h1>
           <div className="text-gray-400">this page doesn&apos;t exist (or I haven&apos;t built it yet)</div>
           <div className="flex items-center gap-2 pt-2">
             <span className="text-[#c06fbe]">❯</span>
