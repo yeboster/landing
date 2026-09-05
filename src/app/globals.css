@@ -10,3 +10,16 @@ html.custom-cursor,html.custom-cursor *{cursor:none}
 .dark .grain{opacity:.05}
 @keyframes grain-jitter{0%{transform:translate(0,0)}10%{transform:translate(-2%,-4%)}20%{transform:translate(-6%,2%)}30%{transform:translate(4%,-6%)}40%{transform:translate(-4%,6%)}50%{transform:translate(6%,4%)}60%{transform:translate(-6%,-2%)}70%{transform:translate(2%,6%)}80%{transform:translate(4%,-2%)}90%{transform:translate(-2%,4%)}100%{transform:translate(0,0)}}
 @media(prefers-reduced-motion:reduce){.grain{animation:none}}
+
+.print-only{display:none}
+@media print{
+  @page{margin:16mm}
+  *{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important;-webkit-print-color-adjust:exact}
+  header:not(.print-only),nav,footer,.grain,.aurora,.fixed,[data-print="hide"]{display:none!important}
+  .print-only{display:block!important}
+  main>section,main>div{padding-top:0!important;padding-bottom:1rem!important}
+  a{text-decoration:none}
+  main a[href^="http"]::after{content:" (" attr(href) ")";font-size:.75em}
+  h1,h2,h3{page-break-after:avoid;break-after:avoid}
+  li,blockquote,pre,.print-keep{page-break-inside:avoid;break-inside:avoid}
+}

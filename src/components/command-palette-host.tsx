@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
+import type { PostMeta } from '@/lib/post'
 import {
   closeCommandPalette,
   isPaletteOpen,
@@ -19,7 +20,7 @@ const CommandPalette = dynamic(
  * the palette chunk is fetched the first time it is opened, so visitors who
  * never use it never download it.
  */
-export function CommandPaletteHost() {
+export function CommandPaletteHost({ posts = [] }: { posts?: PostMeta[] }) {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
@@ -41,5 +42,5 @@ export function CommandPaletteHost() {
     }
   }, [])
 
-  return loaded ? <CommandPalette /> : null
+  return loaded ? <CommandPalette posts={posts} /> : null
 }

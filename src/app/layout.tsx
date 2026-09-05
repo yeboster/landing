@@ -7,6 +7,7 @@ import { Cursor } from '@/components/cursor'
 import { KonamiMatrix } from '@/components/konami-matrix'
 import { Footer } from './footer'
 import Navbar from './navbar'
+import { getPosts } from '@/lib/writing'
 import { site, siteUrl } from '@/lib/site'
 import './globals.css'
 
@@ -25,4 +26,4 @@ const personSchema = {
   address: { '@type': 'PostalAddress', addressLocality: 'Paris', addressCountry: 'FR' },
   sameAs: [site.socials.github, site.socials.gitlab, site.socials.twitter, site.socials.linkedin],
 }
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})()` }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} /></head><body className={inter.className}><ThemeProvider><ScrollProgress /><Cursor /><CommandPaletteHost /><KonamiMatrix /><div className="flex min-h-screen flex-col bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"><Navbar /><div className="h-16" />{children}</div><Footer /></ThemeProvider><div className="grain" aria-hidden="true" /></body></html> }
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})()` }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} /></head><body className={inter.className}><ThemeProvider><ScrollProgress /><Cursor /><CommandPaletteHost posts={getPosts()} /><KonamiMatrix /><div className="flex min-h-screen flex-col bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100"><Navbar /><div className="h-16" data-print="hide" />{children}</div><Footer /></ThemeProvider><div className="grain" aria-hidden="true" /></body></html> }

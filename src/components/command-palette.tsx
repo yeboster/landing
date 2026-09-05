@@ -8,6 +8,7 @@ import {
   Briefcase,
   Check,
   Copy,
+  FileText,
   Github,
   Home as HomeIcon,
   Linkedin,
@@ -20,6 +21,7 @@ import {
   User,
   Zap,
 } from 'lucide-react'
+import type { PostMeta } from '@/lib/post'
 import { site } from '@/lib/site'
 import { useTheme } from './theme-provider'
 import { closeCommandPalette, usePaletteOpen } from './command-palette-store'
@@ -33,7 +35,7 @@ interface Action {
   keepOpen?: boolean
 }
 
-export function CommandPalette() {
+export function CommandPalette({ posts = [] }: { posts?: PostMeta[] }) {
   const open = usePaletteOpen()
   const router = useRouter()
   const { theme, toggleTheme } = useTheme()
@@ -84,8 +86,16 @@ export function CommandPalette() {
       { id: 'social-linkedin', title: 'Open LinkedIn', keywords: 'linkedin social profile career', icon: Linkedin, perform: () => window.open(site.socials.linkedin, '_blank', 'noopener') },
       { id: 'social-twitter', title: 'Open Twitter', keywords: 'twitter social profile x', icon: Twitter, perform: () => window.open(site.socials.twitter, '_blank', 'noopener') },
     ]
-    return [...pages, theme_, email, ...socials]
-  }, [router, theme, toggleTheme, copied])
+    // Published posts, so search reaches the writing itself and not just the index.
+    const writing: Action[] = posts.map((post) => ({
+      id: `post-${post.slug}`,
+      title: post.title,
+      keywords: `writing post article ${post.tags.join(' ')} ${post.description}`,
+      icon: FileText,
+      perform: () => router.push(`/writing/${post.slug}`),
+    }))
+    return [...pages, ...writing, theme_, email, ...socials]
+  }, [router, theme, toggleTheme, copied, posts])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()

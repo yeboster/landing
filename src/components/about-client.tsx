@@ -1,13 +1,13 @@
 'use client'
 
 import { motion, type Variants } from "motion/react"
-import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Briefcase, GraduationCap, Hammer, ShieldCheck, Globe } from 'lucide-react'
+import { Code2, Lightbulb, Rocket, Heart, Coffee, Zap, Briefcase, GraduationCap, Hammer, Printer, ShieldCheck, Globe } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section, SectionTitle } from '@/components/ui/section'
 import { TiltCard } from '@/components/tilt-card'
 import { SplitText } from '@/components/split-text'
 import { Aurora } from '@/components/aurora'
-import { site } from '@/lib/site'
+import { site, siteUrl } from '@/lib/site'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -129,8 +129,17 @@ const skills = [
 export default function About() {
   return (
     <main className="flex-1 overflow-hidden">
+      {/* Masthead for the printed CV — hidden on screen, where the hero does this job. */}
+      <header className="print-only mb-8 border-b border-black pb-4">
+        <h1 className="text-3xl font-bold">Marco Vaccari</h1>
+        <p className="mt-1 text-lg">Software Engineer — Trustpair, Paris</p>
+        <p className="mt-2 text-sm">
+          {site.email} · {siteUrl.replace('https://', '')} · github.com/yeboster · linkedin.com/in/yeboster
+        </p>
+      </header>
+
       {/* Hero */}
-      <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
+      <section data-print="hide" className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
         {/* Aurora background with mouse-parallax */}
         <Aurora maxOffset={14}>
           <div className="aurora absolute -top-32 left-1/2 -translate-x-1/2 h-[480px] w-[720px] rounded-full bg-[#9f4f9d]/20 dark:bg-[#9f4f9d]/25 blur-3xl" />
@@ -163,6 +172,15 @@ export default function About() {
           >
             Find me on LinkedIn →
           </motion.a>
+          <motion.button
+            type="button"
+            onClick={() => window.print()}
+            className="mt-3 ml-4 inline-flex items-center gap-1.5 text-sm text-gray-400 underline underline-offset-4 transition-colors hover:text-gray-900 dark:hover:text-white"
+            initial="hidden" animate="visible" custom={3} variants={fadeUp}
+          >
+            <Printer className="h-3.5 w-3.5" aria-hidden="true" />
+            Save as PDF
+          </motion.button>
         </div>
       </section>
 
@@ -333,7 +351,7 @@ export default function About() {
       </Section>
 
       {/* CTA */}
-      <Section className="bg-gray-100 dark:bg-gray-800/50">
+      <Section data-print="hide" className="bg-gray-100 dark:bg-gray-800/50">
         <motion.div
           className="text-center"
           initial="hidden" whileInView="visible"
