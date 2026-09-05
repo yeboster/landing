@@ -13,6 +13,7 @@ import {
   Linkedin,
   Mail,
   Moon,
+  PenLine,
   Search,
   Sun,
   Twitter,
@@ -55,6 +56,7 @@ export function CommandPalette() {
       { id: 'about', title: 'About', keywords: 'about me bio', icon: User, perform: () => router.push('/about') },
       { id: 'portfolio', title: 'Portfolio', keywords: 'portfolio projects work', icon: Briefcase, perform: () => router.push('/portfolio') },
       { id: 'now', title: 'Now', keywords: 'now status currently', icon: Zap, perform: () => router.push('/now') },
+      { id: 'writing', title: 'Writing', keywords: 'writing blog posts notes articles', icon: PenLine, perform: () => router.push('/writing') },
       { id: 'contact', title: 'Contact', keywords: 'contact email reach out', icon: Mail, perform: () => router.push('/contact') },
     ]
     const theme_: Action = {
