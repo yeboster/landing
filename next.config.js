@@ -8,9 +8,13 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'motion'],
   },
 
-  // Applied to every route. No CSP here: the theme bootstrap and JSON-LD in
-  // layout.tsx are inline scripts, so a meaningful policy needs a nonce and
-  // that needs middleware — worth doing, but as its own change.
+  // Applied to every route.
+  //
+  // The CSP deliberately omits script-src. Next inlines its own hydration
+  // payload as ~9 <script> blocks per page, so locking scripts down means a
+  // per-request nonce, which means reading headers() in the layout, which
+  // opts every page out of static rendering. Not worth it for a static site;
+  // the directives below need no nonce and cost nothing.
   async headers() {
     return [
       {
@@ -21,6 +25,16 @@ const nextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "object-src 'none'",
+              'upgrade-insecure-requests',
+            ].join('; '),
+          },
         ],
       },
     ]
