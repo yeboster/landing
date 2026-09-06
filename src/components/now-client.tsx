@@ -83,7 +83,7 @@ export default function NowClient() {
             </a>.
           </motion.p>
           <motion.p
-            className="mt-3 inline-flex items-center gap-1.5 text-sm text-gray-400 dark:text-gray-500"
+            className="mt-3 inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
             initial="hidden" animate="visible" custom={3} variants={fadeUp}
           >
             <Clock className="w-4 h-4" aria-hidden="true" />

@@ -159,7 +159,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Open ${project.title}`}
-            className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all opacity-0 group-hover:opacity-100"
+            className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all opacity-0 group-hover:opacity-100"
           >
             <ArrowUpRight className="w-4 h-4" />
           </a>
@@ -339,7 +339,7 @@ export default function Portfolio() {
                     <h3 className="font-semibold">{profile.title}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{profile.description}</p>
                   </div>
-                  <ArrowUpRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0 text-gray-400" />
+                  <ArrowUpRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 shrink-0 text-gray-500 dark:text-gray-400" />
                 </TiltCard>
               </motion.a>
             )

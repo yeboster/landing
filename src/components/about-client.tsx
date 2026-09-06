@@ -167,7 +167,7 @@ export default function About() {
           <motion.a
             href={site.socials.linkedin}
             target="_blank" rel="noopener noreferrer"
-            className="mt-3 inline-block text-sm text-gray-400 underline underline-offset-4 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="mt-3 inline-block text-sm text-gray-500 dark:text-gray-400 underline underline-offset-4 hover:text-gray-900 dark:hover:text-white transition-colors"
             initial="hidden" animate="visible" custom={3} variants={fadeUp}
           >
             Find me on LinkedIn →
@@ -175,7 +175,7 @@ export default function About() {
           <motion.button
             type="button"
             onClick={() => window.print()}
-            className="mt-3 ml-4 inline-flex items-center gap-1.5 text-sm text-gray-400 underline underline-offset-4 transition-colors hover:text-gray-900 dark:hover:text-white"
+            className="mt-3 ml-4 inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 underline underline-offset-4 transition-colors hover:text-gray-900 dark:hover:text-white"
             initial="hidden" animate="visible" custom={3} variants={fadeUp}
           >
             <Printer className="h-3.5 w-3.5" aria-hidden="true" />
@@ -229,7 +229,7 @@ export default function About() {
                   )}
                 </div>
                 <div className="pt-1">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-300">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-300">
                     {item.label}
                   </span>
                   <h3 className="text-xl font-bold mt-1">{item.title}</h3>

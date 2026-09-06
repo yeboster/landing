@@ -171,19 +171,19 @@ export function CommandPalette({ posts = [] }: { posts?: PostMeta[] }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 border-b border-gray-200 px-4 dark:border-gray-700">
-              <Search className="h-4 w-4 shrink-0 text-gray-400" />
+              <Search className="h-4 w-4 shrink-0 text-gray-500 dark:text-gray-400" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Type a command or search..."
                 aria-label="Command palette search"
-                className="w-full bg-transparent py-3.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100"
+                className="w-full bg-transparent py-3.5 text-sm text-gray-900 outline-none placeholder:text-gray-500 dark:text-gray-100 dark:placeholder:text-gray-400"
               />
             </div>
             <ul role="listbox" className="max-h-80 overflow-y-auto py-2">
               {filtered.length === 0 && (
-                <li className="px-4 py-6 text-center text-sm text-gray-400">No results</li>
+                <li className="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">No results</li>
               )}
               {filtered.map((action, i) => {
                 const Icon = action.icon
@@ -207,7 +207,7 @@ export function CommandPalette({ posts = [] }: { posts?: PostMeta[] }) {
                 )
               })}
             </ul>
-            <div className="flex items-center gap-4 border-t border-gray-200 px-4 py-2.5 text-xs text-gray-400 dark:border-gray-700">
+            <div className="flex items-center gap-4 border-t border-gray-200 px-4 py-2.5 text-xs text-gray-500 dark:text-gray-400 dark:border-gray-700">
               <span>↑↓ navigate</span>
               <span>↵ select</span>
               <span>esc close</span>

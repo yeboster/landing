@@ -32,7 +32,7 @@ function inline(text: string, keyPrefix: string): ReactNode[] {
 
     if (token.startsWith('`')) {
       nodes.push(
-        <code key={key} className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em] text-[#9f4f9d] dark:bg-gray-800">
+        <code key={key} className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em] text-[#9f4f9d] dark:text-[#cb85c9] dark:bg-gray-800">
           {token.slice(1, -1)}
         </code>,
       )

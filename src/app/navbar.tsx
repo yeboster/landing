@@ -103,7 +103,7 @@ export default function Navbar() {
               aria-label="Open command palette"
             >
               <Search className="w-4 h-4" />
-              <kbd className="font-mono text-xs text-gray-400 dark:text-gray-500">⌘K</kbd>
+              <kbd className="font-mono text-xs text-gray-500 dark:text-gray-400">⌘K</kbd>
             </button>
             <div className="ml-2">
               <ThemeToggle />

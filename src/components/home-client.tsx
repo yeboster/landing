@@ -105,7 +105,7 @@ export default function Home() {
             <RotatingText words={roles} />
           </motion.p>
           <motion.p
-            className="mt-2 text-sm text-gray-400 dark:text-gray-500"
+            className="mt-2 text-sm text-gray-500 dark:text-gray-400"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
             Build Together to Live Forever
@@ -129,7 +129,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
-            className="mt-14 text-gray-400 dark:text-gray-500"
+            className="mt-14 text-gray-500 dark:text-gray-400"
           >
             <ChevronDown className="w-5 h-5 animate-bounce" />
           </motion.div>
@@ -202,7 +202,7 @@ export default function Home() {
                 <h2 className="text-xl font-bold tracking-tight">Open Source, Live</h2>
               </div>
               <GithubStats />
-              <p className="mt-3 text-xs text-gray-400 dark:text-gray-500">
+              <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
                 Pulled live from{' '}
                 <Link href="https://github.com/yeboster" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#9f4f9d] transition-colors">
                   github.com/yeboster

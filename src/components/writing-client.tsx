@@ -91,7 +91,7 @@ export default function WritingClient({ posts }: { posts: PostMeta[] }) {
                       </div>
                       <h2 className="mt-2 flex items-start gap-2 text-2xl font-bold tracking-tight">
                         <span className="transition-colors group-hover:text-[#9f4f9d]">{post.title}</span>
-                        <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-gray-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#9f4f9d]" />
+                        <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#9f4f9d]" />
                       </h2>
                       {post.description ? (
                         <p className="mt-3 text-gray-600 dark:text-gray-300">{post.description}</p>

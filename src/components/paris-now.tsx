@@ -84,7 +84,7 @@ export function ParisNow() {
         <span className="flex items-center gap-1">
           <span aria-hidden="true">{weather.emoji}</span>
           {weather.temp}°C
-          <span className="text-gray-400 dark:text-gray-500">{weather.label}</span>
+          <span className="text-gray-500 dark:text-gray-400">{weather.label}</span>
         </span>
       )}
     </div>
