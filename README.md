@@ -4,6 +4,12 @@ The personal landing site for Yeboster, built with Next.js 15, React 19, TypeScr
 
 ## Commands
 
+This project is managed with **pnpm** — the version is pinned in
+`package.json` under `packageManager`. Do not run `npm install` here: npm
+does not understand pnpm's store layout and will spend minutes revalidating
+hundreds of packages before flattening `node_modules` and desyncing
+`pnpm-lock.yaml`.
+
 ```bash
 pnpm install
 pnpm dev
