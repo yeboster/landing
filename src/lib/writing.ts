@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
+import { parseFrontmatter } from './frontmatter'
 import type { Post, PostMeta } from './post'
 
 /**
@@ -16,40 +17,9 @@ export type { Post, PostMeta }
 /** Drafts are readable in `next dev` and never published by a production build. */
 const includeDrafts = process.env.NODE_ENV === 'development'
 
-/**
- * Frontmatter for the fixed schema below: `key: value` pairs, plus inline
- * `[a, b]` lists. Not a general YAML parser, and not trying to be — the
- * fields are validated right after, so a malformed post fails the build
- * loudly instead of publishing something wrong.
- */
-function frontmatter(raw: string): { data: Record<string, unknown>; content: string } {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
-  if (!match) return { data: {}, content: raw }
-
-  const data: Record<string, unknown> = {}
-  for (const line of match[1].split('\n')) {
-    const pair = line.match(/^([A-Za-z_][\w-]*):\s*(.*)$/)
-    if (!pair) continue
-    const [, key] = pair
-    let value: unknown = pair[2].trim().replace(/^["'](.*)["']$/, '$1')
-
-    if (value === 'true') value = true
-    else if (value === 'false') value = false
-    else if (typeof value === 'string' && /^\[.*\]$/.test(value)) {
-      value = value
-        .slice(1, -1)
-        .split(',')
-        .map((item) => item.trim().replace(/^["'](.*)["']$/, '$1'))
-        .filter(Boolean)
-    }
-    data[key] = value
-  }
-  return { data, content: match[2] }
-}
-
 function parse(file: string): Post {
   const slug = file.replace(/\.md$/, '')
-  const { data, content } = frontmatter(readFileSync(join(POSTS_DIR, file), 'utf8'))
+  const { data, content } = parseFrontmatter(readFileSync(join(POSTS_DIR, file), 'utf8'))
 
   if (typeof data.title !== 'string' || typeof data.date !== 'string') {
     throw new Error(`${file}: frontmatter needs a string \`title\` and \`date\``)

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { motion, type Variants } from "motion/react"
 import Image from "next/image"
-import { ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers, Laugh, ArrowUpRight } from "lucide-react"
+import { BookOpen, ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers, Laugh, ArrowUpRight } from "lucide-react"
 
 import metaNamesLogo from '../../public/images/meta-names.png'
 import kubernetesLogo from '../../public/images/kubernetes.png'
@@ -59,6 +59,8 @@ const skills = [
 ]
 
 interface Project {
+  /** Matches a file in src/content/projects; the card links to a case study when one exists. */
+  slug: string
   title: string
   description: string
   image?: any
@@ -72,6 +74,7 @@ interface Project {
 
 const projects: Project[] = [
   {
+    slug: 'meta-names',
     title: 'Meta Names',
     description: 'A Web3 DNS system on Partisia Blockchain. Full stack — smart contracts in Rust, SDK in TypeScript, front-end in Svelte.',
     image: metaNamesLogo,
@@ -81,6 +84,7 @@ const projects: Project[] = [
     featured: true,
   },
   {
+    slug: 'jokehub',
     title: 'JokeHub',
     description: 'A hub for jokes — browse, share, and enjoy curated humor. Live at jokehub.org.',
     icon: Laugh,
@@ -90,6 +94,7 @@ const projects: Project[] = [
     tags: ['TypeScript', 'Web App'],
   },
   {
+    slug: 'todoist-actions',
     title: 'Todoist Actions',
     description: 'Workflow automation for custom behaviors on projects and tasks. A personal collection of daily-use workflows.',
     image: todoistActionsLogo,
@@ -98,6 +103,7 @@ const projects: Project[] = [
     tags: ['Automation', 'Productivity'],
   },
   {
+    slug: 'gitops-k8s-cluster',
     title: 'GitOps K8s Cluster',
     description: 'Kubernetes cluster orchestrated via GitOps. Bootstrapped with Ansible, managed with FluxCD.',
     image: kubernetesLogo,
@@ -122,7 +128,15 @@ const profiles = [
   },
 ]
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({
+  project,
+  index,
+  hasCaseStudy,
+}: {
+  project: Project
+  index: number
+  hasCaseStudy: boolean
+}) {
   const IconFallback = project.icon
   return (
     <motion.div
@@ -184,6 +198,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <ExternalLink className="w-3.5 h-3.5" />
             {project.href.includes('github') ? 'Source' : 'Website'}
           </a>
+          {hasCaseStudy && (
+            <Link
+              href={`/portfolio/${project.slug}`}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#9f4f9d] transition-colors hover:text-[#7a3a78] dark:text-[#cb85c9] dark:hover:text-[#c06fbe]"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              Case study
+            </Link>
+          )}
           {project.liveUrl && (
             <a
               href={project.liveUrl}
@@ -202,7 +225,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   )
 }
 
-export default function Portfolio() {
+export default function Portfolio({ caseStudies = [] }: { caseStudies?: string[] }) {
   return (
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
@@ -299,7 +322,12 @@ export default function Portfolio() {
 
         <div className="grid gap-6 sm:grid-cols-2 max-w-5xl mx-auto mt-4">
           {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
+            <ProjectCard
+              key={project.title}
+              project={project}
+              index={i}
+              hasCaseStudy={caseStudies.includes(project.slug)}
+            />
           ))}
         </div>
       </Section>

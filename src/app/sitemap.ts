@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { siteUrl } from '@/lib/site'
+import { getCaseStudies } from '@/lib/projects'
 import { getPosts } from '@/lib/writing'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -21,5 +22,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     }))
 
-  return [...pages, ...posts]
+  const caseStudies: MetadataRoute.Sitemap = getCaseStudies()
+    .filter((study) => !study.draft)
+    .map((study) => ({
+      url: `${siteUrl}/portfolio/${study.slug}`,
+      lastModified: new Date(study.date),
+      changeFrequency: 'yearly',
+      priority: 0.7,
+    }))
+
+  return [...pages, ...posts, ...caseStudies]
 }
