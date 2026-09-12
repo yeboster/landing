@@ -4,7 +4,12 @@
 :root{--accent:#9f4f9d}html{scroll-behavior:smooth}::selection{background:rgb(159 79 157 / .25)}
 html.custom-cursor,html.custom-cursor *{cursor:none}
 *:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@keyframes aurora{0%,100%{transform:translate3d(-3%,-2%,0) scale(1)}50%{transform:translate3d(3%,2%,0) scale(1.08)}}@keyframes marquee{to{transform:translateX(-50%)}}.aurora{animation:aurora 16s ease-in-out infinite}.marquee-track{animation:marquee 28s linear infinite}.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes aurora{0%,100%{transform:translate3d(-3%,-2%,0) scale(1)}50%{transform:translate3d(3%,2%,0) scale(1.08)}}@keyframes marquee{to{transform:translateX(-50%)}}.aurora{animation:aurora 16s ease-in-out infinite}
+/* The track holds exactly two copies, so -50% is one copy and the loop is
+   seamless. 84s is 28s per copy-length: the copy repeats the list three times
+   to outrun wide viewports, so the duration scales with it to hold the same
+   ~34px/s travel the strip always had. */
+.marquee-track{animation:marquee 84s linear infinite}.marquee:hover .marquee-track{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 /* Motion animates through JS, so the CSS overrides above never reach the
    page-level entrance variants. Those set `opacity:0` inline and rely on a
