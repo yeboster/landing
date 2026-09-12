@@ -21,6 +21,13 @@ interface TiltCardProps {
  *
  * Reduced-motion: returns a non-interactive static card.
  * Touch devices (no `(hover: hover)`): also non-interactive.
+ *
+ * `transformStyle` is deliberately left flat. With `preserve-3d` on the outer
+ * element, the rotated inner plane intersects the outer element's own
+ * background plane at z = 0, and the background paints over whichever half of
+ * the card tilts backwards — which reads as a white block swallowing the text.
+ * Flattening the outer element composites the tilted child on top of the
+ * background instead, while `perspective` still gives the child its tilt.
  */
 export function TiltCard({
   children,
@@ -67,7 +74,7 @@ export function TiltCard({
       onMouseMove={interactive ? handleMouseMove : undefined}
       onMouseLeave={interactive ? handleMouseLeave : undefined}
       className={`relative ${className}`}
-      style={{ perspective, transformStyle: 'preserve-3d' }}
+      style={{ perspective }}
     >
       <motion.div
         style={{ rotateX: interactive ? sRotX : 0, rotateY: interactive ? sRotY : 0 }}
