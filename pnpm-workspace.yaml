@@ -1,3 +1,12 @@
+# pnpm settings for this project.
+#
+# `allowBuilds` must hold real booleans. It shipped with pnpm's generated
+# placeholder text ("set this to true or false"), which pnpm 12 rejects with
+# ERR_PNPM_IGNORED_BUILDS — a non-zero exit from `pnpm install --frozen-lockfile`,
+# the command CI runs. Every Vercel deploy failed on it.
+#
+# sharp: Next.js uses it for production image optimization.
+# unrs-resolver: native resolver behind the ESLint config that `next build` runs.
 allowBuilds:
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
+  sharp: true
+  unrs-resolver: true
