@@ -162,7 +162,31 @@ export function Markdown({ source }: { source: string }) {
       const ordered = numbered.test(line)
       const pattern = ordered ? numbered : bullet
       const items: string[] = []
-      while (i < lines.length && pattern.test(lines[i])) items.push(lines[i++].replace(pattern, ''))
+      while (i < lines.length) {
+        const current = lines[i]
+        if (pattern.test(current)) {
+          items.push(current.replace(pattern, ''))
+          i++
+          continue
+        }
+        // A wrapped item continues on the next line, indented. Without this the
+        // tail of a long bullet becomes its own paragraph, which reads as a
+        // rendering bug rather than a list.
+        const isContinuation =
+          items.length > 0 &&
+          /^\s{2,}\S/.test(current) &&
+          !current.startsWith('```') &&
+          !current.startsWith('> ') &&
+          !/^#{2,3}\s/.test(current) &&
+          !bullet.test(current) &&
+          !numbered.test(current)
+        if (isContinuation) {
+          items[items.length - 1] += ` ${current.trim()}`
+          i++
+          continue
+        }
+        break
+      }
       const List = ordered ? 'ol' : 'ul'
       blocks.push(
         <List

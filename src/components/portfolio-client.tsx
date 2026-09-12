@@ -3,17 +3,14 @@
 import Link from "next/link"
 import { motion, type Variants } from "motion/react"
 import Image from "next/image"
-import { BookOpen, ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers, Laugh, ArrowUpRight } from "lucide-react"
-
-import metaNamesLogo from '../../public/images/meta-names.png'
-import kubernetesLogo from '../../public/images/kubernetes.png'
-import todoistActionsLogo from '../../public/images/todoist-actions.png'
+import { BookOpen, ExternalLink, Github, GitBranch, Globe, Terminal, Server, Code2, Layers, ArrowUpRight } from "lucide-react"
 
 import { Section, SectionTitle } from "@/components/ui/section"
 import { Chip } from "@/components/ui/chip"
 import { TiltCard } from "@/components/tilt-card"
 import { SplitText } from "@/components/split-text"
 import { Aurora } from "@/components/aurora"
+import { projects, type Project } from "@/lib/projects-data"
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -45,7 +42,7 @@ const skills = [
   {
     icon: Terminal,
     title: 'Ruby',
-    description: 'Rails 5–7, Roda, Sidekiq — backend at scale.',
+    description: 'Rails 4 → 8, Roda, Sidekiq — backend at scale.',
     tags: ['Rails', 'Roda', 'Sidekiq'],
     color: 'from-red-500/10 to-pink-500/10 dark:from-red-500/20 dark:to-pink-500/20',
   },
@@ -55,61 +52,6 @@ const skills = [
     description: 'Docker, K8s, AWS, CI/CD — ship with confidence.',
     tags: ['Docker', 'K8s', 'AWS', 'CI/CD'],
     color: 'from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/20 dark:to-teal-500/20',
-  },
-]
-
-interface Project {
-  /** Matches a file in src/content/projects; the card links to a case study when one exists. */
-  slug: string
-  title: string
-  description: string
-  image?: any
-  icon?: any
-  alt: string
-  href: string
-  liveUrl?: string
-  tags: string[]
-  featured?: boolean
-}
-
-const projects: Project[] = [
-  {
-    slug: 'meta-names',
-    title: 'Meta Names',
-    description: 'A Web3 DNS system on Partisia Blockchain. Full stack — smart contracts in Rust, SDK in TypeScript, front-end in Svelte.',
-    image: metaNamesLogo,
-    alt: 'Meta Names Logo',
-    href: 'https://metanames.app',
-    tags: ['Rust', 'TypeScript', 'Svelte', 'Blockchain'],
-    featured: true,
-  },
-  {
-    slug: 'jokehub',
-    title: 'JokeHub',
-    description: 'A hub for jokes — browse, share, and enjoy curated humor. Live at jokehub.org.',
-    icon: Laugh,
-    alt: 'JokeHub',
-    href: 'https://github.com/yeboster/jokehub',
-    liveUrl: 'https://jokehub.org',
-    tags: ['TypeScript', 'Web App'],
-  },
-  {
-    slug: 'todoist-actions',
-    title: 'Todoist Actions',
-    description: 'Workflow automation for custom behaviors on projects and tasks. A personal collection of daily-use workflows.',
-    image: todoistActionsLogo,
-    alt: 'Todoist Actions',
-    href: 'https://github.com/yeboster/todoist-actions',
-    tags: ['Automation', 'Productivity'],
-  },
-  {
-    slug: 'gitops-k8s-cluster',
-    title: 'GitOps K8s Cluster',
-    description: 'Kubernetes cluster orchestrated via GitOps. Bootstrapped with Ansible, managed with FluxCD.',
-    image: kubernetesLogo,
-    alt: 'Kubernetes Logo',
-    href: 'https://github.com/yeboster/k8s',
-    tags: ['Kubernetes', 'Ansible', 'FluxCD'],
   },
 ]
 
