@@ -7,7 +7,7 @@ import { site } from '@/lib/site'
  * change to `deliver` alone.
  */
 
-const MAX_LENGTHS = { name: 100, email: 200, message: 5000 } as const
+const MAX_LENGTHS = { name: 100, email: 200, message: 5000, company: 150, timeline: 40 } as const
 const RATE_LIMIT = { max: 3, windowMs: 10 * 60 * 1000 }
 
 // Per-instance only — a serverless fleet gives each instance its own map.
@@ -30,7 +30,13 @@ function recordDelivery(ip: string) {
   if (hits.size > 5000) hits.clear()
 }
 
-async function deliver(fields: { name: string; email: string; message: string }) {
+async function deliver(fields: {
+  name: string
+  email: string
+  message: string
+  company?: string
+  timeline?: string
+}) {
   const res = await fetch(`https://formsubmit.co/ajax/${site.email}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -64,6 +70,9 @@ export async function POST(request: Request) {
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const email = typeof body.email === 'string' ? body.email.trim() : ''
   const message = typeof body.message === 'string' ? body.message.trim() : ''
+  // Optional context. Never blocks a send, only enriches the notification.
+  const company = typeof body.company === 'string' ? body.company.trim() : ''
+  const timeline = typeof body.timeline === 'string' ? body.timeline.trim() : ''
 
   if (!name || !email || !message) {
     return Response.json({ error: 'Every field is required.' }, { status: 400 })
@@ -71,7 +80,9 @@ export async function POST(request: Request) {
   if (
     name.length > MAX_LENGTHS.name ||
     email.length > MAX_LENGTHS.email ||
-    message.length > MAX_LENGTHS.message
+    message.length > MAX_LENGTHS.message ||
+    company.length > MAX_LENGTHS.company ||
+    timeline.length > MAX_LENGTHS.timeline
   ) {
     return Response.json({ error: 'That message is too long.' }, { status: 400 })
   }
@@ -81,7 +92,13 @@ export async function POST(request: Request) {
 
   try {
     recordDelivery(ip)
-    await deliver({ name, email, message })
+    await deliver({
+      name,
+      email,
+      message,
+      ...(company ? { company } : {}),
+      ...(timeline ? { timeline } : {}),
+    })
   } catch {
     return Response.json({ error: 'Delivery failed.' }, { status: 502 })
   }
