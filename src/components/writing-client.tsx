@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion, type Variants } from 'motion/react'
-import { ArrowUpRight, PenLine } from 'lucide-react'
+import { ArrowUpRight, PenLine, Rss } from 'lucide-react'
 import { Chip } from '@/components/ui/chip'
 import { Section } from '@/components/ui/section'
 import { SplitText } from '@/components/split-text'
@@ -52,18 +52,40 @@ export default function WritingClient({ posts }: { posts: PostMeta[] }) {
         <div className="mx-auto max-w-3xl">
           {posts.length === 0 ? (
             <motion.div
-              className="rounded-2xl border border-dashed border-gray-300 px-6 py-16 text-center dark:border-gray-700"
+              className="rounded-2xl border border-dashed border-gray-300 px-6 py-12 text-center dark:border-gray-700 sm:px-10"
               initial="hidden" animate="visible" custom={0} variants={fadeUp}
             >
               <PenLine className="mx-auto h-8 w-8 text-[#9f4f9d]" />
               <p className="mt-4 text-lg font-medium">The first post is being written.</p>
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
-                Check back soon, or{' '}
-                <Link href="/contact" className="text-[#9f4f9d] underline underline-offset-4">
-                  get in touch
-                </Link>{' '}
-                in the meantime.
+              <p className="mx-auto mt-2 max-w-md text-gray-500 dark:text-gray-400">
+                Everything here comes out of real work, so it takes a while. Queued up:
               </p>
+              <ul className="mx-auto mt-6 max-w-md space-y-2 text-left text-sm text-gray-600 dark:text-gray-300">
+                {[
+                  'Designing a reusable LLM framework inside a Rails app',
+                  'Running Talos Kubernetes at home, reconciled by FluxCD',
+                  'Shipping a Rust smart contract with a TypeScript SDK',
+                ].map((topic) => (
+                  <li key={topic} className="flex gap-2">
+                    <span aria-hidden="true" className="text-[#9f4f9d]">
+                      —
+                    </span>
+                    {topic}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm">
+                <a
+                  href="/writing/rss.xml"
+                  className="inline-flex items-center gap-1.5 text-[#9f4f9d] underline underline-offset-4"
+                >
+                  <Rss className="h-3.5 w-3.5" />
+                  Subscribe via RSS
+                </a>
+                <Link href="/contact" className="text-gray-500 underline underline-offset-4 dark:text-gray-400">
+                  Or just ask me directly
+                </Link>
+              </div>
             </motion.div>
           ) : (
             <ul className="space-y-6">

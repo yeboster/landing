@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { site } from '@/lib/site'
 import AboutClient from '@/components/about-client'
-export const metadata: Metadata = { title: 'About Me', description: "Learn about Yeboster's journey, principles, and approach to building software that matters." }
+export const metadata: Metadata = { title: 'About', description: `${site.person} — ${site.role} at ${site.company}, Paris. Career history, technical background, and how I work.` }
 export default function AboutPage() { return <AboutClient /> }

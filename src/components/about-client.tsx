@@ -131,11 +131,12 @@ export default function About() {
     <main className="flex-1 overflow-hidden">
       {/* Masthead for the printed CV — hidden on screen, where the hero does this job. */}
       <header className="print-only mb-8 border-b border-black pb-4">
-        <p className="text-3xl font-bold">Marco Vaccari</p>
-        <p className="mt-1 text-lg">Software Engineer — Trustpair, Paris</p>
+        <p className="text-3xl font-bold">{site.person}</p>
+        <p className="mt-1 text-lg">{site.role} — {site.company}, {site.location}</p>
         <p className="mt-2 text-sm">
           {site.email} · {siteUrl.replace('https://', '')} · github.com/yeboster · linkedin.com/in/yeboster
         </p>
+        <p className="mt-2 text-sm">{site.pitch}</p>
       </header>
 
       {/* Hero */}
@@ -161,8 +162,14 @@ export default function About() {
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
-            Software Engineer at Trustpair, tinkerer, and lifelong learner. I believe in building together
+            {site.role} at {site.company}, tinkerer, and lifelong learner. I believe in building together
             to create things that last.
+          </motion.p>
+          <motion.p
+            className="mt-4 text-sm text-gray-500 dark:text-gray-400"
+            initial="hidden" animate="visible" custom={3} variants={fadeUp}
+          >
+            {site.location} · {site.timezone} · replies within {site.responseTime}
           </motion.p>
           <motion.a
             href={site.socials.linkedin}
@@ -179,7 +186,7 @@ export default function About() {
             initial="hidden" animate="visible" custom={3} variants={fadeUp}
           >
             <Printer className="h-3.5 w-3.5" aria-hidden="true" />
-            Save as PDF
+            Résumé — save as PDF
           </motion.button>
         </div>
       </section>

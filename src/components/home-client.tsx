@@ -2,8 +2,9 @@
 
 import { useRef } from 'react'
 import { motion, type Variants } from 'motion/react'
-import { ArrowRight, User, Briefcase, MessageCircle, ChevronDown, Zap } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BookOpen, Building2, ChevronDown, FileText, Zap } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Logo } from '@/components/ui/logo'
 import { RotatingText } from '@/components/rotating-text'
 import { MagneticLink } from '@/components/magnetic-link'
@@ -16,6 +17,8 @@ import { TiltCard } from '@/components/tilt-card'
 import { DotGrid, type DotGridHandle } from '@/components/dot-grid'
 import { TerminalCard } from '@/components/terminal-card'
 import { ScrollRevealText } from '@/components/scroll-reveal-text'
+import { highlightedProjects } from '@/lib/projects-data'
+import { site } from '@/lib/site'
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -36,40 +39,27 @@ const scaleIn: Variants = {
   }),
 }
 
-const roles = ['Full-stack Developer', 'Rust Engineer', 'Kubernetes Wrangler', 'Builder']
+const roles = ['Rails engineer', 'TypeScript & Rust', 'Kubernetes & GitOps', 'AI feature builder']
 
-const cards = [
-  {
-    icon: User,
-    title: 'About Me',
-    description: 'A brief introduction about myself and my journey in the world.',
-    href: '/about',
-    cta: 'Learn more',
-  },
-  {
-    icon: Briefcase,
-    title: 'My Portfolio',
-    description: 'Discover my skills, projects, and my passion for technology.',
-    href: '/portfolio',
-    cta: 'Check it out',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Get in Touch',
-    description: 'Feel free to reach out if you\'re looking for a developer, have a question, or just want to connect.',
-    href: '/contact',
-    cta: 'Contact Me',
-  },
+/**
+ * Three facts a reader can check, in place of adjectives they cannot.
+ * Each one restates something the CV and the project pages already claim.
+ */
+const credibility = [
+  { label: 'Currently', value: `${site.company}, Paris — anti-fraud platform on Rails 8` },
+  { label: 'Architected', value: 'TrustAI, the LLM framework behind our AI features' },
+  { label: 'Shipped', value: 'GenAI and VoiceAI features into production' },
+  { label: 'Runs at home', value: 'A Talos Kubernetes cluster, reconciled by FluxCD' },
 ]
 
-export default function Home() {
+export default function Home({ caseStudies = [] }: { caseStudies?: string[] }) {
   const dotGridRef = useRef<DotGridHandle>(null)
 
   return (
     <main className="flex-1 overflow-hidden">
       {/* Hero */}
       <section
-        className="w-full py-20 md:py-32 lg:py-40 relative"
+        className="w-full py-20 md:py-28 lg:py-32 relative"
         onMouseMove={(e) => {
           const rect = e.currentTarget.getBoundingClientRect()
           dotGridRef.current?.setPointer(e.clientX - rect.left, e.clientY - rect.top)
@@ -90,25 +80,31 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <Logo className="w-24 h-24 md:w-32 md:h-32 drop-shadow-[0_0_24px_rgba(159,79,157,0.35)]" width={128} height={128} priority />
+            <Logo className="w-16 h-16 md:w-20 md:h-20 drop-shadow-[0_0_24px_rgba(159,79,157,0.35)]" width={80} height={80} priority />
           </motion.div>
           <h1
-            className="mt-6 text-5xl font-bold tracking-tight sm:text-7xl"
-            aria-label="Yeboster"
+            className="mt-5 text-center text-4xl font-bold tracking-tight sm:text-6xl"
+            aria-label={site.person}
           >
-            <SplitText text="Yeboster" stagger={0.06} by="letter" />
+            <SplitText text={site.person} stagger={0.05} by="letter" />
           </h1>
           <motion.p
-            className="mt-4 text-lg md:text-xl text-gray-600 dark:text-gray-300"
+            className="mt-3 text-sm font-medium text-[#9f4f9d] dark:text-[#cb85c9]"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
             <RotatingText words={roles} />
           </motion.p>
           <motion.p
-            className="mt-2 text-sm text-gray-500 dark:text-gray-400"
+            className="mt-4 max-w-xl text-center text-lg text-gray-700 dark:text-gray-200 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
-            Build Together to Live Forever
+            {site.pitch}
+          </motion.p>
+          <motion.p
+            className="mt-2 text-xs text-gray-500 dark:text-gray-400"
+            initial="hidden" animate="visible" custom={2} variants={fadeUp}
+          >
+            {site.name} · {site.tagline}
           </motion.p>
           <motion.div
             className="mt-5"
@@ -118,21 +114,50 @@ export default function Home() {
           </motion.div>
           <motion.div
             initial="hidden" animate="visible" custom={4} variants={fadeUp}
-            className="mt-8"
+            className="mt-8 flex flex-wrap items-center justify-center gap-3"
           >
             <MagneticLink href="/portfolio">
-              View my work
+              See the work
               <ArrowRight className="w-4 h-4" />
             </MagneticLink>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-900 transition-colors hover:border-[#9f4f9d] hover:text-[#9f4f9d] dark:border-gray-600 dark:text-gray-100 dark:hover:border-[#c06fbe] dark:hover:text-[#cb85c9]"
+            >
+              Get in touch
+            </Link>
+            <Link
+              href={site.resumePath}
+              className="inline-flex items-center gap-1.5 text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            >
+              <FileText className="w-4 h-4" />
+              Résumé
+            </Link>
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
-            className="mt-14 text-gray-500 dark:text-gray-400"
+            className="mt-12 text-gray-500 dark:text-gray-400"
           >
             <ChevronDown className="w-5 h-5 animate-bounce" />
           </motion.div>
+        </div>
+      </section>
+
+      {/* Credibility strip */}
+      <section className="w-full border-y border-gray-200 bg-white/60 dark:border-gray-800 dark:bg-gray-900/40">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-x-8 gap-y-5 px-4 py-8 sm:grid-cols-2 md:px-6 lg:grid-cols-4">
+          {credibility.map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+              custom={i} variants={fadeUp}
+            >
+              <p className="text-xs font-semibold uppercase tracking-wider text-[#9f4f9d]">{item.label}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-gray-600 dark:text-gray-300">{item.value}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
@@ -147,13 +172,138 @@ export default function Home() {
           <h2 className="sr-only">What I build and why</h2>
           <ScrollRevealText
             className="mt-3 text-lg md:text-xl text-gray-700 dark:text-gray-200 leading-relaxed"
-            text="Software Engineer at Trustpair in Paris, building anti-fraud products and AI features on Rails. Off the clock: a Talos Kubernetes home cluster run via GitOps, and AI automation agents — built together, made to last."
+            text={`${site.role} at ${site.company} in Paris, building anti-fraud products and AI features on Rails. Off the clock: a Talos Kubernetes home cluster run via GitOps, and AI automation agents — built together, made to last.`}
           />
         </motion.div>
       </section>
 
       {/* Tech marquee */}
       <TechMarquee />
+
+      {/* Featured work */}
+      <section className="w-full py-14 md:py-20">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+            custom={0} variants={fadeUp}
+            className="text-center mb-10"
+          >
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#9f4f9d]">Selected work</span>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              What I&apos;ve{' '}
+              <span className="bg-gradient-to-r from-[#9f4f9d] via-[#c06fbe] to-[#9f4f9d] bg-clip-text text-transparent">
+                shipped
+              </span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {/* Current professional work — the strongest evidence, so it leads. */}
+            <motion.div
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+              custom={0} variants={scaleIn}
+            >
+              <TiltCard className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:border-[#9f4f9d]/50 dark:border-gray-700 dark:bg-gray-800">
+                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-gray-100 group-hover:bg-[#9f4f9d] group-hover:text-white dark:bg-gray-700">
+                  <Building2 className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-bold tracking-tight">{site.company}</h3>
+                <p className="mt-3 grow text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                  Anti-fraud platform on Rails 8 with Sidekiq. I architected the TrustAI LLM framework
+                  and shipped GenAI and VoiceAI features on top of it.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {['Rails 8', 'Sidekiq', 'LLM', 'React'].map((tag) => (
+                    <span key={tag} className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  href="/about"
+                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-gray-900 transition-colors group-hover:text-[#9f4f9d] dark:text-white"
+                >
+                  <FileText className="h-3.5 w-3.5" />
+                  Career details
+                </Link>
+              </TiltCard>
+            </motion.div>
+
+            {highlightedProjects.map((project, i) => {
+              const hasCaseStudy = caseStudies.includes(project.slug)
+              const Icon = project.icon
+              return (
+                <motion.div
+                  key={project.slug}
+                  initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+                  custom={i + 1} variants={scaleIn}
+                >
+                  <TiltCard className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:border-[#9f4f9d]/50 dark:border-gray-700 dark:bg-gray-800">
+                    {project.image ? (
+                      <Image
+                        src={project.image}
+                        alt={project.alt}
+                        width={44}
+                        height={44}
+                        className="mb-5 h-11 w-11 object-contain"
+                      />
+                    ) : (
+                      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-gray-100 group-hover:bg-[#9f4f9d] group-hover:text-white dark:bg-gray-700">
+                        {Icon ? <Icon className="h-5 w-5" /> : <Zap className="h-5 w-5" />}
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold tracking-tight">{project.title}</h3>
+                    <p className="mt-3 grow text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                      {project.description}
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-1.5">
+                      {project.tags.map((tag) => (
+                        <span key={tag} className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-6 flex flex-wrap items-center gap-4">
+                      {hasCaseStudy ? (
+                        <Link
+                          href={`/portfolio/${project.slug}`}
+                          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#9f4f9d] transition-colors hover:text-[#7a3a78] dark:text-[#cb85c9]"
+                        >
+                          <BookOpen className="h-3.5 w-3.5" />
+                          Case study
+                        </Link>
+                      ) : null}
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                      >
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                        {project.href.includes('github') ? 'Source' : 'Website'}
+                      </a>
+                    </div>
+                  </TiltCard>
+                </motion.div>
+              )
+            })}
+          </div>
+
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+            custom={0} variants={fadeUp}
+            className="mt-8 text-center"
+          >
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition-colors hover:text-[#9f4f9d] dark:text-gray-300"
+            >
+              All projects
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Now + GitHub stats */}
       <section className="w-full py-14 md:py-20">
@@ -171,8 +321,8 @@ export default function Home() {
               </div>
               <div className="space-y-3">
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                  <span className="font-medium text-gray-700 dark:text-gray-200">Software Engineer</span> at{' '}
-                  <span className="font-medium text-gray-700 dark:text-gray-200">Trustpair</span>, Paris — building anti-fraud products on Rails. Architected the TrustAI LLM framework, shipped GenAI + VoiceAI features.
+                  <span className="font-medium text-gray-700 dark:text-gray-200">{site.role}</span> at{' '}
+                  <span className="font-medium text-gray-700 dark:text-gray-200">{site.company}</span>, Paris — building anti-fraud products on Rails. Architected the TrustAI LLM framework, shipped GenAI + VoiceAI features.
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
                   On the side: <span className="font-medium text-gray-700 dark:text-gray-200">bon.so</span> (this site), a Talos/Kubernetes home cluster, and AI automation agents.
@@ -187,6 +337,9 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
+                <Link href="/now" className="inline-block pt-1 text-xs text-gray-500 underline underline-offset-4 hover:text-[#9f4f9d] dark:text-gray-400">
+                  More detail on /now
+                </Link>
               </div>
             </TiltCard>
           </motion.div>
@@ -197,7 +350,7 @@ export default function Home() {
             <TiltCard className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-10 h-10 rounded-xl bg-[#9f4f9d]/10 dark:bg-[#9f4f9d]/20 flex items-center justify-center">
-                  <Briefcase className="w-5 h-5 text-[#9f4f9d]" />
+                  <ArrowUpRight className="w-5 h-5 text-[#9f4f9d]" />
                 </span>
                 <h2 className="text-xl font-bold tracking-tight">Open Source, Live</h2>
               </div>
@@ -233,41 +386,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Navigation Cards */}
-      <section className="w-full py-16 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800/50">
-        <div className="max-w-5xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {cards.map((card, i) => {
-              const Icon = card.icon
-              return (
-                <motion.div
-                  key={card.title}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-50px' }}
-                  custom={i}
-                  variants={scaleIn}
-                >
-                  <Link href={card.href} className="block h-full">
-                    <TiltCard className="group h-full p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#9f4f9d]/50 dark:hover:border-[#9f4f9d]/50 transition-all duration-300 cursor-pointer">
-                      <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6 group-hover:bg-[#9f4f9d] group-hover:text-white transition-colors duration-300">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <h2 className="text-2xl font-bold tracking-tight">{card.title}</h2>
-                      <p className="mt-3 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                        {card.description}
-                      </p>
-                      <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white group-hover:text-[#9f4f9d] group-hover:gap-3 transition-all duration-300">
-                        {card.cta}
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
-                    </TiltCard>
-                  </Link>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
+      {/* Close */}
+      <section className="w-full py-16 md:py-24 bg-gray-100 dark:bg-gray-800/50">
+        <motion.div
+          className="mx-auto max-w-2xl px-4 text-center md:px-6"
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-50px' }}
+          custom={0} variants={fadeUp}
+        >
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+            Have a hard problem worth solving?
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-gray-500 dark:text-gray-400">
+            I take on {site.engagements.slice(0, -1).join(', ')} and{' '}
+            {site.engagements[site.engagements.length - 1]?.toLowerCase()}. Tell me the outcome you need
+            and I&apos;ll reply within {site.responseTime}.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#9f4f9d] px-8 py-3 font-medium text-white transition-colors hover:bg-[#7a3a78]"
+          >
+            Start a conversation
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </motion.div>
       </section>
     </main>
   )

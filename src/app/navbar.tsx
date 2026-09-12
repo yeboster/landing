@@ -11,11 +11,14 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { openCommandPalette } from '@/components/command-palette-store'
 import { ScrambleText } from '@/components/scramble-text'
 
+/**
+ * Primary navigation. Four destinations, in the order a hiring manager or a
+ * client wants them: proof first, then who, then thinking, then contact.
+ * `/now` and the links pages live in the footer instead of competing here.
+ */
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About Me' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/now', label: 'Now' },
+  { href: '/portfolio', label: 'Work' },
+  { href: '/about', label: 'About' },
   { href: '/writing', label: 'Writing' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -69,7 +72,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link className="flex gap-2 items-center" href="/">
             <Logo width={24} height={24} />
-            <span className="font-semibold">Yeboster</span>
+            <span className="font-semibold">Marco Vaccari</span>
           </Link>
 
           {/* Desktop Nav */}

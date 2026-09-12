@@ -43,23 +43,23 @@ const socialChannels: Channel[] = [
   {
     icon: Linkedin,
     title: 'LinkedIn',
-    description: 'Connect with me professionally — work, career, and recommendations.',
+    description: 'Work history, recommendations, and the professional version of all this.',
     href: site.socials.linkedin,
     cta: 'Connect',
   },
   {
     icon: Twitter,
     title: 'Twitter',
-    description: 'Follow me on Twitter to stay updated with my latest projects.',
+    description: 'Shorter notes on whatever I am currently building or breaking.',
     href: site.socials.twitter,
-    cta: 'Follow me',
+    cta: 'Follow',
   },
 ]
 
 const bookingChannel: Channel = {
   icon: CalendarClock,
   title: 'Book a call',
-  description: 'Prefer a call? Grab 20 minutes on my calendar.',
+  description: 'Skip the form. Twenty minutes, no pitch deck required.',
   href: site.booking,
   cta: 'Book a call',
 }
@@ -116,7 +116,7 @@ export default function Contact() {
             className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
             initial="hidden" animate="visible" custom={2} variants={fadeUp}
           >
-            I&apos;m always open to discuss your projects, innovative ideas, or opportunities to be part of your visions.
+            {site.availability.detail}
           </motion.p>
           <motion.div
             className="mt-6"
@@ -143,8 +143,17 @@ export default function Contact() {
             viewport={{ once: true, margin: '-100px' }}
             custom={1} variants={fadeUp}
           >
-            Send Me a Message
+            Tell me what you need
           </motion.h2>
+          <motion.p
+            className="max-w-[700px] text-gray-500 dark:text-gray-400 md:text-lg"
+            initial="hidden" whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            custom={2} variants={fadeUp}
+          >
+            Most useful things to include: the outcome you want, what is blocking it, and any deadline.
+            I answer within {site.responseTime}.
+          </motion.p>
         </SectionTitle>
         <motion.div
           className="max-w-2xl mx-auto mt-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 md:p-8"
