@@ -20,6 +20,9 @@
 .DS_Store
 *.pem
 
+# local browser-automation artifacts
+/.playwright-mcp/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

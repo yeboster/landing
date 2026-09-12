@@ -10,7 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "verify": "pnpm lint && pnpm build"
   },
   "dependencies": {
     "clsx": "^2.1.1",
