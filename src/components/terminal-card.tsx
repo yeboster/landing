@@ -2,17 +2,10 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { motion, useReducedMotion, type Variants } from 'motion/react'
-import { site } from '@/lib/site'
+import { motion, useReducedMotion } from 'motion/react'
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.15, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
-}
+import { fadeUp, inView } from '@/lib/motion'
+import { site } from '@/lib/site'
 
 type Line = { type: 'cmd' | 'out'; text: string }
 
@@ -114,7 +107,7 @@ export function TerminalCard() {
     if (bootedRef.current) return
     bootedRef.current = true
     pushLine({ type: 'cmd', text: 'whoami' })
-    typeLine('Marco Vaccari — full-stack dev, Paris.', () => {
+    typeLine(`${site.person} — full-stack dev, Paris.`, () => {
       pushLine({ type: 'out', text: "type 'help' to explore" })
       setReady(true)
     })
@@ -135,7 +128,7 @@ export function TerminalCard() {
         HELP_LINES.forEach((text) => pushLine({ type: 'out', text }))
         break
       case 'whoami':
-        pushLine({ type: 'out', text: `${site.name} (Marco Vaccari) — full-stack dev, Paris. ${site.tagline}.` })
+        pushLine({ type: 'out', text: `${site.name} (${site.person}) — full-stack dev, Paris. ${site.tagline}.` })
         break
       case 'skills':
         SKILLS_LINES.forEach((text) => pushLine({ type: 'out', text }))
@@ -201,41 +194,49 @@ export function TerminalCard() {
   }
 
   return (
+    // Clicking anywhere in the window focuses the prompt, like a real terminal.
+    // The input itself stays the keyboard target, so this needs no key handler.
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-50px' }}
-      custom={0}
+      viewport={inView}
       variants={fadeUp}
       onViewportEnter={runBoot}
       onClick={() => inputRef.current?.focus()}
-      className="overflow-hidden rounded-xl border border-gray-800 bg-gray-950 font-mono text-sm text-gray-100 shadow-xl"
+      className="overflow-hidden rounded-3xl border border-border bg-card font-mono text-sm text-foreground shadow-soft transition-shadow duration-300 focus-within:shadow-glow"
     >
-      <div className="flex items-center gap-2 border-b border-gray-800 bg-gray-900 px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-red-500" />
-        <span className="h-3 w-3 rounded-full bg-yellow-500" />
-        <span className="h-3 w-3 rounded-full bg-green-500" />
-        <span className="ml-3 text-xs text-gray-400">marco@bon.so ~ zsh</span>
+      <div className="flex items-center gap-2 border-b border-border bg-subtle px-4 py-3">
+        <span aria-hidden="true" className="size-2.5 rounded-full bg-foreground/15" />
+        <span aria-hidden="true" className="size-2.5 rounded-full bg-foreground/15" />
+        <span aria-hidden="true" className="size-2.5 rounded-full bg-foreground/15" />
+        <span className="ml-3 text-xs text-muted-foreground">marco@bon.so ~ zsh</span>
       </div>
-      <div ref={scrollRef} className="max-h-80 space-y-1 overflow-y-auto px-4 py-4">
+      <div ref={scrollRef} className="h-80 space-y-1 overflow-y-auto px-5 py-4 leading-relaxed">
         {lines.map((line, i) => (
           <div
             key={i}
-            className={line.type === 'cmd' ? 'flex gap-2 text-gray-100' : 'whitespace-pre-wrap break-words text-gray-400'}
+            className={line.type === 'cmd' ? 'flex gap-2 text-foreground' : 'whitespace-pre-wrap break-words text-muted-foreground'}
           >
-            {line.type === 'cmd' && <span className="text-[#c06fbe]">❯</span>}
+            {line.type === 'cmd' && (
+              <span aria-hidden="true" className="text-brand-ink">
+                ❯
+              </span>
+            )}
             <span>{line.text}</span>
           </div>
         ))}
         {ready && (
           <div className="flex items-center gap-2">
-            <span className="text-[#c06fbe]">❯</span>
+            <span aria-hidden="true" className="text-brand-ink">
+              ❯
+            </span>
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent text-gray-100 outline-none caret-[#9f4f9d]"
+              className="flex-1 bg-transparent text-foreground caret-brand outline-none placeholder:text-muted-foreground/60"
+              placeholder="help"
               aria-label="Terminal input"
               autoComplete="off"
               autoCapitalize="off"

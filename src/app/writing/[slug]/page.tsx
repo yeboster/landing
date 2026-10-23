@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { Markdown } from '@/lib/markdown'
-import { formatDate } from '@/lib/post'
+
+import { PostFooter } from '@/components/writing/post-footer'
+import { PostHeader } from '@/components/writing/post-header'
+import { TableOfContents, TableOfContentsDisclosure, TOC_MIN_HEADINGS } from '@/components/writing/table-of-contents'
+import { headings, Markdown } from '@/lib/markdown'
+import { site, siteUrl } from '@/lib/site'
 import { getPost, getPosts } from '@/lib/writing'
-import { Section } from '@/components/ui/section'
-import { siteUrl } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -45,55 +45,36 @@ export default async function PostPage({ params }: Props) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    author: { '@type': 'Person', name: 'Marco Vaccari', url: siteUrl },
+    author: { '@type': 'Person', name: site.person, url: siteUrl },
     mainEntityOfPage: `${siteUrl}/writing/${post.slug}`,
   }
 
+  const outline = headings(post.content)
+  const toc = outline.length >= TOC_MIN_HEADINGS ? outline : null
+
+  // `<` escaped so a title containing `</script>` can't close the tag early.
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <Section className="pt-16 md:pt-24 pb-24">
-        <article className="mx-auto max-w-2xl">
-          <Link
-            href="/writing"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-[#9f4f9d] dark:text-gray-400"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            All writing
-          </Link>
-
-          <header className="mt-8">
-            <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
-              {post.draft ? (
-                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
-                  Draft
-                </span>
-              ) : null}
-            </div>
-            <h1 className="mt-3 text-4xl font-bold tracking-tighter sm:text-5xl">{post.title}</h1>
-            {post.description ? (
-              <p className="mt-4 text-xl text-gray-500 dark:text-gray-300">{post.description}</p>
-            ) : null}
-            {post.tags.length ? (
-              <div className="mt-6 flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-          </header>
-
-          <hr className="my-10 border-gray-200 dark:border-gray-800" />
-
-          <Markdown source={post.content} />
-        </article>
-      </Section>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, '\\u003c') }} />
+      <div className="container pb-24 pt-12 md:pb-32 md:pt-20">
+        {/* Three columns on wide screens keep the article centred with the outline beside it. */}
+        <div className="mx-auto max-w-2xl xl:grid xl:max-w-none xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)] xl:gap-12">
+          <div className="xl:col-start-2 xl:row-start-1">
+            <article>
+              <PostHeader post={post} />
+              {toc ? <TableOfContentsDisclosure items={toc} className="mt-10 xl:hidden" /> : null}
+              <hr className="my-10 border-border md:my-12" />
+              <Markdown source={post.content} />
+            </article>
+            <PostFooter />
+          </div>
+          {toc ? (
+            <aside className="hidden xl:col-start-3 xl:row-start-1 xl:block">
+              <TableOfContents items={toc} className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pt-2" />
+            </aside>
+          ) : null}
+        </div>
+      </div>
     </main>
   )
 }

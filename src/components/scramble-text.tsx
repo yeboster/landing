@@ -2,9 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-const GLYPHS = '!<>-_\\/[]{}—=+*^?#'
-const CHAR_STAGGER_MS = 28
-const CYCLES = 3
+import { cn } from '@/lib/utils'
+
+const GLYPHS = '!<>-_\\/[]{}=+*^?#'
+/** Delay between one character starting to scramble and the next. */
+const CHAR_STAGGER_MS = 22
+/** How long each character scrambles before settling. */
+const SCRAMBLE_MS = 90
+/** Glyph swaps are throttled to this interval so it reads as flicker, not noise. */
+const TICK_MS = 35
 
 interface ScrambleTextProps {
   text: string
@@ -16,21 +22,21 @@ function randomGlyph() {
 }
 
 /**
- * Hover text that scrambles through random glyphs before settling back to
- * the real characters, left-to-right. Real text stays in the DOM (sr-only)
- * for screen readers; the animated span is aria-hidden.
+ * Hover text that briefly scrambles through glyphs, left to right, then
+ * settles. The real text reserves the width (so nothing beside it shifts) and
+ * is what screen readers get; the scrambled overlay is aria-hidden.
+ * Plain text on touch devices and under reduced motion.
  */
 export function ScrambleText({ text, className }: ScrambleTextProps) {
   const [display, setDisplay] = useState(text)
   const [interactive, setInteractive] = useState(false)
   const frameRef = useRef<number | null>(null)
-  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
     const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const hoverQuery = window.matchMedia('(hover: none)')
-    setInteractive(!reduceQuery.matches && !hoverQuery.matches)
-    const update = () => setInteractive(!reduceQuery.matches && !hoverQuery.matches)
+    const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setInteractive(!reduceQuery.matches && hoverQuery.matches)
+    update()
     reduceQuery.addEventListener('change', update)
     hoverQuery.addEventListener('change', update)
     return () => {
@@ -39,57 +45,57 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
     }
   }, [])
 
-  const clearPending = () => {
-    timeoutsRef.current.forEach(clearTimeout)
-    timeoutsRef.current = []
-    if (frameRef.current !== null) {
-      cancelAnimationFrame(frameRef.current)
-      frameRef.current = null
-    }
+  const stop = () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
+    frameRef.current = null
   }
 
+  useEffect(() => stop, [])
+
   const scramble = () => {
-    clearPending()
-    const chars = text.split('')
-    chars.forEach((char, i) => {
-      if (char === ' ') return
-      let cycle = 0
-      const tick = () => {
-        cycle += 1
-        setDisplay((prev) => {
-          const next = prev.split('')
-          next[i] = cycle > CYCLES ? char : randomGlyph()
-          return next.join('')
-        })
-        if (cycle <= CYCLES) {
-          const t = setTimeout(tick, 40)
-          timeoutsRef.current.push(t)
-        }
+    stop()
+    const chars = Array.from(text)
+    const total = (chars.length - 1) * CHAR_STAGGER_MS + SCRAMBLE_MS
+    let start = 0
+    let lastTick = 0
+
+    const frame = (now: number) => {
+      start ||= now
+      const elapsed = now - start
+      if (elapsed >= total) {
+        setDisplay(text)
+        frameRef.current = null
+        return
       }
-      const startDelay = i * CHAR_STAGGER_MS
-      const t = setTimeout(tick, startDelay)
-      timeoutsRef.current.push(t)
-    })
+      if (now - lastTick >= TICK_MS) {
+        lastTick = now
+        setDisplay(
+          chars
+            .map((char, i) => {
+              const local = elapsed - i * CHAR_STAGGER_MS
+              return char === ' ' || local < 0 || local >= SCRAMBLE_MS ? char : randomGlyph()
+            })
+            .join('')
+        )
+      }
+      frameRef.current = requestAnimationFrame(frame)
+    }
+    frameRef.current = requestAnimationFrame(frame)
   }
 
   const restore = () => {
-    clearPending()
+    stop()
     setDisplay(text)
   }
 
-  useEffect(() => () => clearPending(), [])
-
-  if (!interactive) {
-    return <span className={className}>{text}</span>
-  }
+  if (!interactive) return <span className={className}>{text}</span>
 
   return (
-    <span
-      className={className}
-      onPointerEnter={scramble}
-      onPointerLeave={restore}
-    >
-      <span aria-hidden="true">{display}</span>
+    <span className={cn('relative inline-block', className)} onPointerEnter={scramble} onPointerLeave={restore}>
+      <span className="invisible">{text}</span>
+      <span aria-hidden="true" className="absolute inset-0 whitespace-nowrap">
+        {display}
+      </span>
       <span className="sr-only">{text}</span>
     </span>
   )

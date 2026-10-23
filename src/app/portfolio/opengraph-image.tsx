@@ -1,8 +1,9 @@
 import { ogImage, size, contentType } from '@/lib/og'
+import { site } from '@/lib/site'
 
 export { size, contentType }
-export const alt = 'Yeboster — Portfolio'
+export const alt = `${site.person} — Selected work`
 
 export default function Image() {
-  return ogImage({ title: 'Portfolio', subtitle: 'Projects and open-source work across web, Rust and Kubernetes.' })
+  return ogImage({ title: 'Selected work', subtitle: 'Projects and open-source work across Rails, Rust and Kubernetes.' })
 }

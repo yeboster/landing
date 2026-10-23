@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import { MotionProvider } from '@/components/motion-provider'
 import { ScrollProgress } from '@/components/scroll-progress'
@@ -12,7 +12,10 @@ import { getPosts } from '@/lib/writing'
 import { defaultTitle, site, siteUrl } from '@/lib/site'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const sans = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
+// Accent face for one emphasised word per heading, not for body copy.
+const serif = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-serif', display: 'swap' })
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 const description = `${site.pitch} ${site.role} at ${site.company} in ${site.location}.`
 
@@ -63,7 +66,7 @@ const personSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}})()` }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
@@ -76,15 +79,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <style>{`[style*="opacity:0;"],[style*="opacity: 0;"]{opacity:1!important;transform:none!important;filter:none!important}`}</style>
         </noscript>
       </head>
-      <body className={inter.className}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-gray-900 focus:shadow-lg dark:focus:bg-gray-900 dark:focus:text-gray-100">Skip to content</a>
+      <body className="font-sans">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-card focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:shadow-lg">Skip to content</a>
         <ThemeProvider>
           <MotionProvider>
             <ScrollProgress />
             <Cursor />
             <CommandPaletteHost posts={getPosts()} />
             <KonamiMatrix />
-            <div className="flex min-h-screen flex-col bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+            <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-300">
               <Navbar />
               <div id="main-content" tabIndex={-1} className="h-16" data-print="hide" />
               {children}

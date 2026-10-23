@@ -9,8 +9,11 @@ export function parseFrontmatter(raw: string): {
   data: Record<string, unknown>
   content: string
 } {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
-  if (!match) return { data: {}, content: raw }
+  // Normalise line endings first: a file saved on Windows would otherwise
+  // skip the frontmatter match and publish its own header as body text.
+  const source = raw.replace(/\r\n?/g, '\n')
+  const match = source.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
+  if (!match) return { data: {}, content: source }
 
   const data: Record<string, unknown> = {}
   for (const line of match[1].split('\n')) {

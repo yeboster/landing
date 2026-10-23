@@ -17,8 +17,17 @@ function gridDimensions(width: number, height: number) {
   return { cols, rows, total: cols * rows }
 }
 
-function baseDotColor(isDark: boolean) {
-  return isDark ? 'rgba(159,79,157,0.10)' : 'rgba(159,79,157,0.12)'
+/** The `--brand` token as "r g b" channels, so the canvas follows globals.css. */
+function readBrand() {
+  return getComputedStyle(document.documentElement).getPropertyValue('--brand').trim() || '159 79 157'
+}
+
+function dotColor(brand: string, alpha: number) {
+  return `rgb(${brand} / ${alpha})`
+}
+
+function baseDotColor(brand: string, isDark: boolean) {
+  return dotColor(brand, isDark ? 0.1 : 0.12)
 }
 
 /**
@@ -49,12 +58,14 @@ export const DotGrid = forwardRef<DotGridHandle>(function DotGrid(_props, ref) {
     if (!container || !canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+    // Read once: the brand hue is the same in both themes.
+    const brand = readBrand()
 
     function drawStatic() {
       const { width, height } = sizeRef.current
       const isDark = document.documentElement.classList.contains('dark')
       ctx!.clearRect(0, 0, width, height)
-      ctx!.fillStyle = baseDotColor(isDark)
+      ctx!.fillStyle = baseDotColor(brand, isDark)
       // One path for the whole grid: a single fill instead of one per dot.
       ctx!.beginPath()
       for (let py = 0; py <= height; py += SPACING) {
@@ -100,7 +111,7 @@ export const DotGrid = forwardRef<DotGridHandle>(function DotGrid(_props, ref) {
       // Idle dots are identical, so they go into one path filled once;
       // only the handful of lit dots near the pointer need their own fill.
       const lit: number[] = []
-      ctx!.fillStyle = baseDotColor(isDark)
+      ctx!.fillStyle = baseDotColor(brand, isDark)
       ctx!.beginPath()
 
       let idx = 0
@@ -133,7 +144,7 @@ export const DotGrid = forwardRef<DotGridHandle>(function DotGrid(_props, ref) {
 
       for (let i = 0; i < lit.length; i += 3) {
         const intensity = lit[i + 2]
-        ctx!.fillStyle = `rgba(159,79,157,${0.5 * intensity})`
+        ctx!.fillStyle = dotColor(brand, 0.5 * intensity)
         ctx!.beginPath()
         ctx!.arc(lit[i], lit[i + 1], 1 + 2.2 * intensity, 0, Math.PI * 2)
         ctx!.fill()

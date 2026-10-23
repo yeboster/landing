@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 const technologies = ['TypeScript', 'React', 'Next.js', 'Ruby', 'Rust', 'Kubernetes', 'Docker', 'AWS']
 
 /**
@@ -28,16 +30,13 @@ const REPEATS_PER_COPY = 3
 function Track({ duplicate = false }: { duplicate?: boolean }) {
   return (
     <ul
-      className="flex min-w-[100vw] shrink-0 items-center justify-around gap-8 pr-8 whitespace-nowrap"
+      className="flex min-w-[100vw] shrink-0 items-center justify-around gap-8 whitespace-nowrap pr-8"
       aria-hidden={duplicate || undefined}
     >
       {Array.from({ length: REPEATS_PER_COPY }).flatMap((_, pass) =>
         technologies.map((technology) => (
-          <li
-            key={`${pass}-${technology}`}
-            className="text-sm font-medium text-gray-500 dark:text-gray-400"
-          >
-            <span className="mr-8 text-[#9f4f9d]" aria-hidden="true">
+          <li key={`${pass}-${technology}`} className="font-mono text-sm text-muted-foreground">
+            <span className="mr-8 text-brand" aria-hidden="true">
               ✦
             </span>
             {technology}
@@ -48,9 +47,15 @@ function Track({ duplicate = false }: { duplicate?: boolean }) {
   )
 }
 
-export function TechMarquee() {
+/** Looping strip of the stack. Edges fade out so it sits inside a container. */
+export function TechMarquee({ className }: { className?: string }) {
   return (
-    <div className="marquee overflow-hidden border-y border-gray-200/70 py-4 dark:border-gray-700/70">
+    <div
+      className={cn(
+        'marquee overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]',
+        className,
+      )}
+    >
       <div className="marquee-track flex w-max">
         <Track />
         <Track duplicate />

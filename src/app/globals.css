@@ -1,40 +1,263 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{--accent:#9f4f9d}html{scroll-behavior:smooth}::selection{background:rgb(159 79 157 / .25)}
-html.custom-cursor,html.custom-cursor *{cursor:none}
-*:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@keyframes aurora{0%,100%{transform:translate3d(-3%,-2%,0) scale(1)}50%{transform:translate3d(3%,2%,0) scale(1.08)}}@keyframes marquee{to{transform:translateX(-50%)}}.aurora{animation:aurora 16s ease-in-out infinite}
+
+/*
+ * Design tokens, as RGB channels so Tailwind can apply opacity (`bg-brand/10`).
+ * Neutrals follow Tailwind's gray scale the site was tuned on, so the WCAG AA
+ * contrast pass (gray-500 muted text on light, gray-400 on dark) still holds.
+ * Brand hue comes from the logo: #9f4f9d.
+ */
+@layer base {
+  :root {
+    --background: 249 250 251; /* gray-50 */
+    --foreground: 17 24 39; /* gray-900 */
+    --subtle: 243 244 246; /* gray-100: alternate section background */
+    --card: 255 255 255;
+    --muted: 243 244 246; /* gray-100: chips, hovers */
+    --muted-foreground: 107 114 128; /* gray-500 */
+    --border: 229 231 235; /* gray-200 */
+
+    --brand: 159 79 157; /* #9f4f9d */
+    --brand-strong: 122 58 120; /* #7a3a78 */
+    --brand-ink: 159 79 157; /* #9f4f9d, 5.1:1 on white */
+    --brand-soft: 248 238 248;
+
+    /* Kept for components that read the accent from CSS (focus ring, canvas). */
+    --accent: #9f4f9d;
+  }
+
+  .dark {
+    --background: 17 24 39; /* gray-900 */
+    --foreground: 243 244 246; /* gray-100 */
+    --subtle: 24 32 47; /* gray-800 at 50% over gray-900 */
+    --card: 31 41 55; /* gray-800 */
+    --muted: 55 65 81; /* gray-700 */
+    --muted-foreground: 156 163 175; /* gray-400 */
+    --border: 55 65 81; /* gray-700 */
+
+    --brand-strong: 192 111 190; /* #c06fbe */
+    --brand-ink: 203 133 201; /* #cb85c9, AA on gray-900 */
+    --brand-soft: 52 33 58;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(var(--brand) / 0.25);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none;
+  }
+}
+
+@layer utilities {
+  /* Emphasised word in a heading. Ends on foreground, not transparent, so the
+     last letters never fade out. */
+  .text-gradient-brand {
+    background-image: linear-gradient(100deg, rgb(var(--brand-ink)) 0%, rgb(var(--brand-strong)) 50%, rgb(var(--brand-ink)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Faint dotted grid used behind heroes and banners. */
+  .bg-grid {
+    background-image: radial-gradient(rgb(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .mask-radial {
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%);
+  }
+}
+
+/* Hero glow blobs. */
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.08);
+  }
+}
+
+.aurora {
+  animation: aurora 16s ease-in-out infinite;
+}
+
 /* The track holds exactly two copies, so -50% is one copy and the loop is
    seamless. 84s is 28s per copy-length: the copy repeats the list three times
    to outrun wide viewports, so the duration scales with it to hold the same
    ~34px/s travel the strip always had. */
-.marquee-track{animation:marquee 84s linear infinite}.marquee:hover .marquee-track{animation-play-state:paused}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-/* Motion animates through JS, so the CSS overrides above never reach the
-   page-level entrance variants. Those set `opacity:0` inline and rely on a
-   JS tween to bring content back, which leaves reduced-motion visitors
-   looking at blank sections. Pin them to their resting state instead. */
-/* Motion animates through JS, so the CSS overrides above never reach the
-   page-level entrance variants. Those set `opacity:0;` inline and rely on a
-   JS tween to bring content back, which leaves reduced-motion visitors
-   looking at blank sections. Pin them to their resting state instead.
-   The selector includes the trailing semicolon so `opacity:0.5;` is left alone. */
-[style*="opacity:0;"],[style*="opacity: 0;"]{opacity:1!important;transform:none!important;filter:none!important}}
-.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:90;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px;animation:grain-jitter 1s steps(8) infinite}
-.dark .grain{opacity:.05}
-@keyframes grain-jitter{0%{transform:translate(0,0)}10%{transform:translate(-2%,-4%)}20%{transform:translate(-6%,2%)}30%{transform:translate(4%,-6%)}40%{transform:translate(-4%,6%)}50%{transform:translate(6%,4%)}60%{transform:translate(-6%,-2%)}70%{transform:translate(2%,6%)}80%{transform:translate(4%,-2%)}90%{transform:translate(-2%,4%)}100%{transform:translate(0,0)}}
-@media(prefers-reduced-motion:reduce){.grain{animation:none}}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
 
-.print-only{display:none}
-@media print{
-  @page{margin:16mm}
-  *{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important;-webkit-print-color-adjust:exact}
-  header:not(.print-only),nav,footer,.grain,.aurora,.fixed,[data-print="hide"]{display:none!important}
-  .print-only{display:block!important}
-  main>section,main>div{padding-top:0!important;padding-bottom:1rem!important}
-  a{text-decoration:none}
-  main a[href^="http"]::after{content:" (" attr(href) ")";font-size:.75em}
-  h1,h2,h3{page-break-after:avoid;break-after:avoid}
-  li,blockquote,pre,.print-keep{page-break-inside:avoid;break-inside:avoid}
+.marquee-track {
+  animation: marquee 84s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Film grain. The layer is only 20% larger than the viewport (the jitter
+   never moves it more than ~7%), which keeps the composited texture small. */
+.grain {
+  position: fixed;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+  animation: grain-jitter 1s steps(8) infinite;
+}
+
+.dark .grain {
+  opacity: 0.05;
+}
+
+@keyframes grain-jitter {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -4%); }
+  20% { transform: translate(-6%, 2%); }
+  30% { transform: translate(4%, -6%); }
+  40% { transform: translate(-4%, 6%); }
+  50% { transform: translate(6%, 4%); }
+  60% { transform: translate(-6%, -2%); }
+  70% { transform: translate(2%, 6%); }
+  80% { transform: translate(4%, -2%); }
+  90% { transform: translate(-2%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .grain {
+    animation: none;
+  }
+
+  /* Motion animates through JS, so the CSS overrides above never reach the
+     page-level entrance variants. Those set `opacity:0;` inline and rely on a
+     JS tween to bring content back, which leaves reduced-motion visitors
+     looking at blank sections. Pin them to their resting state instead.
+     The selector includes the trailing semicolon so `opacity:0.5;` is left alone. */
+  [style*='opacity:0;'],
+  [style*='opacity: 0;'] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Printable CV (the About page). */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 16mm;
+  }
+
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  header:not(.print-only),
+  nav,
+  footer,
+  .grain,
+  .aurora,
+  .fixed,
+  [data-print='hide'] {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Entrance animations leave `opacity:0` inline on anything never scrolled
+     into view, which would print as blank sections. */
+  [style*='opacity:0;'],
+  [style*='opacity: 0;'] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  main > section,
+  main > div {
+    padding-top: 0 !important;
+    padding-bottom: 1rem !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  main a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  li,
+  blockquote,
+  pre,
+  .print-keep {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
 }

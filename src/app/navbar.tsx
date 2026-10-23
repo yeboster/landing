@@ -2,189 +2,226 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { motion, AnimatePresence, useMotionValueEvent, useScroll, useReducedMotion } from 'motion/react'
-import { Menu, Search, X } from 'lucide-react'
+import { useEffect, useId, useRef, useState } from 'react'
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
+import { Menu, X } from 'lucide-react'
 
-import { Logo } from '@/components/ui/logo'
-import { ThemeToggle } from '@/components/theme-toggle'
-import { openCommandPalette } from '@/components/command-palette-store'
+import { isActivePath, primaryNav } from '@/components/chrome/nav-config'
+import { PaletteTrigger } from '@/components/chrome/palette-trigger'
 import { ScrambleText } from '@/components/scramble-text'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { Logo } from '@/components/ui/logo'
+import { ease } from '@/lib/motion'
+import { site } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
-/**
- * Primary navigation. Four destinations, in the order a hiring manager or a
- * client wants them: proof first, then who, then thinking, then contact.
- * `/now` and the links pages live in the footer instead of competing here.
- */
-const navLinks = [
-  { href: '/portfolio', label: 'Work' },
-  { href: '/about', label: 'About' },
-  { href: '/writing', label: 'Writing' },
-  { href: '/contact', label: 'Contact' },
-]
+/** Below this the bar is always shown and transparent. */
+const TOP_ZONE = 80
+/** Ignore scroll jitter smaller than this before hiding or revealing. */
+const SCROLL_DELTA = 6
 
 export default function Navbar() {
-  const currentPath = usePathname()
+  const pathname = usePathname()
+  const reduce = useReducedMotion()
+  const menuId = useId()
   const [open, setOpen] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const firstLinkRef = useRef<HTMLAnchorElement>(null)
   const { scrollY } = useScroll()
-  const reduce = useReducedMotion()
 
-  // Smart show/hide: reveal on scroll up, hide on scroll down.
-  // Disabled when reduced motion is preferred (always show).
+  // Glass once the page moves; hide on scroll down, reveal on scroll up. The
+  // bar stays put under reduced motion, while the menu is open, and while
+  // keyboard focus is inside it.
   useMotionValueEvent(scrollY, 'change', (latest) => {
-    if (reduce) return
-    const previous = scrollY.getPrevious() ?? 0
-    if (latest > previous && latest > 80) {
-      // scrolling down past the threshold → hide
-      setHidden(true)
-    } else {
-      // scrolling up (or at top) → reveal
+    setScrolled(latest > 8)
+    const focusInside = headerRef.current?.contains(document.activeElement) ?? false
+    if (reduce || open || focusInside || latest < TOP_ZONE) {
       setHidden(false)
+      return
     }
-    setScrolled(latest > 40)
+    const delta = latest - (scrollY.getPrevious() ?? latest)
+    if (delta > SCROLL_DELTA) setHidden(true)
+    else if (delta < -SCROLL_DELTA) setHidden(false)
   })
 
-  // Close mobile menu on route change
+  // A restored scroll position (back/forward, reload) should start as glass.
+  useEffect(() => {
+    setScrolled(window.scrollY > 8)
+  }, [])
+
+  // Close the mobile menu on navigation.
   useEffect(() => {
     setOpen(false)
-  }, [currentPath])
+  }, [pathname])
 
-  // Lock body scroll when mobile menu is open
+  // While the menu is open: lock page scroll, move focus into it, close on
+  // Escape (returning focus to the toggle) and when the viewport grows past md.
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (!open) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    firstLinkRef.current?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      toggleRef.current?.focus()
+    }
+    const desktop = window.matchMedia('(min-width: 768px)')
+    const onResize = (e: MediaQueryListEvent) => e.matches && setOpen(false)
+
+    window.addEventListener('keydown', onKeyDown)
+    desktop.addEventListener('change', onResize)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', onKeyDown)
+      desktop.removeEventListener('change', onResize)
+    }
   }, [open])
 
+  const glass = scrolled || open
+
   return (
-    <motion.header
-      animate={hidden ? { y: '-100%' } : { y: 0 }}
-      transition={{ type: 'spring', stiffness: 260, damping: 30, mass: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-gray-900/5 dark:border-white/10'
-          : 'bg-transparent border-b border-transparent'
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 lg:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link className="flex gap-2 items-center" href="/">
-            <Logo width={24} height={24} />
-            <span className="font-semibold">Marco Vaccari</span>
+    <>
+      {/* Outside the header: its backdrop-filter would make this fixed layer
+          size itself to the 64px bar instead of the viewport. */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            aria-hidden="true"
+            className="fixed inset-x-0 bottom-0 top-16 z-40 bg-background/40 backdrop-blur-sm md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.header
+        ref={headerRef}
+        initial={false}
+        animate={{ y: hidden ? '-100%' : 0 }}
+        transition={{ duration: 0.3, ease }}
+        onFocusCapture={() => setHidden(false)}
+        // Tabbing out of the open menu closes it, like any disclosure. Only
+        // when focus lands somewhere else: a click on bare page leaves
+        // `relatedTarget` null and is handled by the backdrop instead.
+        onBlur={(e) => {
+          const next = e.relatedTarget as Node | null
+          if (open && next && !e.currentTarget.contains(next)) setOpen(false)
+        }}
+        className={cn(
+          'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ease-out-expo',
+          glass
+            ? 'border-border/70 bg-background/75 shadow-soft backdrop-blur-xl backdrop-saturate-150'
+            : 'border-transparent bg-transparent'
+        )}
+      >
+        <div className="container flex h-16 items-center justify-between gap-6">
+          <Link href="/" className="group -m-1.5 flex items-center gap-2.5 rounded-lg p-1.5">
+            <Logo width={24} height={24} alt="" priority className="size-6 transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg]" />
+            <span className="text-[15px] font-semibold tracking-tight text-foreground">{site.person}</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const active = currentPath === link.href
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
-                    active
-                      ? 'text-gray-900 dark:text-white'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  <ScrambleText text={link.label} />
-                  {active && (
-                    <motion.div
-                      className="absolute inset-0 bg-gray-100 dark:bg-gray-800/60 rounded-lg -z-10"
-                      layoutId="navbar-active"
-                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    />
-                  )}
-                </Link>
-              )
-            })}
-            <button
-              onClick={() => openCommandPalette()}
-              className="ml-2 inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-700 px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400 hover:border-[#9f4f9d]/50 hover:text-gray-900 dark:hover:text-white transition-colors"
-              aria-label="Open command palette"
-            >
-              <Search className="w-4 h-4" />
-              <kbd className="font-mono text-xs text-gray-500 dark:text-gray-400">⌘K</kbd>
-            </button>
-            <div className="ml-2">
-              <ThemeToggle />
-            </div>
-          </nav>
+          <div className="hidden items-center gap-2 md:flex">
+            <nav aria-label="Primary">
+              <ul className="flex items-center gap-0.5">
+                {primaryNav.map((link) => {
+                  const active = isActivePath(pathname, link.href)
+                  return (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        aria-current={active ? 'page' : undefined}
+                        className={cn(
+                          'relative isolate block rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200',
+                          active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                        )}
+                      >
+                        {active && (
+                          <motion.span
+                            aria-hidden="true"
+                            layoutId="navbar-active"
+                            className="absolute inset-0 -z-10 rounded-full bg-muted"
+                            transition={{ duration: 0.35, ease }}
+                          />
+                        )}
+                        <ScrambleText text={link.label} />
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+            <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
+            <PaletteTrigger />
+            <ThemeToggle />
+          </div>
 
-          {/* Mobile Controls */}
-          <div className="flex items-center gap-2 md:hidden">
-            <button
-              onClick={() => openCommandPalette()}
-              className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Open command palette"
-            >
-              <Search className="w-5 h-5" />
-            </button>
+          <div className="flex items-center gap-1 md:hidden">
+            <PaletteTrigger variant="icon" />
             <ThemeToggle />
             <button
-              onClick={() => setOpen(!open)}
-              className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle menu"
+              ref={toggleRef}
+              type="button"
+              onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
+              aria-controls={menuId}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              className="inline-flex size-9 items-center justify-center rounded-full text-foreground transition-colors duration-200 hover:bg-muted"
             >
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {open && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm md:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setOpen(false)}
-              style={{ top: '64px' }}
-            />
-            {/* Panel */}
+        <AnimatePresence>
+          {open && (
             <motion.nav
-              className="absolute top-full left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-white/20 dark:border-gray-700/30 shadow-xl md:hidden"
-              initial={{ opacity: 0, y: -10 }}
+              id={menuId}
+              aria-label="Mobile"
+              className="absolute inset-x-0 top-full border-b border-border bg-background shadow-lift md:hidden"
+              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.22, ease }}
             >
-              <div className="px-4 py-3 space-y-1">
-                {navLinks.map((link, i) => {
-                  const active = currentPath === link.href
+              <ul className="container flex flex-col gap-1 py-4">
+                {primaryNav.map((link, i) => {
+                  const active = isActivePath(pathname, link.href)
                   return (
-                    <motion.div
+                    <motion.li
                       key={link.href}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05, duration: 0.2 }}
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.03 * i, duration: 0.22, ease }}
                     >
                       <Link
+                        ref={i === 0 ? firstLinkRef : undefined}
                         href={link.href}
-                        className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                          active
-                            ? 'bg-gray-100 dark:bg-gray-800/60 text-gray-900 dark:text-white'
-                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/40'
-                        }`}
+                        aria-current={active ? 'page' : undefined}
+                        onClick={() => setOpen(false)}
+                        className={cn(
+                          'flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors',
+                          active ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
+                        )}
                       >
                         {link.label}
+                        {active && <span aria-hidden="true" className="size-1.5 rounded-full bg-brand" />}
                       </Link>
-                    </motion.div>
+                    </motion.li>
                   )
                 })}
-              </div>
+              </ul>
             </motion.nav>
-          </>
-        )}
-      </AnimatePresence>
-    </motion.header>
+          )}
+        </AnimatePresence>
+      </motion.header>
+    </>
   )
 }

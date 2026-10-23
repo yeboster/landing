@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { parseFrontmatter } from './frontmatter'
-import type { Post, PostMeta } from './post'
+import { readingTime, type Post, type PostMeta } from './post'
 
 /**
  * File-backed writing index. Posts are Markdown files in `src/content/writing`,
@@ -35,6 +35,7 @@ function parse(file: string): Post {
     date: data.date,
     tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     draft: data.draft === true,
+    readingTime: readingTime(content),
     content,
   }
 }
@@ -53,11 +54,8 @@ function allPosts(): Post[] {
 }
 
 export function getPosts(): PostMeta[] {
-  return allPosts().map((post) => {
-    const { content: _content, ...meta } = post
-    void _content
-    return meta
-  })
+  // Strip the body: this list is serialized into the ⌘K palette on every page.
+  return allPosts().map(({ content: _content, ...meta }) => meta)
 }
 
 export function getPost(slug: string): Post | undefined {

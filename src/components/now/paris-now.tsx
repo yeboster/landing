@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
+import { site } from '@/lib/site'
+
 type Weather = { emoji: string; label: string; temp: number }
 
 const WEATHER_MAP: Record<number, { emoji: string; label: string }> = {
@@ -31,26 +33,26 @@ function weatherFromCode(code: number) {
 }
 
 const timeFormatter = new Intl.DateTimeFormat('en-GB', {
-  timeZone: 'Europe/Paris',
+  timeZone: site.timezone,
   hour: '2-digit',
   minute: '2-digit',
   second: '2-digit',
 })
 
 /**
- * Compact live chip: pulsing dot + Paris local time (ticking every second)
- * + current weather from open-meteo. Weather/time fetch failures degrade
- * silently — never renders an error state, same philosophy as GithubStats.
+ * Live pill: pulsing dot + Paris local time (ticking every second) + current
+ * weather from /api/paris-weather. Fetch failures degrade silently and never
+ * render an error state, same philosophy as GithubStats. The dot's ping is a
+ * CSS animation, so the global reduced-motion rule stills it.
  */
 export function ParisNow() {
-  const [mounted, setMounted] = useState(false)
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState<string | null>(null)
   const [weather, setWeather] = useState<Weather | null>(null)
 
   useEffect(() => {
-    setMounted(true)
-    setTime(timeFormatter.format(new Date()))
-    const interval = setInterval(() => setTime(timeFormatter.format(new Date())), 1000)
+    const tick = () => setTime(timeFormatter.format(new Date()))
+    tick()
+    const interval = setInterval(tick, 1000)
     return () => clearInterval(interval)
   }, [])
 
@@ -69,22 +71,25 @@ export function ParisNow() {
         setWeather({ emoji, label, temp: Math.round(temperature) })
       })
       .catch(() => {})
-    return () => { active = false }
+    return () => {
+      active = false
+    }
   }, [])
 
   return (
-    <div className="flex h-9 items-center justify-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-      <span className="relative flex h-2 w-2" aria-hidden="true">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#9f4f9d] opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-[#9f4f9d]" />
+    <div className="inline-flex h-9 items-center gap-3 rounded-full border border-border bg-card/70 px-4 text-sm text-muted-foreground shadow-sm backdrop-blur">
+      <span className="relative flex size-2" aria-hidden>
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand opacity-75" />
+        <span className="relative inline-flex size-2 rounded-full bg-brand" />
       </span>
-      <span className="font-medium text-gray-700 dark:text-gray-200">Paris</span>
-      <span className="font-mono tabular-nums">{mounted ? time : '--:--:--'}</span>
+      <span className="font-medium text-foreground">Paris</span>
+      {/* Server and first client render show a placeholder so hydration matches. */}
+      <span className="font-mono tabular-nums">{time ?? '--:--:--'}</span>
       {weather && (
-        <span className="flex items-center gap-1">
-          <span aria-hidden="true">{weather.emoji}</span>
-          {weather.temp}°C
-          <span className="text-gray-500 dark:text-gray-400">{weather.label}</span>
+        <span className="flex items-center gap-1.5">
+          <span aria-hidden>{weather.emoji}</span>
+          <span className="font-mono tabular-nums text-foreground">{weather.temp}°C</span>
+          <span className="hidden sm:inline">{weather.label}</span>
         </span>
       )}
     </div>

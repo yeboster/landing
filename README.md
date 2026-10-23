@@ -24,8 +24,18 @@ Deployed on Vercel. The `main` branch is connected for automatic production depl
 
 ## Structure
 
-- `src/app/` — App Router pages, metadata, sitemap, robots, and shared chrome
-- `src/components/` — client-side animation and interaction islands
+- `src/app/` — App Router pages (Server Components with their own metadata), sitemap,
+  robots, OG images, and shared chrome (navbar, footer, 404)
+- `src/components/<area>/` — each page's sections (`home/`, `about/`, `now/`, `portfolio/`,
+  `writing/`, `contact/`, `chrome/`). Static markup renders on the server; only interactive
+  pieces are `'use client'` islands
+- `src/components/ui/` — primitives: `Button`/`ButtonLink`, `Card`, `Eyebrow`,
+  `Section`/`SectionHeader`, `Logo`
+- `src/components/motion/` — `<Reveal>` / `<RevealGroup>` entrance wrappers usable from
+  Server Components; variants and timings live in `src/lib/motion.ts`
+- `src/components/*.tsx` — shared interaction islands (aurora, split text, tilt card,
+  command palette, cursor, terminal…)
+- `src/content/*.ts` — typed page content (about timeline, /now)
 - `src/lib/site.ts` — canonical identity: name, role, employer, availability, socials.
   Change a fact here, not in the pages.
 - `src/lib/projects-data.ts` — the project list shared by `/portfolio` and the homepage
@@ -33,6 +43,15 @@ Deployed on Vercel. The `main` branch is connected for automatic production depl
   card into a case study and links it from the homepage
 - `src/content/writing/` — posts, read at build time
 - `public/` — icons, logos, and Open Graph image
+
+## Design tokens
+
+Colors are CSS variables in `src/app/globals.css`, exposed to Tailwind as `bg-background`,
+`text-foreground`, `text-muted-foreground`, `bg-card`, `bg-subtle`, `border-border`, `bg-brand`,
+`hover:bg-brand-strong`, `text-brand-ink` and `bg-brand-soft`. Use these instead of raw `gray-*`
+classes or hex values: they switch with the theme and keep the WCAG AA contrast the palette
+was tuned for. Fonts: `font-sans` (Inter), `font-mono` (JetBrains Mono, for labels and code)
+and `font-serif` (Instrument Serif, for one emphasised word per heading at most).
 
 ## Content rules
 

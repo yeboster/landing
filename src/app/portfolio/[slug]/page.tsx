@@ -1,11 +1,18 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { Markdown } from '@/lib/markdown'
-import { formatDate } from '@/lib/post'
+
+import { Reveal } from '@/components/motion/reveal'
+import { CaseStudyMeta } from '@/components/portfolio/case-study-meta'
+import { CaseStudyNav } from '@/components/portfolio/case-study-nav'
+import { ContactCta } from '@/components/portfolio/contact-cta'
+import { ProjectLogo } from '@/components/portfolio/project-logo'
+import { Eyebrow } from '@/components/ui/eyebrow'
+import { TableOfContents, TableOfContentsDisclosure, TOC_MIN_HEADINGS } from '@/components/writing/table-of-contents'
+import { headings, Markdown } from '@/lib/markdown'
 import { getCaseStudies, getCaseStudy } from '@/lib/projects'
-import { Section } from '@/components/ui/section'
+import { getProject } from '@/lib/projects-data'
 import { siteUrl } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -39,45 +46,65 @@ export default async function CaseStudyPage({ params }: Props) {
   const study = getCaseStudy(slug)
   if (!study) notFound()
 
+  // A case study usually has a matching card, but the page must not depend on it.
+  const project = getProject(slug)
+  const outline = headings(study.content)
+  const toc = outline.length >= TOC_MIN_HEADINGS ? outline : null
+
   return (
     <main className="flex-1">
-      <Section className="pt-16 md:pt-24 pb-24">
-        <article className="mx-auto max-w-2xl">
-          <Link
-            href="/portfolio"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-[#9f4f9d] dark:text-gray-400"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            All projects
-          </Link>
+      <article className="container pt-12 md:pt-20">
+        <header className="mx-auto max-w-5xl">
+          <Reveal immediate>
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center gap-2 rounded text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <ArrowLeft aria-hidden className="size-4" />
+              All work
+            </Link>
+          </Reveal>
 
-          <header className="mt-8">
-            <time className="text-sm text-gray-500 dark:text-gray-400" dateTime={study.date}>
-              {formatDate(study.date)}
-            </time>
-            <h1 className="mt-3 text-4xl font-bold tracking-tighter sm:text-5xl">{study.title}</h1>
-            {study.description ? (
-              <p className="mt-4 text-xl text-gray-500 dark:text-gray-300">{study.description}</p>
-            ) : null}
-            {study.tags.length ? (
-              <div className="mt-6 flex flex-wrap gap-2">
-                {study.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-          </header>
+          <div className="mt-10 flex flex-col-reverse gap-8 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <Reveal immediate delay={0.05}>
+                <Eyebrow>Case study</Eyebrow>
+              </Reveal>
+              <Reveal immediate delay={0.1}>
+                <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">{study.title}</h1>
+              </Reveal>
+              {study.description && (
+                <Reveal immediate delay={0.15}>
+                  <p className="mt-5 text-lg leading-relaxed text-muted-foreground md:text-xl">{study.description}</p>
+                </Reveal>
+              )}
+            </div>
+            {project && (
+              <Reveal immediate delay={0.2} className="shrink-0">
+                <ProjectLogo project={project} size="md" />
+              </Reveal>
+            )}
+          </div>
+        </header>
 
-          <hr className="my-10 border-gray-200 dark:border-gray-800" />
+        <div className="mx-auto mt-12 grid max-w-5xl gap-10 border-t border-border pt-10 md:mt-16 md:pt-14 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-16">
+          <aside className="lg:order-last">
+            <Reveal immediate delay={0.25} className="lg:sticky lg:top-24">
+              <CaseStudyMeta study={study} project={project} />
+              {toc && <TableOfContents items={toc} className="mt-10 hidden lg:block" />}
+            </Reveal>
+          </aside>
 
-          <Markdown source={study.content} />
-        </article>
-      </Section>
+          {/* ~65ch at the body size: the measure stays readable on any screen. */}
+          <Reveal immediate delay={0.3} className="min-w-0 max-w-2xl">
+            {toc && <TableOfContentsDisclosure items={toc} className="mb-10 lg:hidden" />}
+            <Markdown source={study.content} />
+          </Reveal>
+        </div>
+      </article>
+
+      <CaseStudyNav slug={study.slug} />
+      <ContactCta title="Want something built like this?" />
     </main>
   )
 }

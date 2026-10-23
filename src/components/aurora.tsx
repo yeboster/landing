@@ -1,88 +1,92 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useReducedMotion, useTransform, type MotionValue } from 'motion/react'
+import { useEffect, useRef } from 'react'
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react'
+
+import { cn } from '@/lib/utils'
 
 interface AuroraProps {
   /**
-   * The aurora blobs. Each is positioned absolutely and animated with a
-   * CSS keyframe ("aurora"). We layer mouse-parallax on top by translating
-   * each blob a few px toward the cursor via springs.
-   *
-   * Pass children that already include the "aurora" CSS class for the
-   * float animation.
+   * Custom glow layers. Optional: without children Aurora renders the
+   * standard brand glow. Children should carry the `aurora` class to get the
+   * slow float keyframes from globals.css.
    */
-  children: React.ReactNode
-  /** Maximum pixel offset per axis. Defaults to 12. */
+  children?: React.ReactNode
+  /** Maximum parallax offset per axis, in px. Defaults to 12. */
   maxOffset?: number
+  className?: string
 }
 
-/**
- * Wraps aurora hero blobs and applies a soft mouse-parallax by translating
- * each child a few px toward the cursor. Respects prefers-reduced-motion
- * (the parallax is a no-op; the underlying CSS aurora is suppressed by the
- * global reduced-motion media query).
- *
- * Children must include the `aurora` CSS class for the float keyframes.
+/*
+ * Radial gradients rather than `blur-3xl` on solid shapes: same soft glow,
+ * but no filter to rasterise, so the float animation stays on the compositor.
+ * `inset-x-0 mx-auto` centres the main glow because the `aurora` keyframes
+ * own `transform`, which would discard a `-translate-x-1/2`.
  */
-export function Aurora({ children, maxOffset = 12 }: AuroraProps) {
-  const reduce = useReducedMotion()
-  const ref = useRef<HTMLDivElement>(null)
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const sx = useSpring(mx, { stiffness: 60, damping: 14, mass: 0.6 })
-  const sy = useSpring(my, { stiffness: 60, damping: 14, mass: 0.6 })
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (reduce || !ref.current) return
-    const r = ref.current.getBoundingClientRect()
-    const cx = (e.clientX - r.left) / r.width - 0.5 // -0.5 .. 0.5
-    const cy = (e.clientY - r.top) / r.height - 0.5
-    mx.set(cx * maxOffset)
-    my.set(cy * maxOffset)
-  }
-
-  const handleMouseLeave = () => {
-    if (reduce) return
-    mx.set(0)
-    my.set(0)
-  }
-
+function DefaultGlow() {
   return (
-    <div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="absolute inset-0 overflow-hidden pointer-events-none"
-      aria-hidden="true"
-    >
-      <ParallaxLayer sx={sx} sy={sy} factor={1}>
-        {children}
-      </ParallaxLayer>
-    </div>
+    <>
+      <div
+        className="aurora absolute inset-x-0 -top-48 mx-auto h-[520px] w-[min(880px,140%)] opacity-70 dark:opacity-100"
+        style={{ background: 'radial-gradient(closest-side, rgb(var(--brand) / 0.28), transparent)' }}
+      />
+      <div
+        className="aurora absolute -right-40 top-16 h-[360px] w-[480px] opacity-60 [animation-delay:-8s] dark:opacity-90"
+        style={{ background: 'radial-gradient(closest-side, rgb(var(--brand-strong) / 0.18), transparent)' }}
+      />
+    </>
   )
 }
 
 /**
- * Translates children by (sx*factor, sy*factor). Used to give each
- * aurora blob a slightly different parallax magnitude for depth.
+ * Soft brand glow behind a hero, drifting a few px toward the pointer.
+ *
+ * The layer itself ignores the pointer (it sits under the content), so the
+ * parallax listens on the parent section instead. Touch and reduced-motion
+ * visitors get the static glow; the CSS float is neutralised globally under
+ * reduced motion.
  */
-function ParallaxLayer({
-  sx,
-  sy,
-  factor,
-  children,
-}: {
-  sx: MotionValue<number>
-  sy: MotionValue<number>
-  factor: number
-  children: React.ReactNode
-}) {
-  const x = useTransform(sx, (v) => v * factor)
-  const y = useTransform(sy, (v) => v * factor)
+export function Aurora({ children, maxOffset = 12, className }: AuroraProps) {
+  const reduce = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const mx = useMotionValue(0)
+  const my = useMotionValue(0)
+  const x = useSpring(mx, { stiffness: 50, damping: 16, mass: 0.6 })
+  const y = useSpring(my, { stiffness: 50, damping: 16, mass: 0.6 })
+
+  useEffect(() => {
+    const host = ref.current?.parentElement
+    if (reduce || !host || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+
+    let frame = 0
+    const onMove = (e: PointerEvent) => {
+      if (frame) return
+      // One read per frame at most.
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        const r = host.getBoundingClientRect()
+        mx.set(((e.clientX - r.left) / r.width - 0.5) * maxOffset)
+        my.set(((e.clientY - r.top) / r.height - 0.5) * maxOffset)
+      })
+    }
+    const onLeave = () => {
+      mx.set(0)
+      my.set(0)
+    }
+    host.addEventListener('pointermove', onMove, { passive: true })
+    host.addEventListener('pointerleave', onLeave)
+    return () => {
+      cancelAnimationFrame(frame)
+      host.removeEventListener('pointermove', onMove)
+      host.removeEventListener('pointerleave', onLeave)
+    }
+  }, [reduce, maxOffset, mx, my])
+
   return (
-    <motion.div style={{ x, y }} className="absolute inset-0">
-      {children}
-    </motion.div>
+    <div ref={ref} aria-hidden="true" className={cn('pointer-events-none absolute inset-0 overflow-hidden', className)}>
+      <motion.div style={{ x, y }} className="absolute inset-0">
+        {children ?? <DefaultGlow />}
+      </motion.div>
+    </div>
   )
 }
