@@ -1,70 +1,126 @@
-'use client'
-
 import Link from 'next/link'
-import { Github, Send, Twitter } from 'lucide-react'
+import { ArrowUp, ArrowUpRight, Github, Gitlab, Send, Twitter } from 'lucide-react'
 
-const socials = [
-  { href: 'https://github.com/yeboster', icon: Github, label: 'GitHub' },
-  { href: 'https://t.me/yeboster', icon: Send, label: 'Telegram' },
-  { href: 'https://twitter.com/yeboster', icon: Twitter, label: 'Twitter' },
-]
+import { Logo } from '@/components/ui/logo'
+import { mailto, navLinks, siteConfig, socialLinks } from '@/lib/site'
 
-const footerLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
-]
+const socialIcons = {
+  github: Github,
+  gitlab: Gitlab,
+  telegram: Send,
+  twitter: Twitter,
+} as const
+
+const socials = (Object.keys(socialLinks) as (keyof typeof socialLinks)[]).map((key) => ({
+  key,
+  ...socialLinks[key],
+  Icon: socialIcons[key],
+}))
+
+const linkClass =
+  'inline-flex items-center gap-2 rounded-sm text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground'
+
+function ColumnHeading({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <h2 id={id} className="font-mono text-xs font-medium uppercase tracking-widest text-foreground">
+      {children}
+    </h2>
+  )
+}
 
 export function Footer() {
+  const year = new Date().getFullYear()
+
   return (
-    <footer className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-10">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+    <footer className="border-t bg-subtle">
+      <div className="container py-14 md:py-16">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-12 md:gap-8">
           {/* Brand */}
-          <div className="text-center md:text-left">
-            <p className="font-semibold text-lg text-gray-900 dark:text-gray-100">Yeboster</p>
-            <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
-              Build Together to Live Forever ❤️
+          <div className="sm:col-span-2 md:col-span-5">
+            <Link
+              href="/"
+              aria-label={`${siteConfig.name}, home`}
+              className="inline-flex items-center gap-2.5 rounded-full text-foreground"
+            >
+              <Logo size={24} />
+              <span className="font-semibold tracking-tight">{siteConfig.name}</span>
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Full-stack engineer building reliable products, end to end.
             </p>
           </div>
 
-          {/* Links */}
-          <nav className="flex gap-6">
-            {footerLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+          {/* Navigate */}
+          <nav aria-labelledby="footer-navigate" className="md:col-span-2">
+            <ColumnHeading id="footer-navigate">Navigate</ColumnHeading>
+            <ul className="mt-4 space-y-3">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={linkClass}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </nav>
 
-          {/* Socials */}
-          <div className="flex gap-4">
-            {socials.map((social) => {
-              const Icon = social.icon
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
-                  aria-label={social.label}
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              )
-            })}
+          {/* Elsewhere */}
+          <div className="md:col-span-2">
+            <ColumnHeading id="footer-elsewhere">Elsewhere</ColumnHeading>
+            <ul aria-labelledby="footer-elsewhere" className="mt-4 space-y-3">
+              {socials.map(({ key, label, href, Icon }) => (
+                <li key={key}>
+                  <a href={href} target="_blank" rel="noopener noreferrer" className={`group ${linkClass}`}>
+                    <Icon aria-hidden="true" className="size-4 shrink-0" />
+                    {label}
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="size-3 -translate-x-1 opacity-0 transition-all duration-300 ease-out-expo group-hover:translate-x-0 group-hover:opacity-100"
+                    />
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Get in touch */}
+          <div className="sm:col-span-2 md:col-span-3">
+            <ColumnHeading id="footer-contact">Get in touch</ColumnHeading>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              Have a project in mind or just want to say hi? My inbox is open.
+            </p>
+            <a
+              href={mailto()}
+              className="group mt-3 inline-flex items-center gap-1.5 rounded-sm text-sm font-medium text-foreground underline-offset-4 hover:underline"
+            >
+              {siteConfig.email}
+              <ArrowUpRight
+                aria-hidden="true"
+                className="size-3.5 text-muted-foreground transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand"
+              />
+            </a>
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
-          <p className="text-xs text-gray-400 dark:text-gray-400">
-            © {new Date().getFullYear()} Yeboster. Built with Next.js
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col gap-4 border-t pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {year} {siteConfig.name}. All rights reserved.
           </p>
+          <div className="flex items-center gap-5">
+            <p className="font-serif text-sm italic">{siteConfig.tagline}.</p>
+            <a
+              href="#main"
+              className="group inline-flex items-center gap-1 rounded-sm transition-colors hover:text-foreground"
+            >
+              Back to top
+              <ArrowUp
+                aria-hidden="true"
+                className="size-3 transition-transform duration-300 ease-out-expo group-hover:-translate-y-0.5"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

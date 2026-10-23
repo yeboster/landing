@@ -2,41 +2,118 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens. Values are HSL channels so Tailwind can apply opacity
+ * (e.g. `bg-brand/10`). Brand hue comes from the logo (#9f4f9d).
+ */
 @layer base {
-  /* Smooth scroll */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    --subtle: 240 5% 97.5%;
+    --card: 0 0% 100%;
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 4% 40%;
+    --border: 240 6% 90%;
+    --ring: 302 34% 47%;
+
+    --brand: 302 34% 47%;
+    --brand-foreground: 0 0% 100%;
+    --brand-soft: 302 45% 95%;
+  }
+
+  .dark {
+    --background: 240 8% 4.5%;
+    --foreground: 0 0% 96%;
+    --subtle: 240 6% 7%;
+    --card: 240 6% 8.5%;
+    --muted: 240 5% 13%;
+    --muted-foreground: 240 5% 66%;
+    --border: 240 5% 15%;
+    --ring: 302 50% 68%;
+
+    --brand: 302 50% 68%;
+    --brand-foreground: 240 10% 4%;
+    --brand-soft: 302 25% 14%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Better selection color */
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
   ::selection {
-    @apply bg-gray-900/10 dark:bg-white/15;
+    @apply bg-brand/20 text-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-balance;
+  }
+
+  /* Applied for a single frame while toggling the theme. */
+  .disable-transitions *,
+  .disable-transitions *::before,
+  .disable-transitions *::after {
+    transition: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-.fade-in {
-  opacity: 0;
-  visibility: hidden;
-  will-change: opacity, visibility;
-  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
-}
+@layer utilities {
+  /* Highlighted word inside a heading, e.g. "Things I've <em>built</em>". */
+  .text-gradient-brand {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      100deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--brand)) 55%,
+      hsl(var(--foreground) / 0.7) 100%
+    );
+  }
 
-.fade-in.is-visible {
-  opacity: 1;
-  visibility: visible;
-}
+  /* Faint dotted grid used behind heroes. */
+  .bg-grid {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
 
-.fade-in-section {
-  opacity: 0;
-  transform: translateY(20vh);
-  visibility: hidden;
-  transition: opacity 1200ms ease-out, transform 600ms ease-out,
-    visibility 1200ms ease-out;
-  will-change: opacity, transform, visibility;
-}
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  }
 
-.fade-in-section.is-visible {
-  opacity: 1;
-  transform: none;
-  visibility: visible;
+  .mask-radial {
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%);
+  }
 }

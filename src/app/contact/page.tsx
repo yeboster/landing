@@ -1,132 +1,190 @@
-'use client'
+import type { Metadata } from 'next'
+import { ArrowUpRight, Check, Github, Mail, Send, Twitter } from 'lucide-react'
 
-import { motion } from 'framer-motion'
-import { Mail, Send, Twitter, ArrowRight } from 'lucide-react'
-import { Chip } from '@/components/ui/chip'
-import { Section, SectionTitle } from '@/components/ui/section'
+import { CopyEmailButton } from '@/components/contact/copy-email-button'
+import { Reveal, RevealGroup, RevealItem } from '@/components/motion/reveal'
+import { PageHero } from '@/components/page-hero'
+import { Button } from '@/components/ui/button'
+import { CardIcon } from '@/components/ui/card'
+import { Section, SectionHeader } from '@/components/ui/section'
+import { mailto, siteConfig, socialLinks } from '@/lib/site'
+import { cn } from '@/lib/utils'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.15, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: `Get in touch with ${siteConfig.name} about projects, collaborations or engineering questions, by email, Telegram, X or GitHub.`,
+  alternates: { canonical: '/contact' },
 }
 
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.85, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { delay: i * 0.12, duration: 0.5, ease: 'easeOut' },
-  }),
+type Channel = {
+  title: string
+  purpose: string
+  handle: string
+  href: string
+  icon: React.ReactNode
+  external: boolean
 }
 
-const channels = [
+const channels: Channel[] = [
   {
-    icon: Mail,
     title: 'Email',
-    description: 'Contact me via email for collaborations.',
-    href: 'mailto:contact@yeboster.com?subject=Collaboration',
-    cta: 'Email me',
+    purpose: 'Best for project inquiries and anything detailed.',
+    handle: siteConfig.email,
+    href: mailto('Project inquiry'),
+    icon: <Mail />,
+    external: false,
   },
   {
-    icon: Send,
-    title: 'Telegram',
-    description: 'Reach me on Telegram for quick chats or to discuss ideas.',
-    href: 'https://t.me/yeboster',
-    cta: 'Ping me',
+    title: socialLinks.telegram.label,
+    purpose: 'Quick questions and informal chats.',
+    handle: socialLinks.telegram.handle,
+    href: socialLinks.telegram.href,
+    icon: <Send />,
+    external: true,
   },
   {
-    icon: Twitter,
-    title: 'Twitter',
-    description: 'Follow me on Twitter to stay updated with my latest projects.',
-    href: 'https://twitter.com/yeboster',
-    cta: 'Follow me',
+    title: socialLinks.twitter.label,
+    purpose: 'Follow along with what I’m building.',
+    handle: socialLinks.twitter.handle,
+    href: socialLinks.twitter.href,
+    icon: <Twitter />,
+    external: true,
+  },
+  {
+    title: socialLinks.github.label,
+    purpose: 'Code, issues and open-source collaboration.',
+    handle: socialLinks.github.handle,
+    href: socialLinks.github.href,
+    icon: <Github />,
+    external: true,
   },
 ]
 
-export default function Contact() {
+const goodFits = [
+  'Building or scaling a web product, end to end',
+  'Backend, APIs and infrastructure work',
+  'Open-source collaborations and side projects',
+  'A second pair of eyes on an architecture or codebase',
+]
+
+const messageChecklist = [
+  'A few lines about you and what you’re working on',
+  'What you want to achieve, and a rough timeline',
+  'Any useful links: product, repository, docs',
+]
+
+function ChannelCard({ channel }: { channel: Channel }) {
+  const externalProps = channel.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
+
   return (
-    <main className="flex-1 overflow-hidden">
-      {/* Hero */}
-      <section className="w-full pt-16 md:pt-28 lg:pt-36 pb-12 md:pb-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-100 dark:to-gray-800/50 pointer-events-none" />
-        <div className="max-w-4xl mx-auto px-4 md:px-6 text-center relative z-10">
-          <motion.div initial="hidden" animate="visible" custom={0} variants={fadeUp}>
-            <Chip>Contact</Chip>
-          </motion.div>
-          <motion.h1
-            className="mt-6 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl"
-            initial="hidden" animate="visible" custom={1} variants={fadeUp}
-          >
-            Let&apos;s{' '}
-            <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-800/50 bg-clip-text text-transparent">
-              connect
+    <a
+      href={channel.href}
+      {...externalProps}
+      className={cn(
+        'group relative flex h-full flex-col rounded-3xl border bg-card p-6 shadow-sm',
+        'transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-foreground/15 hover:shadow-lift',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+      )}
+    >
+      <div className="flex items-start justify-between">
+        <CardIcon>{channel.icon}</CardIcon>
+        <ArrowUpRight
+          aria-hidden
+          className="size-5 text-muted-foreground transition-all duration-300 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+        />
+      </div>
+      <h3 className="mt-6 text-lg font-semibold tracking-tight">
+        {channel.title}
+        {channel.external && <span className="sr-only"> (opens in new tab)</span>}
+      </h3>
+      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{channel.purpose}</p>
+      <p className="mt-auto truncate pt-6 font-mono text-xs text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+        {channel.handle}
+      </p>
+    </a>
+  )
+}
+
+function CheckList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div>
+      <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
+      <ul className="mt-5 space-y-3">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+            <span
+              aria-hidden
+              className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand md:mt-1"
+            >
+              <Check className="size-3" strokeWidth={3} />
             </span>
-          </motion.h1>
-          <motion.p
-            className="mt-6 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-300 md:text-xl"
-            initial="hidden" animate="visible" custom={2} variants={fadeUp}
-          >
-            I&apos;m always open to discuss your projects, innovative ideas, or opportunities to be part of your visions.
-          </motion.p>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+export default function ContactPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Contact"
+        title={
+          <>
+            Let&apos;s build something <em className="font-serif font-normal italic">together</em>
+          </>
+        }
+        description="Have a project in mind, a role to discuss, or an idea you want to think through? I'd be glad to hear from you."
+      >
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-3 sm:flex-row">
+            <Button asChild size="lg">
+              <a href={mailto()}>
+                <Mail />
+                Email me
+              </a>
+            </Button>
+            <CopyEmailButton email={siteConfig.email} className="h-12" />
+          </div>
+          <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+            <span aria-hidden className="relative flex size-2">
+              <span className="absolute inset-0 animate-pulse-dot rounded-full bg-brand" />
+            </span>
+            Open to new projects &amp; collaborations
+          </p>
         </div>
-      </section>
+      </PageHero>
 
-      {/* Contact Cards */}
-      <Section className="bg-gray-100 dark:bg-gray-800/50">
-        <SectionTitle>
-          <motion.div
-            initial="hidden" whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            custom={0} variants={fadeUp}
-          >
-            <Chip>Get In Touch</Chip>
-          </motion.div>
-          <motion.h2
-            className="text-3xl font-bold tracking-tighter sm:text-5xl"
-            initial="hidden" whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            custom={1} variants={fadeUp}
-          >
-            Choose Your Channel
-          </motion.h2>
-        </SectionTitle>
+      <Section className="pt-0 md:pt-0">
+        <SectionHeader
+          eyebrow="Channels"
+          title="Pick whatever works for you"
+          description="Email is best for anything detailed. For a quick question, a message on Telegram works just as well."
+        />
+        <RevealGroup className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {channels.map((channel) => (
+            <RevealItem key={channel.title} className="h-full">
+              <ChannelCard channel={channel} />
+            </RevealItem>
+          ))}
+        </RevealGroup>
+      </Section>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
-          {channels.map((channel, i) => {
-            const Icon = channel.icon
-            return (
-              <motion.a
-                key={channel.title}
-                href={channel.href}
-                target={channel.href.startsWith('http') ? '_blank' : undefined}
-                rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group block p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300"
-                initial="hidden" whileInView="visible"
-                viewport={{ once: true, margin: '-50px' }}
-                custom={i} variants={scaleIn}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
-              >
-                <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6 group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-gray-900 transition-colors duration-300">
-                  <Icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold">{channel.title}</h3>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                  {channel.description}
-                </p>
-                <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white group-hover:gap-3 transition-all duration-300">
-                  {channel.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </motion.a>
-            )
-          })}
+      <Section tone="subtle">
+        <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-[1fr_1fr] md:gap-16">
+          <Reveal>
+            <CheckList title="Good fits" items={goodFits} />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <CheckList title="What to include in your message" items={messageChecklist} />
+            <p className="mt-8 border-t pt-6 text-sm text-muted-foreground">
+              I usually reply within a few days.
+            </p>
+          </Reveal>
         </div>
       </Section>
-    </main>
+    </>
   )
 }

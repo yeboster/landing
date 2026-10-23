@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 type Theme = 'light' | 'dark'
 
@@ -18,43 +18,34 @@ export function useTheme() {
   return useContext(ThemeContext)
 }
 
+/**
+ * Runs before paint (inlined in <head>) so the correct theme class is present
+ * on first render and there is no flash of the wrong theme.
+ */
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light')
-  const [mounted, setMounted] = useState(false)
 
+  // The init script has already applied the class; sync React state with it.
   useEffect(() => {
-    setMounted(true)
-    const stored = localStorage.getItem('theme') as Theme | null
-    if (stored) {
-      setTheme(stored)
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark')
-    }
+    setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
   }, [])
 
-  useEffect(() => {
-    if (!mounted) return
-    const root = document.documentElement
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
-    localStorage.setItem('theme', theme)
-  }, [theme, mounted])
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === 'light' ? 'dark' : 'light'
+      const root = document.documentElement
+      // Suppress transitions for one frame so every surface switches at once.
+      root.classList.add('disable-transitions')
+      root.classList.toggle('dark', next === 'dark')
+      requestAnimationFrame(() => root.classList.remove('disable-transitions'))
+      try {
+        localStorage.setItem('theme', next)
+      } catch {}
+      return next
+    })
+  }, [])
 
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
-  }
-
-  // Prevent flash of wrong theme
-  if (!mounted) {
-    return <>{children}</>
-  }
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }

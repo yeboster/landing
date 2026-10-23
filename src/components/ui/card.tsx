@@ -1,79 +1,48 @@
-import * as React from "react"
+import * as React from 'react'
+import { Slot } from '@radix-ui/react-slot'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "flex flex-col text-center rounded-lg border text-card-foreground shadow-sm bg-white dark:bg-gray-600 dark:border-0",
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
+type CardProps = React.HTMLAttributes<HTMLDivElement> & {
+  /** Adds hover lift + border emphasis. Use for clickable cards. */
+  interactive?: boolean
+  /** Render the single child (e.g. an `<a>` or `<Link>`) with card styles instead of a div. */
+  asChild?: boolean
+}
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
+/** Base surface used for every card on the site. */
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, interactive = false, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'div'
+    return (
+      <Comp
+        ref={ref}
+        className={cn(
+          'relative rounded-3xl border bg-card p-6 shadow-sm md:p-8',
+          interactive &&
+            'transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-foreground/15 hover:shadow-lift',
+          className
+        )}
+        {...props}
+      />
+    )
+  }
+)
+Card.displayName = 'Card'
 
-const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
+/** Rounded square holding an icon at the top of a card. */
+function CardIcon({ className, children }: { className?: string; children: React.ReactNode }) {
+  return (
+    <div
+      className={cn(
+        'flex size-11 items-center justify-center rounded-2xl border bg-subtle text-foreground transition-colors duration-300 [&_svg]:size-5',
+        'group-hover:border-brand/30 group-hover:bg-brand-soft group-hover:text-brand',
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
+}
 
-const CardDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
-
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex flex-col grow items-center justify-around p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
-
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
-
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export { Card, CardIcon }

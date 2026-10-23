@@ -1,66 +1,66 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
+import { Reveal } from '@/components/motion/reveal'
+import { Eyebrow } from '@/components/ui/eyebrow'
+import { cn } from '@/lib/utils'
 
-const SectionHead = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "w-full pt-12 md:pt-24 lg:pt-32 bg-center bg-cover",
+type SectionProps = React.HTMLAttributes<HTMLElement> & {
+  /** `subtle` gives the section a tinted background to separate it from neighbours. */
+  tone?: 'default' | 'subtle'
+}
 
-    )}
-    {...props}
-  >
-    <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
-      <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
-        {children}
-      </div>
+const Section = React.forwardRef<HTMLElement, SectionProps>(
+  ({ className, tone = 'default', children, ...props }, ref) => (
+    <section
+      ref={ref}
+      className={cn(
+        'relative w-full py-20 md:py-28',
+        tone === 'subtle' && 'border-y bg-subtle',
+        className
+      )}
+      {...props}
+    >
+      <div className="container">{children}</div>
+    </section>
+  )
+)
+Section.displayName = 'Section'
+
+type SectionHeaderProps = {
+  eyebrow?: string
+  title: React.ReactNode
+  description?: React.ReactNode
+  align?: 'center' | 'left'
+  /** Id for the `<h2>`, so the enclosing section can use `aria-labelledby`. */
+  titleId?: string
+  className?: string
+}
+
+/** Eyebrow + title + description with a staggered entrance. */
+function SectionHeader({ eyebrow, title, description, align = 'center', titleId, className }: SectionHeaderProps) {
+  return (
+    <div
+      className={cn(
+        'mb-12 flex flex-col gap-4 md:mb-16',
+        align === 'center' ? 'mx-auto max-w-2xl items-center text-center' : 'max-w-2xl items-start',
+        className
+      )}
+    >
+      {eyebrow && (
+        <Reveal>
+          <Eyebrow>{eyebrow}</Eyebrow>
+        </Reveal>
+      )}
+      <Reveal delay={0.05}>
+        <h2 id={titleId} className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">{title}</h2>
+      </Reveal>
+      {description && (
+        <Reveal delay={0.1}>
+          <p className="text-base leading-relaxed text-muted-foreground md:text-lg">{description}</p>
+        </Reveal>
+      )}
     </div>
-  </div>
-))
-SectionHead.displayName = "SectionHead"
+  )
+}
 
-const Section = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "w-full flex flex-col items-center py-12 md:py-24 lg:py-32",
-      className
-    )}
-    {...props}
-  >
-    <div className="container space-y-12 px-4 md:px-6">
-      {children}
-    </div>
-  </div >
-))
-Section.displayName = "Section"
-
-const SectionTitle = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "flex flex-col items-center justify-center space-y-4 text-center",
-      className
-    )}
-    {...props}
-  >
-    <div className="space-y-2">
-      {children}
-    </div>
-  </div>
-))
-SectionTitle.displayName = "SectionTitle"
-
-
-
-export { SectionHead, Section, SectionTitle }
+export { Section, SectionHeader }
