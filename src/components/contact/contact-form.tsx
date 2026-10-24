@@ -9,8 +9,6 @@ import { cn } from '@/lib/utils'
 
 const TIMELINES = ['Just exploring', 'This quarter', 'This month', 'ASAP'] as const
 
-// Same limits and email check as /api/contact, so the inline message is the
-// one the server would have sent back anyway.
 const MAX = { name: 100, email: 200, company: 150, message: 5000 } as const
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -80,7 +78,12 @@ function Field({
 }
 
 /**
- * Contact form, posting JSON to /api/contact.
+ * Contact form, posting straight from the browser to FormSubmit.
+ *
+ * It used to go through a Next.js route, but FormSubmit sits behind
+ * Cloudflare and refuses requests from Vercel's servers, so every message
+ * failed with a 502. A visitor's browser is let through, as it was before
+ * the relay existed.
  *
  * Name, email and message are required; role and timeline are optional on
  * purpose. They cost the sender two seconds and tell me whether the message
@@ -143,18 +146,35 @@ export function ContactForm() {
 
     // Read the fields before the loading state disables them: disabled
     // controls are left out of FormData.
-    const data = Object.fromEntries(new FormData(form).entries())
+    const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>
+    const { _honey, ...fields } = data
+    // A filled honeypot means a bot: show it the same success screen and send nothing.
+    if (_honey) {
+      setStatus('success')
+      return
+    }
+    for (const key of Object.keys(fields)) {
+      fields[key] = fields[key].trim()
+      if (!fields[key]) delete fields[key]
+    }
+
     setStatus('loading')
     setServerError('')
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`https://formsubmit.co/ajax/${site.email}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          ...fields,
+          _subject: `New message from ${new URL(site.siteUrl).host}`,
+          _template: 'table',
+        }),
       })
-      if (!response.ok) {
-        const body = await response.json().catch(() => null)
-        throw new Error(body?.error)
+      // FormSubmit reports most rejections as HTTP 200 with `success: "false"`,
+      // so the status code alone would show lost messages as sent.
+      const result = await response.json().catch(() => null)
+      if (!response.ok || String(result?.success) !== 'true') {
+        throw new Error('The message could not be sent.')
       }
       setStatus('success')
       setMessageLength(0)
@@ -295,7 +315,7 @@ export function ContactForm() {
             />
           </Field>
 
-          {/* Honeypot: hidden from people, filled by naive bots, dropped by the API. */}
+          {/* Honeypot: hidden from people, filled by naive bots, dropped in submit(). */}
           <input name="_honey" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
           {status === 'error' ? (
