@@ -29,7 +29,7 @@ const SKILLS_LINES = [
 ]
 
 const PROJECTS_LINES = [
-  'Meta Names        Web3 DNS on Partisia Blockchain - Rust, TypeScript, Svelte',
+  'Meta Names        Web3 DNS on Partisia Blockchain - Rust, TypeScript, Svelte, React',
   'JokeHub           curated jokes - jokehub.org',
   'Todoist Actions   workflow automation for Todoist',
   'GitOps K8s        Kubernetes cluster via FluxCD',

@@ -18,7 +18,7 @@ export const focus: FocusItem[] = [
   {
     kind: 'work',
     title: `${site.company}, Paris`,
-    description: `${site.role} building anti-fraud products on Rails 8 with Sidekiq. Architected the TrustAI LLM framework and shipped GenAI + VoiceAI features.`,
+    description: `${site.role} building anti-fraud products on Rails 8 with Sidekiq. Architected the TrustAI LLM framework and shipped GenAI features.`,
   },
   {
     kind: 'infra',

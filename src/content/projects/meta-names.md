@@ -1,8 +1,8 @@
 ---
 title: Meta Names
-description: A naming system on Partisia Blockchain — Rust contracts, a TypeScript SDK, and a Svelte front end.
+description: A naming system on Partisia Blockchain — Rust contracts, a TypeScript SDK, and front ends in Svelte and React.
 date: 2026-09-07
-tags: [Rust, TypeScript, Svelte, Blockchain]
+tags: [Rust, TypeScript, Svelte, React, Blockchain]
 draft: false
 ---
 
@@ -38,7 +38,7 @@ a function call returning a string rather than an ABI-encoded round trip. TypeSc
 not a preference so much as a constraint: it is the language the surrounding ecosystem is
 already written in.
 
-**A Svelte front end.** The interface is small, fast and mostly a single flow — connect,
+**Front ends in Svelte and React.** The interface is small, fast and mostly a single flow — connect,
 search, register. Svelte keeps the bundle close to the size of the problem, which matters
 when the people using it are already waiting on a wallet confirmation.
 

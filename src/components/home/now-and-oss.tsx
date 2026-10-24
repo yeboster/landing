@@ -63,7 +63,7 @@ export function NowAndOss() {
             <p>
               <span className="font-medium text-foreground">{site.role}</span> at{' '}
               <span className="font-medium text-foreground">{site.company}</span>, {city}: building anti-fraud products on
-              Rails. Architected the TrustAI LLM framework, shipped GenAI and VoiceAI features.
+              Rails. Architected the TrustAI LLM framework, shipped GenAI features.
             </p>
             <p>
               On the side: <span className="font-medium text-foreground">bon.so</span> (this site), a Talos/Kubernetes home

@@ -13,14 +13,14 @@ export const specialisms = ['Rails engineer', 'TypeScript & Rust', 'Kubernetes &
 export const credibility = [
   { label: 'Currently', value: `${site.company}, ${city}: anti-fraud platform on Rails 8` },
   { label: 'Architected', value: 'TrustAI, the LLM framework behind our AI features' },
-  { label: 'Shipped', value: 'GenAI and VoiceAI features into production' },
+  { label: 'Shipped', value: 'GenAI features into production' },
   { label: 'Runs at home', value: 'A Talos Kubernetes cluster, reconciled by FluxCD' },
 ]
 
 /** The professional card that leads the selected-work grid. */
 export const currentWork = {
   description:
-    'Anti-fraud platform on Rails 8 with Sidekiq. I architected the TrustAI LLM framework and shipped GenAI and VoiceAI features on top of it.',
+    'Anti-fraud platform on Rails 8 with Sidekiq. I architected the TrustAI LLM framework and shipped GenAI features on top of it.',
   tags: ['Rails 8', 'Sidekiq', 'LLM', 'React'],
 }
 

@@ -39,14 +39,31 @@ async function deliver(fields: {
 }) {
   const res = await fetch(`https://formsubmit.co/ajax/${site.email}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      // FormSubmit rejects any submission without a Referer ("open this page
+      // through a web server"). A server-side fetch sends none, so name the site.
+      Referer: `${site.siteUrl}/contact`,
+      Origin: site.siteUrl,
+    },
     body: JSON.stringify({
       ...fields,
       _subject: `New message from ${new URL(site.siteUrl).host}`,
       _template: 'table',
     }),
   })
-  if (!res.ok) throw new Error(`upstream ${res.status}`)
+
+  // FormSubmit reports most rejections as HTTP 200 with `success: "false"`,
+  // so the status code alone would report lost messages as delivered.
+  const text = await res.text()
+  let result: { success?: string | boolean; message?: string } = {}
+  try {
+    result = JSON.parse(text)
+  } catch {}
+  if (!res.ok || String(result.success) !== 'true') {
+    throw new Error(`upstream ${res.status}: ${result.message ?? text.slice(0, 200)}`)
+  }
 }
 
 export async function POST(request: Request) {
@@ -91,7 +108,6 @@ export async function POST(request: Request) {
   }
 
   try {
-    recordDelivery(ip)
     await deliver({
       name,
       email,
@@ -99,7 +115,10 @@ export async function POST(request: Request) {
       ...(company ? { company } : {}),
       ...(timeline ? { timeline } : {}),
     })
-  } catch {
+    recordDelivery(ip)
+  } catch (error) {
+    // Surfaces in the hosting logs; the visitor gets a generic message.
+    console.error('[contact] delivery failed:', error instanceof Error ? error.message : error)
     return Response.json({ error: 'Delivery failed.' }, { status: 502 })
   }
 
