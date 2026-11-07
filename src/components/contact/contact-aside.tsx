@@ -7,8 +7,8 @@ import { site } from '@/lib/site'
 import { CopyEmail } from './copy-email'
 
 const socials = [
-  { label: 'LinkedIn', note: 'Work history and the professional version of all this', href: site.socials.linkedin, icon: <Linkedin aria-hidden /> },
-  { label: 'Twitter', note: 'Shorter notes on whatever I am building or breaking', href: site.socials.twitter, icon: <Twitter aria-hidden /> },
+  { label: 'LinkedIn', note: 'Full work history', href: site.socials.linkedin, icon: <Linkedin aria-hidden /> },
+  { label: 'Twitter', note: 'Short notes on what I am building', href: site.socials.twitter, icon: <Twitter aria-hidden /> },
 ]
 
 function Label({ id, children }: { id: string; children: React.ReactNode }) {
@@ -54,7 +54,7 @@ export function ContactAside() {
               Prefer to talk?
             </h2>
             <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-              Skip the form. Twenty minutes, no pitch deck required.
+              Skip the form and book a 20-minute call. No preparation needed.
             </p>
             <ButtonLink href={site.booking} external variant="secondary" size="sm" className="mt-5">
               Book a call

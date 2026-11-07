@@ -19,7 +19,7 @@ export const timeline: TimelineEntry[] = [
     role: 'Ruby on Rails Developer',
     org: 'Trustpair',
     place: 'Paris',
-    description: 'Building anti-fraud products and AI features on Rails 8 with Sidekiq and some React.',
+    description: 'Building anti-fraud products and AI features on Rails 8 with Sidekiq, plus React on the front end.',
     current: true,
   },
   {
@@ -31,24 +31,24 @@ export const timeline: TimelineEntry[] = [
   },
   {
     period: '2020',
-    role: 'Cyber Security Student',
-    org: 'CyberChallengeIT',
+    role: 'Cybersecurity Student',
+    org: 'CyberChallenge.IT',
     place: 'Udine',
-    description: 'A 360° view of cybersecurity: software security, cryptography, web and hardware security.',
+    description: 'Training in software security, cryptography, web security and hardware security.',
   },
   {
     period: '2018 — 2019',
     role: 'Software Developer',
     org: 'Satelicom',
     place: 'Vicenza',
-    description: 'Web applications on Ruby on Rails up to 5.2, plus Android apps in Kotlin and Java.',
+    description: 'Built web applications with Ruby on Rails (up to 5.2) and Android apps in Kotlin and Java.',
   },
   {
     period: '2013 — 2018',
-    role: 'Computer science',
+    role: 'Computer Science',
     org: 'ITT G. Chilesotti',
     place: 'Thiene',
-    description: 'Where tinkering turned into a career, from first scripts to production systems.',
+    description: 'Technical secondary school, computer science track.',
   },
   {
     period: 'Alongside',
@@ -76,10 +76,10 @@ export const skills: SkillGroup[] = [
 export type Principle = { title: string; description: string }
 
 export const principles: Principle[] = [
-  { title: 'Clean code', description: 'Code that humans can read, not just machines.' },
-  { title: 'Keep learning', description: 'Always exploring new technologies and pushing past what I know.' },
-  { title: 'Ship, then improve', description: 'Bias towards action. Build, iterate, improve.' },
-  { title: 'User first', description: 'Every line of code serves a person on the other side.' },
-  { title: 'Deep work', description: 'Focused sessions over scattered multitasking.' },
-  { title: 'Simplicity', description: 'The best solution is often the simplest one.' },
+  { title: 'Readable code', description: 'Code is written for the next person who has to change it.' },
+  { title: 'Keep learning', description: 'I learn a new tool by building something real with it.' },
+  { title: 'Ship, then improve', description: 'Release a small working version first, then improve it with real feedback.' },
+  { title: 'User first', description: 'Start from the problem the user has, not from the technology.' },
+  { title: 'Deep work', description: 'Long focused blocks on one problem, not constant context switching.' },
+  { title: 'Simplicity', description: 'Choose the simplest design that solves the problem. Add complexity only when it is needed.' },
 ]

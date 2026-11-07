@@ -14,7 +14,7 @@ export function AboutCta() {
             Want to build something together?
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            I&apos;m open to interesting projects, collaborations, or a good conversation about tech. I reply within{' '}
+            I take on freelance projects and collaborations. Send a short description of the problem and I reply within{' '}
             {site.responseTime}.
           </p>
         </div>

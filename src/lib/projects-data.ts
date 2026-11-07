@@ -65,7 +65,7 @@ export const projects: Project[] = [
   {
     slug: 'jokehub',
     title: 'JokeHub',
-    description: 'A hub for jokes: browse, share and enjoy curated humor.',
+    description: 'A web app to browse and share jokes.',
     icon: Laugh,
     alt: 'JokeHub',
     href: 'https://github.com/yeboster/jokehub',

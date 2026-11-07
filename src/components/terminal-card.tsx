@@ -107,7 +107,7 @@ export function TerminalCard() {
     if (bootedRef.current) return
     bootedRef.current = true
     pushLine({ type: 'cmd', text: 'whoami' })
-    typeLine(`${site.person} — full-stack dev, Paris.`, () => {
+    typeLine(`${site.person}, ${site.role.toLowerCase()} in ${site.location}.`, () => {
       pushLine({ type: 'out', text: "type 'help' to explore" })
       setReady(true)
     })
@@ -128,7 +128,7 @@ export function TerminalCard() {
         HELP_LINES.forEach((text) => pushLine({ type: 'out', text }))
         break
       case 'whoami':
-        pushLine({ type: 'out', text: `${site.name} (${site.person}) — full-stack dev, Paris. ${site.tagline}.` })
+        pushLine({ type: 'out', text: `${site.name} (${site.person}): ${site.role} at ${site.company}, ${site.location}. ${site.tagline}.` })
         break
       case 'skills':
         SKILLS_LINES.forEach((text) => pushLine({ type: 'out', text }))
@@ -154,7 +154,7 @@ export function TerminalCard() {
           pushLine({ type: 'out', text: `→ navigating to ${path}` })
           router.push(path)
         } else {
-          pushLine({ type: 'out', text: 'usage: open <about|portfolio|contact|now>' })
+          pushLine({ type: 'out', text: 'usage: open <about|portfolio|contact|now|home>' })
         }
         break
       }

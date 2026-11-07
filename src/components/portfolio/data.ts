@@ -19,13 +19,13 @@ export const skills: Skill[] = [
   {
     icon: Terminal,
     title: 'Ruby',
-    description: 'Backend at scale, from Rails 4 to Rails 8, with Roda and Sidekiq.',
+    description: 'Backend work on every Rails version from 4 to 8, with Roda and Sidekiq.',
     tags: ['Rails', 'Roda', 'Sidekiq'],
   },
   {
     icon: Server,
     title: 'DevOps',
-    description: 'Containers, clusters and pipelines to ship with confidence.',
+    description: 'Docker images, Kubernetes clusters and CI/CD pipelines.',
     tags: ['Docker', 'K8s', 'AWS', 'CI/CD'],
   },
 ]
