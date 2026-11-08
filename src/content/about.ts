@@ -16,7 +16,7 @@ export type TimelineEntry = {
 export const timeline: TimelineEntry[] = [
   {
     period: '2022 — Now',
-    role: 'Ruby on Rails Developer',
+    role: 'Software Developer',
     org: 'Trustpair',
     place: 'Paris',
     description: 'Building anti-fraud products and AI features on Rails 8 with Sidekiq, plus React on the front end.',

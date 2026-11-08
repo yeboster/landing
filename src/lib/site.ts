@@ -17,7 +17,7 @@ export const site = {
   /** Real name — the thing a hiring manager actually searches for. */
   person: 'Marco Vaccari',
   /** The role, in the words a job description would use. */
-  role: 'Software Engineer',
+  role: 'Software Developer',
   /**
    * One sentence, outcome first. Drives the hero and the page description,
    * so it has to survive being read with no other context.
@@ -59,4 +59,4 @@ export const site = {
 } as const
 
 /** Title used when a page does not set its own. */
-export const defaultTitle = `${site.person} — Rails, AI & Platform Engineer`
+export const defaultTitle = `${site.person} — ${site.role}`

@@ -27,7 +27,7 @@ export function AboutHero() {
             <Eyebrow>About</Eyebrow>
           </RevealItem>
           <RevealItem as="h1" id="about-title" className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
-            Engineer, tinkerer, lifelong <em className="font-serif font-normal italic text-brand-ink">learner</em>.
+            Developer, tinkerer, lifelong <em className="font-serif font-normal italic text-brand-ink">learner</em>.
           </RevealItem>
           <RevealItem as="p" className="mt-6 text-lg leading-relaxed text-muted-foreground md:text-xl">
             I&apos;m {site.person}, a {site.role.toLowerCase()} at {site.company}. {site.pitch} Outside work I keep

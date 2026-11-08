@@ -4,7 +4,7 @@ import { site } from '@/lib/site'
 export const city = site.location.split(',')[0]
 
 /** Cycled beside the role in the hero. Each one is backed by the work below. */
-export const specialisms = ['Rails engineer', 'TypeScript & Rust', 'Kubernetes & GitOps', 'AI feature builder']
+export const specialisms = ['Ruby on Rails', 'TypeScript & Rust', 'Kubernetes & GitOps', 'AI feature builder']
 
 /**
  * Facts a reader can check, in place of adjectives they cannot.

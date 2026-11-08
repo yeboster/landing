@@ -22,7 +22,7 @@ Content files read by `writing.ts` and `projects.ts` live outside this package i
   `company`, `location`, `timezone`, `email`, `booking`, `tagline`, `responseTime`,
   `availability { label, detail }`, `engagements` (string list), `resumePath`,
   `socials { github, gitlab, twitter, linkedin }` [site.ts:site]
-- `defaultTitle` — `` `${site.person} — Rails, AI & Platform Engineer` `` [site.ts:defaultTitle]
+- `defaultTitle` — `` `${site.person} — ${site.role}` `` [site.ts:defaultTitle]
 
 ### Styling and motion — `utils.ts`, `motion.ts`
 
