@@ -23,6 +23,7 @@ Content files read by `writing.ts` and `projects.ts` live outside this package i
   `availability { label, detail }`, `engagements` (string list), `resumePath`,
   `socials { github, gitlab, twitter, linkedin }` [site.ts:site]
 - `defaultTitle` — `` `${site.person} — ${site.role}` `` [site.ts:defaultTitle]
+- `feedAlternates` — `{ 'application/rss+xml': [{ url: '/writing/rss.xml', title }] }` for `metadata.alternates.types`; every route that sets `alternates` passes it again [site.ts:feedAlternates]
 
 ### Styling and motion — `utils.ts`, `motion.ts`
 

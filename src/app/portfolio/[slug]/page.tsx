@@ -13,7 +13,7 @@ import { TableOfContents, TableOfContentsDisclosure, TOC_MIN_HEADINGS } from '@/
 import { headings, Markdown } from '@/lib/markdown'
 import { getCaseStudies, getCaseStudy } from '@/lib/projects'
 import { getProject } from '@/lib/projects-data'
-import { siteUrl } from '@/lib/site'
+import { feedAlternates, siteUrl } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: study.title,
     description: study.description,
-    alternates: { canonical: `${siteUrl}/portfolio/${study.slug}` },
+    alternates: { canonical: `${siteUrl}/portfolio/${study.slug}`, types: feedAlternates },
     openGraph: {
       type: 'article',
       title: study.title,

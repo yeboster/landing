@@ -7,7 +7,7 @@ The dynamic `/writing/[slug]` route segment. It renders one blog post from a Mar
 ## Interface
 
 - `[page.tsx:generateStaticParams]` - returns `{ slug }` for each entry from `getPosts()`.
-- `[page.tsx:generateMetadata]` - `async ({ params }) => Metadata`. Sets `title`, `description`, canonical `${siteUrl}/writing/${slug}` and `openGraph` (`type: 'article'`, `publishedTime: post.date`, `tags: post.tags`).
+- `[page.tsx:generateMetadata]` - `async ({ params }) => Metadata`. Sets `title`, `description`, `alternates` (canonical `${siteUrl}/writing/${slug}` plus `types: feedAlternates`) and `openGraph` (`type: 'article'`, `publishedTime: post.date`, `tags: post.tags`).
 - `[page.tsx:PostPage]` - default export, `async`. Renders a `<script type="application/ld+json">`, `PostHeader`, an optional `TableOfContentsDisclosure` and `TableOfContents`, `Markdown source={post.content}` and `PostFooter`.
 - `[opengraph-image.tsx:generateStaticParams]` - same slug list as the page, from `getPosts()`.
 - `[opengraph-image.tsx:Image]` - default export, `async`. Calls `ogImage({ title: post?.title ?? 'Writing', subtitle: post?.description || undefined })`.

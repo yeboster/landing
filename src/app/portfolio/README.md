@@ -7,7 +7,7 @@ The `/portfolio` route segment, titled "Work". It lists projects from `projects`
 ## Interface
 
 - `[page.tsx:PortfolioPage]` - default export. Renders `PortfolioHero` (with `projectCount` and `caseStudyCount`), an optional featured `ProjectCard`, then a grid of the remaining `ProjectCard`s, `StackGrid`, `ProfileLinks` and `ContactCta`.
-- `[page.tsx:metadata]` - `title: 'Work'`, a `description`, and canonical `${siteUrl}/portfolio`.
+- `[page.tsx:metadata]` - `title: 'Work'`, a `description`, and `alternates` (canonical `${siteUrl}/portfolio` plus `types: feedAlternates`).
 - `[opengraph-image.tsx:Image]` - default export. Returns `ogImage({ title: 'Selected work', subtitle })`.
 - `[opengraph-image.tsx:alt]`, `[opengraph-image.tsx:size]`, `[opengraph-image.tsx:contentType]` - `alt` is ``${site.person} — Selected work``. `size` and `contentType` are re-exported from `@/lib/og`.
 - `[slug]`: [./[slug]/README.md](./[slug]/README.md) - the dynamic case-study page (`/portfolio/[slug]`) and its Open Graph image.
@@ -16,7 +16,7 @@ The `/portfolio` route segment, titled "Work". It lists projects from `projects`
 
 - `[page.tsx:PortfolioPage]` - `featured` is the first entry in `projects` with `featured` truthy (`projects.find`). Every other project is rendered in the grid, so no project appears twice.
 - `[page.tsx:PortfolioPage]` - `hasCaseStudy` for each card is `caseStudies.has(project.slug)`, where `caseStudies = new Set(caseStudySlugs())`. `caseStudyCount` counts only projects whose slug is in that set.
-- `[page.tsx:metadata]` - sets `alternates` without restating the RSS feed type. `contact/page.tsx` and `writing/page.tsx` note in comments that setting `alternates` replaces the layout's.
+- `[page.tsx:metadata]` - setting `alternates` replaces the root layout's, so it passes `types: feedAlternates` again to keep the RSS feed link.
 
 ## Side Effects
 

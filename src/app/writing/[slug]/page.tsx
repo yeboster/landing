@@ -5,7 +5,7 @@ import { PostFooter } from '@/components/writing/post-footer'
 import { PostHeader } from '@/components/writing/post-header'
 import { TableOfContents, TableOfContentsDisclosure, TOC_MIN_HEADINGS } from '@/components/writing/table-of-contents'
 import { headings, Markdown } from '@/lib/markdown'
-import { site, siteUrl } from '@/lib/site'
+import { feedAlternates, site, siteUrl } from '@/lib/site'
 import { getPost, getPosts } from '@/lib/writing'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
-    alternates: { canonical: `${siteUrl}/writing/${post.slug}` },
+    alternates: { canonical: `${siteUrl}/writing/${post.slug}`, types: feedAlternates },
     openGraph: {
       type: 'article',
       title: post.title,

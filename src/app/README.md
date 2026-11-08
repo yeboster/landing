@@ -41,7 +41,7 @@ Each child directory is one route segment. Content is file-backed. Posts and cas
 
 ## Invariants
 
-- `[layout.tsx:metadata]` - the root `alternates` holds the RSS feed link. Child segments that set their own `alternates` replace it and must restate the feed. See the comments at `[contact/page.tsx:metadata]` and `[writing/page.tsx:metadata]`.
+- `[layout.tsx:metadata]` - the root `alternates` holds the RSS feed link. Child segments that set their own `alternates` replace it and must pass `types: feedAlternates` (`src/lib/site.ts`) again. `[page.tsx:metadata]`, `contact`, `portfolio`, `portfolio/[slug]`, `writing` and `writing/[slug]` all do.
 - `[layout.tsx:RootLayout]` - `<html>` has `suppressHydrationWarning`. Before hydration, the inline head script adds the `dark` class when `localStorage.theme === 'dark'`, or when no theme is stored and `prefers-color-scheme: dark` matches.
 - `[layout.tsx:RootLayout]` - the `<noscript>` style forces `opacity:1`, `transform:none` and `filter:none` on elements whose inline style contains `opacity:0;`. Per the code comment, this keeps entrance-animated content visible without JS.
 - `[layout.tsx:RootLayout]` - the skip link targets `#main-content`, a `tabIndex={-1}` spacer `div` rendered right after `Navbar`.

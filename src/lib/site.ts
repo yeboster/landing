@@ -60,3 +60,12 @@ export const site = {
 
 /** Title used when a page does not set its own. */
 export const defaultTitle = `${site.person} — ${site.role}`
+
+/**
+ * The RSS feed link, for `metadata.alternates.types`. A page that sets its own
+ * `alternates` replaces the layout's, so it must pass this again or the page
+ * loses its feed link.
+ */
+export const feedAlternates = {
+  'application/rss+xml': [{ url: '/writing/rss.xml', title: `${site.person} — Writing` }],
+}

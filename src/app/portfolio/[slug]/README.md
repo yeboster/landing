@@ -7,7 +7,7 @@ The dynamic `/portfolio/[slug]` route segment. It renders one case study from a 
 ## Interface
 
 - `[page.tsx:generateStaticParams]` - returns `{ slug }` for each entry from `getCaseStudies()`.
-- `[page.tsx:generateMetadata]` - `async ({ params }) => Metadata`. Sets `title`, `description`, canonical `${siteUrl}/portfolio/${slug}` and `openGraph` (`type: 'article'`, `publishedTime: study.date`, `tags: study.tags`).
+- `[page.tsx:generateMetadata]` - `async ({ params }) => Metadata`. Sets `title`, `description`, `alternates` (canonical `${siteUrl}/portfolio/${slug}` plus `types: feedAlternates`) and `openGraph` (`type: 'article'`, `publishedTime: study.date`, `tags: study.tags`).
 - `[page.tsx:CaseStudyPage]` - default export, `async`. Renders the case-study header, `CaseStudyMeta`, an optional `TableOfContents` and `TableOfContentsDisclosure`, `Markdown source={study.content}`, `CaseStudyNav` and `ContactCta`.
 - `[opengraph-image.tsx:generateStaticParams]` - same slug list as the page, from `getCaseStudies()`.
 - `[opengraph-image.tsx:Image]` - default export, `async`. Calls `ogImage({ title: study?.title ?? 'Case study', subtitle: study?.description || undefined })`.

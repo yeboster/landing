@@ -51,10 +51,9 @@ sends messages from the browser straight to FormSubmit.
   string `date`, otherwise the loader throws. `draft: true` files are included only when
   `NODE_ENV === 'development'`, and `sitemap` and the RSS feed exclude drafts.
 - The root layout's `metadata.alternates` carries the RSS feed. A route that sets its own
-  `alternates` replaces it and must restate the feed. `src/app/contact` and
-  `src/app/writing` do this. `src/app/page.tsx`, `src/app/portfolio/page.tsx`,
-  `src/app/portfolio/[slug]/page.tsx` and `src/app/writing/[slug]/page.tsx` set only a
-  canonical URL, so those pages carry no feed link.
+  `alternates` replaces it and must pass `types: feedAlternates` (from `src/lib/site.ts`)
+  again. Every route that sets `alternates` does this: the layout, `/`, `/contact`,
+  `/portfolio`, `/portfolio/[slug]`, `/writing` and `/writing/[slug]`.
 - Theme: the `dark` class on `<html>` is the source of truth. An inline script in
   `src/app/layout.tsx` sets it before hydration from `localStorage.theme` or
   `prefers-color-scheme`.

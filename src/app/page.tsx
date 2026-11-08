@@ -8,12 +8,12 @@ import { NowAndOss } from '@/components/home/now-and-oss'
 import { SelectedWork } from '@/components/home/selected-work'
 import { TerminalSection } from '@/components/home/terminal-section'
 import { caseStudySlugs } from '@/lib/projects'
-import { defaultTitle, site } from '@/lib/site'
+import { defaultTitle, feedAlternates, site } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: { absolute: defaultTitle },
   description: `${site.pitch} ${site.role} at ${site.company} in ${site.location}.`,
-  alternates: { canonical: site.siteUrl },
+  alternates: { canonical: site.siteUrl, types: feedAlternates },
 }
 
 /** Evidence comes early: the facts band and selected work sit right under the hero. */

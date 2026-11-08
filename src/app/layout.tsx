@@ -9,7 +9,7 @@ import { KonamiMatrix } from '@/components/konami-matrix'
 import { Footer } from './footer'
 import Navbar from './navbar'
 import { getPosts } from '@/lib/writing'
-import { defaultTitle, site, siteUrl } from '@/lib/site'
+import { defaultTitle, feedAlternates, site, siteUrl } from '@/lib/site'
 import './globals.css'
 
 const sans = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   creator: site.person,
   alternates: {
     canonical: siteUrl,
-    types: { 'application/rss+xml': [{ url: '/writing/rss.xml', title: `${site.person} — Writing` }] },
+    types: feedAlternates,
   },
   openGraph: {
     title: defaultTitle,

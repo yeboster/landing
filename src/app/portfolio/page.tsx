@@ -10,12 +10,12 @@ import { StackGrid } from '@/components/portfolio/stack-grid'
 import { Section, SectionHeader } from '@/components/ui/section'
 import { caseStudySlugs } from '@/lib/projects'
 import { projects } from '@/lib/projects-data'
-import { site, siteUrl } from '@/lib/site'
+import { feedAlternates, site, siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Work',
   description: `${site.person}'s projects and case studies: Rust smart contracts, TypeScript, and a GitOps Kubernetes cluster.`,
-  alternates: { canonical: `${siteUrl}/portfolio` },
+  alternates: { canonical: `${siteUrl}/portfolio`, types: feedAlternates },
 }
 
 export default function PortfolioPage() {

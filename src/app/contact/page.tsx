@@ -4,7 +4,7 @@ import { ContactAside } from '@/components/contact/contact-aside'
 import { ContactForm } from '@/components/contact/contact-form'
 import { ContactHero } from '@/components/contact/contact-hero'
 import { Reveal } from '@/components/motion/reveal'
-import { site, siteUrl } from '@/lib/site'
+import { feedAlternates, site, siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   // Setting `alternates` replaces the layout's, so the feed link is restated here.
   alternates: {
     canonical: `${siteUrl}/contact`,
-    types: { 'application/rss+xml': [{ url: '/writing/rss.xml', title: `${site.person} — Writing` }] },
+    types: feedAlternates,
   },
 }
 
